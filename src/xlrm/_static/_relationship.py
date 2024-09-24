@@ -5,6 +5,6 @@ from typing import Any, Callable
 
 @dataclass
 class Relationship:
-    relationship: Callable[..., Any]
+    function: Callable[..., Any]
     inputs: tuple[VariableBase[Any], ...]
     outputs: tuple[VariableBase[Any], ...]
