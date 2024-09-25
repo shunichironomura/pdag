@@ -21,8 +21,12 @@ dev-dependencies = [
     "pytest==8.3.3",
     "ruff==0.6.7",
     # Dependencies for examples - don't need to be pinned.
-    "matplotlib>=3.9.2",
-    "rich>=13.8.1",
+    "matplotlib==3.9.2",
+    "rich==13.8.1",
+    "marimo==0.8.19",
+    "pandas==2.2.3",
+    "altair==5.4.1",
+    "pandas-stubs==2.2.2.240909",
 ]
 
 [tool.mypy]
