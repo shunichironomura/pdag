@@ -1,5 +1,5 @@
 from enum import StrEnum
-from typing import Any, Literal
+from typing import Literal
 import numpy as np
 import numpy.typing as npt
 from abc import ABC, abstractmethod
@@ -14,7 +14,7 @@ class _VariableType(StrEnum):
 type VariableTypeArg = _VariableType | Literal["X", "L", "M"] | None
 
 
-class VariableBase[T: npt.NDArray[Any]](ABC):
+class VariableBase[T: np.generic](ABC):
     def __init__(
         self,
         name: str,
@@ -48,11 +48,13 @@ class VariableBase[T: npt.NDArray[Any]](ABC):
         return self._name
 
     @abstractmethod
-    def sample(self, size: int | tuple[int, ...] | None = None, rng: np.random.Generator | None = None) -> T:
+    def sample(
+        self, size: int | tuple[int, ...] | None = None, rng: np.random.Generator | None = None
+    ) -> npt.NDArray[T]:
         raise NotImplementedError
 
 
-class BooleanVariable(VariableBase[npt.NDArray[np.bool]]):
+class BooleanVariable(VariableBase[np.bool]):
     def __init__(self, name: str, /, *, type: VariableTypeArg = None) -> None:
         super().__init__(name, type=type)
 
@@ -73,7 +75,7 @@ class BooleanVariable(VariableBase[npt.NDArray[np.bool]]):
         return rng.choice([0, 1], size=size).astype(np.bool)
 
 
-class NumericVariable(VariableBase[npt.NDArray[np.float64]]):
+class NumericVariable(VariableBase[np.float64]):
     def __init__(
         self,
         name: str,

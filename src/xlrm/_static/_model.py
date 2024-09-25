@@ -18,14 +18,14 @@ class StaticModel:
     def nx_graph(self) -> nx.DiGraph:
         return self._nx_graph
 
-    def add_variable(self, variable: VariableBase[npt.NDArray[Any]]) -> None:
+    def add_variable(self, variable: VariableBase[Any]) -> None:
         self._nx_graph.add_node(variable)
 
     def add_relationship(
         self,
         function: Callable[..., Any],
-        inputs: tuple[VariableBase[npt.NDArray[Any]], ...] | VariableBase[npt.NDArray[Any]],
-        outputs: tuple[VariableBase[npt.NDArray[Any]], ...] | VariableBase[npt.NDArray[Any]],
+        inputs: tuple[VariableBase[Any], ...] | VariableBase[Any],
+        outputs: tuple[VariableBase[Any], ...] | VariableBase[Any],
     ) -> None:
         if isinstance(inputs, VariableBase):
             inputs = (inputs,)
