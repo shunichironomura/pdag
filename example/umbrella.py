@@ -1,5 +1,9 @@
+import logging
 import xlrm
-import networkx as nx
+
+from rich.logging import RichHandler
+
+logger = logging.getLogger(__name__)
 
 
 def main() -> None:
@@ -38,34 +42,43 @@ def main() -> None:
 
     # @xlrm.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
     def how_convenient_will_it_be(will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
+        convenience = 0.0
+
         if will_take_umbrella:
-            return 0
-        elif will_take_travel_umbrella:
-            return 0.5
-        else:
-            return 0
+            convenience -= 1.0
+
+        if will_take_travel_umbrella:
+            convenience -= 0.5
+
+        return convenience
 
     # The relationship function can be None. In that case, the relationship is marked as unknown.
     model.add_relationship(how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience)
 
-    graph = model.as_nx_graph()
+    # # Draw the graph
+    # import matplotlib.pyplot as plt
 
-    # Draw the graph
-    import matplotlib.pyplot as plt
+    # pos = nx.spring_layout(model.nx_graph)
+    # nx.draw(model.nx_graph, pos, with_labels=True, arrows=True)
+    # plt.show()
 
-    pos = nx.spring_layout(graph)
-    nx.draw(graph, pos, with_labels=True, arrows=True)
-    plt.show()
+    logger.info(f"Model is evaluatable: {model.is_evaluatable()}")
 
-    print(f"Model is evaluatable: {model.is_evaluatable()}")
+    scenarios = model.sample_scenarios(size=10)
+    logger.info(f"Scenarios: {scenarios}")
 
-    scenarios = model.sample_scenarios()
-    decisions = model.sample_decisions()
+    decisions = model.sample_decisions(size=10)
+    logger.info(f"Decisions: {decisions}")
 
     results = model.evaluate(scenarios, decisions)
-
-    print(results)
+    logger.info(f"Results: {results}")
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler(rich_tracebacks=True)],
+    )
     main()
