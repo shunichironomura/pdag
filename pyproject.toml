@@ -1,7 +1,7 @@
 [project]
-name = "xlrm"
+name = "pdag"
 version = "0.0.1"
-description = "Decision-making tool using the XLRM framework"
+description = "Parameterized Directed Acyclic Graph"
 readme = "README.md"
 authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },

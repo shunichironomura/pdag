@@ -7,9 +7,9 @@ app = marimo.App(width="medium")
 
 @app.cell
 def __():
-    import xlrm
+    import pdag
 
-    return (xlrm,)
+    return (pdag,)
 
 
 @app.cell(hide_code=True)
@@ -19,27 +19,27 @@ def __(mo):
 
 
 @app.cell
-def __(xlrm):
-    model = xlrm.StaticModel()
+def __(pdag):
+    model = pdag.StaticModel()
 
     # External variables (X)
-    is_raining = xlrm.BooleanVariable("Is it raining?", type="X")
+    is_raining = pdag.BooleanVariable("Is it raining?", type="X")
     model.add_variable(is_raining)
 
     # Levers (L)
-    will_take_umbrella = xlrm.BooleanVariable("Will I take an umbrella?", type="L")
-    will_take_travel_umbrella = xlrm.BooleanVariable("Will I take a travel umbrella?", type="L")
+    will_take_umbrella = pdag.BooleanVariable("Will I take an umbrella?", type="L")
+    will_take_travel_umbrella = pdag.BooleanVariable("Will I take a travel umbrella?", type="L")
     model.add_variable(will_take_umbrella)
     model.add_variable(will_take_travel_umbrella)
 
     # Performance metrics (M)
-    wetness = xlrm.NumericVariable("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
-    convenience = xlrm.NumericVariable("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
+    wetness = pdag.NumericVariable("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
+    convenience = pdag.NumericVariable("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
     model.add_variable(wetness)
     model.add_variable(convenience)
 
     # Relationships (R)
-    # @xlrm.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
+    # @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
     def how_wet_will_i_get(is_raining: bool, will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
         if is_raining:
             if will_take_umbrella:
@@ -53,7 +53,7 @@ def __(xlrm):
 
     model.add_relationship(how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
 
-    # @xlrm.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
+    # @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
     def how_convenient_will_it_be(will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
         convenience = 0.0
 
