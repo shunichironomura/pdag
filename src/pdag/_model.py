@@ -1,10 +1,13 @@
+from __future__ import annotations
 from collections.abc import Generator
+
+from itertools import chain
 from typing import Any, Callable
 import networkx as nx
 
 from ._parameter import ParameterBase
 from ._relationship import Relationship
-from ._node import ParameterNode, InputNode, CalculatedNode, RelationshipNode
+from ._node import ParameterNode, CalculatedNode, RelationshipNode
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,6 +17,7 @@ class Model:
     def __init__(self) -> None:
         self._nx_graph = nx.DiGraph()
         self._parameter_to_node: dict[ParameterBase[Any], ParameterNode[Any]] = {}
+        self._parameters: dict[str, ParameterBase[Any]] = {}
 
     def _replace_node[T](self, old_node: ParameterNode[T], new_node: ParameterNode[T]) -> None:
         if old_node.parameter != new_node.parameter:
@@ -34,8 +38,21 @@ class Model:
         if parameter in self._parameter_to_node:
             raise ValueError(f"Parameter {parameter} is already in the model.")
         parameter_node = ParameterNode(parameter)
+        self._parameters[parameter.name] = parameter
         self._parameter_to_node[parameter] = parameter_node
         self._nx_graph.add_node(parameter_node)
+
+    def add_model(self, model: Model) -> None:
+        input_parameters = tuple(model.iter_input_parameters())
+        output_parameters = tuple(model.iter_output_parameters())
+        for parameter in chain(input_parameters, output_parameters):
+            self.add_parameter(parameter)
+
+        def _function(*args: Any) -> Any:
+            results = model.evaluate(dict(zip(input_parameters, args)))
+            return tuple(results[parameter] for parameter in output_parameters)
+
+        self.add_relationship(_function, input_parameters, output_parameters)
 
     def add_relationship(
         self,
@@ -60,8 +77,8 @@ class Model:
         for output in outputs:
             if output not in self._parameter_to_node:
                 raise ValueError(f"Parameter {output} is not in the model.")
-            if isinstance(self._parameter_to_node[output], InputNode):
-                raise ValueError(f"Parameter {output} is an input parameter.")
+            # if isinstance(self._parameter_to_node[output], InputNode):
+            # raise ValueError(f"Parameter {output} is an input parameter.")
             elif isinstance(self._parameter_to_node[output], CalculatedNode):
                 raise ValueError(f"Calculation of parameter {output} is already defined.")
 
@@ -83,7 +100,17 @@ class Model:
 
     def iter_input_parameters(self) -> Generator[ParameterBase[Any]]:
         for node in self._nx_graph.nodes:
-            if isinstance(node, InputNode):
+            if isinstance(node, ParameterNode) and not isinstance(node, CalculatedNode):
+                yield node.parameter
+
+    def iter_output_parameters(self) -> Generator[ParameterBase[Any]]:
+        """Iterate over the output parameters of the model.
+
+        All the calculated parameters are considered as output parameters for now.
+        But we may need to mark only a subset of them as output parameters.
+        """
+        for node in self._nx_graph.nodes:
+            if isinstance(node, ParameterNode) and isinstance(node, CalculatedNode):
                 yield node.parameter
 
     def evaluate(

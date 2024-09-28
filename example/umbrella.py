@@ -8,23 +8,23 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    model = pdag.Model()
+    umbrella_model = pdag.Model()
 
     # External parameters (X)
     is_raining = pdag.BooleanParameter("Is it raining?")
-    model.add_parameter(is_raining)
+    umbrella_model.add_parameter(is_raining)
 
     # Levers (L)
     will_take_umbrella = pdag.BooleanParameter("Will I take an umbrella?")
     will_take_travel_umbrella = pdag.BooleanParameter("Will I take a travel umbrella?")
-    model.add_parameter(will_take_umbrella)
-    model.add_parameter(will_take_travel_umbrella)
+    umbrella_model.add_parameter(will_take_umbrella)
+    umbrella_model.add_parameter(will_take_travel_umbrella)
 
     # Performance metrics (M)
     wetness = pdag.NumericParameter("Wetness", unit=None, lower_bound=0, upper_bound=1)
     convenience = pdag.NumericParameter("Convenience", unit=None, lower_bound=0, upper_bound=1)
-    model.add_parameter(wetness)
-    model.add_parameter(convenience)
+    umbrella_model.add_parameter(wetness)
+    umbrella_model.add_parameter(convenience)
 
     # Relationships (R)
     # @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
@@ -39,7 +39,9 @@ def main() -> None:
         else:
             return 0
 
-    model.add_relationship(how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
+    umbrella_model.add_relationship(
+        how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness
+    )
 
     # @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
     def how_convenient_will_it_be(will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
@@ -54,7 +56,9 @@ def main() -> None:
         return convenience
 
     # The relationship function can be None. In that case, the relationship is marked as unknown.
-    model.add_relationship(how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience)
+    umbrella_model.add_relationship(
+        how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience
+    )
 
     # # Draw the graph
     # import matplotlib.pyplot as plt
@@ -63,7 +67,7 @@ def main() -> None:
     # nx.draw(model.nx_graph, pos, with_labels=True, arrows=True)
     # plt.show()
 
-    logger.info(f"Model is evaluatable: {model.is_evaluatable()}")
+    logger.info(f"Model is evaluatable: {umbrella_model.is_evaluatable()}")
 
     scenarios = [
         {is_raining: True},
@@ -82,8 +86,13 @@ def main() -> None:
 
     inputs = [scenario | decision for scenario, decision in product(scenarios, decisions)]
 
-    results = [model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
+    results = [umbrella_model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
     logger.info(f"Results: {results}")
+
+    model = pdag.Model()
+    model.add_model(umbrella_model)
+    results2 = [model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
+    logger.info(f"Results 2: {results2}")
 
 
 if __name__ == "__main__":
