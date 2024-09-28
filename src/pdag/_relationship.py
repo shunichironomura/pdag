@@ -4,8 +4,8 @@ from typing import Any, Callable
 from ._parameter import ParameterBase
 
 
-@dataclass(unsafe_hash=True)
+@dataclass(frozen=True, slots=True)
 class Relationship:
-    function: Callable[..., Any] = field(repr=False, hash=False, compare=False)
+    function: Callable[..., Any] = field(repr=False)
     inputs: tuple[ParameterBase[Any], ...]
     outputs: tuple[ParameterBase[Any], ...]
