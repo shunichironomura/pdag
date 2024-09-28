@@ -2,28 +2,29 @@ import logging
 import pdag
 
 from rich.logging import RichHandler
+from itertools import product
 
 logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    model = pdag.StaticModel()
+    model = pdag.Model()
 
-    # External variables (X)
-    is_raining = pdag.BooleanVariable("Is it raining?", type="X")
-    model.add_variable(is_raining)
+    # External parameters (X)
+    is_raining = pdag.BooleanParameter("Is it raining?")
+    model.add_parameter(is_raining)
 
     # Levers (L)
-    will_take_umbrella = pdag.BooleanVariable("Will I take an umbrella?", type="L")
-    will_take_travel_umbrella = pdag.BooleanVariable("Will I take a travel umbrella?", type="L")
-    model.add_variable(will_take_umbrella)
-    model.add_variable(will_take_travel_umbrella)
+    will_take_umbrella = pdag.BooleanParameter("Will I take an umbrella?")
+    will_take_travel_umbrella = pdag.BooleanParameter("Will I take a travel umbrella?")
+    model.add_parameter(will_take_umbrella)
+    model.add_parameter(will_take_travel_umbrella)
 
     # Performance metrics (M)
-    wetness = pdag.NumericVariable("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
-    convenience = pdag.NumericVariable("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
-    model.add_variable(wetness)
-    model.add_variable(convenience)
+    wetness = pdag.NumericParameter("Wetness", unit=None, lower_bound=0, upper_bound=1)
+    convenience = pdag.NumericParameter("Convenience", unit=None, lower_bound=0, upper_bound=1)
+    model.add_parameter(wetness)
+    model.add_parameter(convenience)
 
     # Relationships (R)
     # @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
@@ -64,13 +65,24 @@ def main() -> None:
 
     logger.info(f"Model is evaluatable: {model.is_evaluatable()}")
 
-    scenarios = model.sample_scenarios(size=10)
+    scenarios = [
+        {is_raining: True},
+        {is_raining: False},
+    ]
     logger.info(f"Scenarios: {scenarios}")
 
-    decisions = model.sample_decisions(size=10)
+    decisions = [
+        {
+            will_take_umbrella: will_take_umbrella_value,
+            will_take_travel_umbrella: will_take_travel_umbrella_value,
+        }
+        for will_take_umbrella_value, will_take_travel_umbrella_value in product([True, False], repeat=2)
+    ]
     logger.info(f"Decisions: {decisions}")
 
-    results = model.evaluate(scenarios, decisions)
+    inputs = [scenario | decision for scenario, decision in product(scenarios, decisions)]
+
+    results = [model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
     logger.info(f"Results: {results}")
 
 

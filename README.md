@@ -4,21 +4,21 @@ This is a Python tool to help you make better decisions using the XLRM framework
 
 ## Requirements list
 
-### Requirements for variable nodes
+### Requirements for parameter nodes
 
-- [ ] Users can define variables that are relevant to the decision-making process.
-- [ ] Users can define a variable without specifying its type.
+- [ ] Users can define parameters that are relevant to the decision-making process.
+- [ ] Users can define a parameter without specifying its type.
 
 ### Requirements for relationship edges
 
-- [ ] Users can define relationships between variables that are relevant to the decision-making process.
-- [ ] Users can define a relationship between variables that cannot be represented as a simple function. (Unknown relationships)
+- [ ] Users can define relationships between parameters that are relevant to the decision-making process.
+- [ ] Users can define a relationship between parameters that cannot be represented as a simple function. (Unknown relationships)
 
 ### Requirements for model evaluation
 
-- [ ] Users can dynamically configure the variable node types.
+- [ ] Users can dynamically configure the parameter node types.
 - [ ] Users can configure the relationship boundaries.
-- [ ] `xlrm` can analyze which variable/relationship to evaluate.
+- [ ] `xlrm` can analyze which parameter/relationship to evaluate.
 
 ## Usage
 
@@ -28,17 +28,17 @@ This is a Python tool to help you make better decisions using the XLRM framework
 import xlrm
 
 with xlrm.StaticModel() as model:
-    # External variables (X)
-    is_raining = xlrm.BooleanVariable("Is it raining?", type="X")
-    # model.add_variable(is_raining)
+    # External parameters (X)
+    is_raining = xlrm.BooleanParameter("Is it raining?", type="X")
+    # model.add_parameter(is_raining)
 
     # Levers (L)
-    will_take_umbrella = xlrm.BooleanVariable("Will I take an umbrella?", type="L")
-    will_take_travel_umrella = xlrm.BooleanVariable("Will I take a travel umbrella?", type="L")
+    will_take_umbrella = xlrm.BooleanParameter("Will I take an umbrella?", type="L")
+    will_take_travel_umrella = xlrm.BooleanParameter("Will I take a travel umbrella?", type="L")
 
     # Performance metrics (M)
-    wetness = xlrm.NumericVariable("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
-    convenience = xlrm.NumericVariable("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
+    wetness = xlrm.NumericParameter("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
+    convenience = xlrm.NumericParameter("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
 
     # Relationships (R)
     @xlrm.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)

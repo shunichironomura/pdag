@@ -22,21 +22,21 @@ def __(mo):
 def __(pdag):
     model = pdag.StaticModel()
 
-    # External variables (X)
-    is_raining = pdag.BooleanVariable("Is it raining?", type="X")
-    model.add_variable(is_raining)
+    # External parameters (X)
+    is_raining = pdag.BooleanParameter("Is it raining?", type="X")
+    model.add_parameter(is_raining)
 
     # Levers (L)
-    will_take_umbrella = pdag.BooleanVariable("Will I take an umbrella?", type="L")
-    will_take_travel_umbrella = pdag.BooleanVariable("Will I take a travel umbrella?", type="L")
-    model.add_variable(will_take_umbrella)
-    model.add_variable(will_take_travel_umbrella)
+    will_take_umbrella = pdag.BooleanParameter("Will I take an umbrella?", type="L")
+    will_take_travel_umbrella = pdag.BooleanParameter("Will I take a travel umbrella?", type="L")
+    model.add_parameter(will_take_umbrella)
+    model.add_parameter(will_take_travel_umbrella)
 
     # Performance metrics (M)
-    wetness = pdag.NumericVariable("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
-    convenience = pdag.NumericVariable("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
-    model.add_variable(wetness)
-    model.add_variable(convenience)
+    wetness = pdag.NumericParameter("Wetness", type="M", unit=None, lower_bound=0, upper_bound=1)
+    convenience = pdag.NumericParameter("Convenience", type="M", unit=None, lower_bound=0, upper_bound=1)
+    model.add_parameter(wetness)
+    model.add_parameter(convenience)
 
     # Relationships (R)
     # @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
@@ -100,7 +100,7 @@ def __(mo, results):
     import numpy as np
     import altair as alt
 
-    df = pd.DataFrame({variable.name: results[variable].flatten() for variable in results})
+    df = pd.DataFrame({parameter.name: results[parameter].flatten() for parameter in results})
 
     df["Decision option"] = np.where(df["Will I take an umbrella?"], "Y", "N") + np.where(
         df["Will I take a travel umbrella?"], "y", "n"
