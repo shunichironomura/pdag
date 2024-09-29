@@ -19,13 +19,15 @@ dev-dependencies = [
     "pre-commit==3.8.0",
     "pytest==8.3.3",
     "ruff==0.6.8",
+    # Dependencies for examples - don't need to be pinned.
+    "rich>=13.8.1",
 ]
 
 [tool.mypy]
 strict = true
 
 [[tool.mypy.overrides]]
-module = ["networkx.*", "matplotlib.*"]
+module = ["networkx.*"]
 ignore_missing_imports = true
 
 [tool.ruff]
