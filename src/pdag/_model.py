@@ -1,15 +1,18 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable, Generator
 from itertools import chain
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import networkx as nx
 
 from ._node import CalculatedNode, ParameterNode, RelationshipNode
 from ._parameter import ParameterBase
 from ._relationship import Relationship
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
+
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +25,8 @@ class Model:
 
     def _replace_node[T](self, old_node: ParameterNode[T], new_node: ParameterNode[T]) -> None:
         if old_node.parameter != new_node.parameter:
-            raise ValueError("Old and new nodes must have the same parameter.")
+            msg = "Old and new nodes must have the same parameter."
+            raise ValueError(msg)
         self._parameter_to_node[old_node.parameter] = new_node
         self._nx_graph.add_node(new_node)
         for predecessor in self._nx_graph.predecessors(old_node):
@@ -37,7 +41,8 @@ class Model:
 
     def add_parameter(self, parameter: ParameterBase[Any]) -> None:
         if parameter in self._parameter_to_node:
-            raise ValueError(f"Parameter {parameter} is already in the model.")
+            msg = f"Parameter {parameter} is already in the model."
+            raise ValueError(msg)
         parameter_node = ParameterNode(parameter)
         self._parameters[parameter.name] = parameter
         self._parameter_to_node[parameter] = parameter_node
@@ -49,13 +54,13 @@ class Model:
         for parameter in chain(input_parameters, output_parameters):
             self.add_parameter(parameter)
 
-        def _function(*args: Any) -> Any:
+        def _function(*args: Any) -> tuple[Any, ...]:
             results = model.evaluate(dict(zip(input_parameters, args, strict=False)))
             return tuple(results[parameter] for parameter in output_parameters)
 
         self.add_relationship(_function, input_parameters, output_parameters)
 
-    def add_relationship(
+    def add_relationship(  # noqa: C901
         self,
         function: Callable[..., Any],
         inputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
@@ -67,21 +72,24 @@ class Model:
         if isinstance(outputs, ParameterBase):
             outputs = (outputs,)
 
-            def _function(*args: Any) -> Any:
+            def _function(*args: Any) -> tuple[Any, ...]:
                 return (function(*args),)
         else:
             _function = function
 
         for input_ in inputs:
             if input_ not in self._parameter_to_node:
-                raise ValueError(f"Parameter {input_} is not in the model.")
+                msg = f"Parameter {input_} is not in the model."
+                raise ValueError(msg)
         for output in outputs:
             if output not in self._parameter_to_node:
-                raise ValueError(f"Parameter {output} is not in the model.")
+                msg = f"Parameter {output} is not in the model."
+                raise ValueError(msg)
             # if isinstance(self._parameter_to_node[output], InputNode):
-            # raise ValueError(f"Parameter {output} is an input parameter.")
+            # raise ValueError(f"Parameter {output} is an input parameter.")  # noqa: ERA001
             if isinstance(self._parameter_to_node[output], CalculatedNode):
-                raise ValueError(f"Calculation of parameter {output} is already defined.")
+                msg = f"Calculation of parameter {output} is already defined."
+                raise ValueError(msg)  # noqa: TRY004
 
         relationship_node = RelationshipNode(Relationship(_function, inputs, outputs))
         self._nx_graph.add_node(relationship_node)
@@ -130,16 +138,16 @@ class Model:
 
         return results
 
-    def evaluate_parameter(
+    def evaluate_parameter[T](
         self,
-        parameter: ParameterBase[Any],
+        parameter: ParameterBase[T],
         parameter_evaluations: dict[ParameterBase[Any], Any],
-    ) -> Any:
+    ) -> T:
         memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
             parameter,
             parameter_evaluations.copy(),
         )
-        return memoized_evaluations[parameter]
+        return memoized_evaluations[parameter]  # type: ignore[no-any-return]
 
     def _update_memoized_evaluations_by_parameter_evaluation(
         self,
@@ -156,7 +164,8 @@ class Model:
                 iter(self._nx_graph.predecessors(parameter_node)),
             )  # Should be only one predecessor
         except StopIteration:
-            raise ValueError(f"Parameter {parameter} is not in the memoized evaluations.")
+            msg = f"Parameter {parameter} is not in the memoized evaluations."
+            raise ValueError(msg) from None
 
         dependency_nodes = list(self._nx_graph.predecessors(relationship_node))
 
@@ -169,7 +178,6 @@ class Model:
 
         logger.debug(f"Evaluating parameter {parameter} with relationship {relationship_node.relationship}")
         input_values = tuple(memoized_evaluations[dependency] for dependency in relationship_node.relationship.inputs)
-        # parameter_output_index = relationship.outputs.index(parameter)
         output_values = relationship_node.relationship.function(*input_values)
         for output, output_value in zip(relationship_node.relationship.outputs, output_values, strict=True):
             memoized_evaluations[output] = output_value

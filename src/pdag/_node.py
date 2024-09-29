@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-from ._parameter import ParameterBase
-from ._relationship import Relationship
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ._parameter import ParameterBase
+    from ._relationship import Relationship
 
 
 class ParameterNode[T]:
@@ -25,22 +28,22 @@ class ParameterNode[T]:
 
 
 # All nodes that are not CalculatedNode are InputNode.
-# class InputNode[T](ParameterNode[T]):
-#     def __init__(self, parameter: ParameterBase[T], value: T) -> None:
-#         super().__init__(parameter)
-#         self._value = value
+class InputNode[T](ParameterNode[T]):
+    def __init__(self, parameter: ParameterBase[T], value: T) -> None:
+        super().__init__(parameter)
+        self._value = value
 
-#     def __hash__(self) -> int:
-#         return hash(self._parameter)
+    def __hash__(self) -> int:
+        return hash(self._parameter)
 
-#     def __eq__(self, other: object) -> bool:
-#         if not isinstance(other, InputNode):
-#             return NotImplemented
-#         return self._parameter == other._parameter
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, InputNode):
+            return NotImplemented
+        return self._parameter == other._parameter
 
-#     @property
-#     def value(self) -> T:
-#         return self._value
+    @property
+    def value(self) -> T:
+        return self._value
 
 
 class CalculatedNode[T](ParameterNode[T]):

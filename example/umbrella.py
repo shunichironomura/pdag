@@ -89,12 +89,12 @@ def main() -> None:
 
     inputs = [scenario | decision for scenario, decision in product(scenarios, decisions)]
 
-    results = [umbrella_model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
+    results = [umbrella_model.evaluate(input_) for input_ in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
     logger.info(f"Results: {results}")
 
     model = pdag.Model()
     model.add_model(umbrella_model)
-    results2 = [model.evaluate(input) for input in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
+    results2 = [model.evaluate(input_) for input_ in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
     logger.info(f"Results 2: {results2}")
 
 
