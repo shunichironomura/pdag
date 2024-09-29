@@ -15,18 +15,10 @@ build-backend = "hatchling.build"
 
 [tool.uv]
 dev-dependencies = [
-    # Dependencies for CI - should be pinned.
     "mypy==1.11.2",
     "pre-commit==3.8.0",
     "pytest==8.3.3",
-    "ruff==0.6.7",
-    # Dependencies for examples - don't need to be pinned.
-    "matplotlib==3.9.2",
-    "rich==13.8.1",
-    "marimo==0.8.19",
-    "pandas==2.2.3",
-    "altair==5.4.1",
-    "pandas-stubs==2.2.2.240909",
+    "ruff==0.6.8",
 ]
 
 [tool.mypy]
@@ -41,7 +33,7 @@ target-version = "py312"
 line-length = 120
 
 [tool.ruff.lint]
-# select = ["ALL"]
+select = ["ALL"]
 
 # ignore = [
 #     "PLR2004", # magic numbers
