@@ -123,17 +123,21 @@ class Model:
         for parameter in self.iter_parameters():
             logger.debug(f"Evaluating parameter: {parameter}")
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                parameter, memoized_evaluations,
+                parameter,
+                memoized_evaluations,
             )
             results[parameter] = memoized_evaluations[parameter]
 
         return results
 
     def evaluate_parameter(
-        self, parameter: ParameterBase[Any], parameter_evaluations: dict[ParameterBase[Any], Any],
+        self,
+        parameter: ParameterBase[Any],
+        parameter_evaluations: dict[ParameterBase[Any], Any],
     ) -> Any:
         memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-            parameter, parameter_evaluations.copy(),
+            parameter,
+            parameter_evaluations.copy(),
         )
         return memoized_evaluations[parameter]
 
@@ -159,7 +163,8 @@ class Model:
         # If there is an incoming edge, the parameter has dependencies and must be evaluated recursively.
         for dependency_node in dependency_nodes:
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                dependency_node.parameter, memoized_evaluations,
+                dependency_node.parameter,
+                memoized_evaluations,
             )
 
         logger.debug(f"Evaluating parameter {parameter} with relationship {relationship_node.relationship}")

@@ -39,7 +39,9 @@ def main() -> None:
         return 0
 
     umbrella_model.add_relationship(
-        how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness,
+        how_wet_will_i_get,
+        (is_raining, will_take_umbrella, will_take_travel_umbrella),
+        wetness,
     )
 
     # @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
@@ -56,7 +58,9 @@ def main() -> None:
 
     # The relationship function can be None. In that case, the relationship is marked as unknown.
     umbrella_model.add_relationship(
-        how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience,
+        how_convenient_will_it_be,
+        (will_take_umbrella, will_take_travel_umbrella),
+        convenience,
     )
 
     # # Draw the graph
