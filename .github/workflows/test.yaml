@@ -1,0 +1,144 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/test.yaml"
+      - "pdag/**"
+      - "examples/**"
+      - "tests/**"
+      - "pyproject.toml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/test.yaml"
+      - "pdag/**"
+      - "examples/**"
+      - "tests/**"
+      - "pyproject.toml"
+    types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+  PYTHON_VERSION: "3.12"
+  UV_VERSION: "0.4.x"
+
+jobs:
+  ruff:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Extract Ruff version from pyproject.toml
+        id: extract-ruff-version
+        run: |
+          echo "ruff_version=$(python -c "import tomllib;f=open('pyproject.toml', 'rb');print(next(iter(version.strip() for package, version in (dep.split('==') for dep in tomllib.load(f)['tool']['uv']['dev-dependencies'] if '==' in dep) if package.strip() == 'ruff')));f.close()")" >> "$GITHUB_OUTPUT"
+      - uses: chartboost/ruff-action@v1
+        with:
+          version: ${{ steps.extract-ruff-version.outputs.ruff_version }}
+
+  mypy:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13-dev", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the project
+        run: uv sync
+
+      - name: Run mypy
+        run: uv run -- mypy --enable-incomplete-feature=NewGenericSyntax .
+
+  # build-docs:
+  #   if: github.event.pull_request.draft == false
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@v3
+  #       with:
+  #         version: ${{ env.UV_VERSION }}
+
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: ${{ env.PYTHON_VERSION }}
+
+  #     - name: Install the project
+  #       run: uv sync
+
+  #     - name: Build docs
+  #       run: uv run -- mkdocs build
+
+  # pytest:
+  #   if: github.event.pull_request.draft == false
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest, macos-latest]
+  #       python-version: ["3.13-dev", "3.12", "3.11", "3.10", "3.9", "3.8"]
+  #       # Python 3.8 & 3.9 are on macos-13 but not macos-latest (macos-14-arm64)
+  #       # https://github.com/actions/setup-python/issues/696#issuecomment-1637587760
+  #       exclude:
+  #         - os: macos-latest
+  #           python-version: "3.9"
+  #         - os: macos-latest
+  #           python-version: "3.8"
+  #       include:
+  #         - os: macos-13
+  #           python-version: "3.9"
+  #         - os: macos-13
+  #           python-version: "3.8"
+  #   env:
+  #     OS: ${{ matrix.os }}
+  #     PYTHON: ${{ matrix.python-version }}
+  #     COVERAGE_FILE: .coverage.${{ matrix.os }}-${{ matrix.python-version }}
+
+  #   steps:
+  #   - uses: actions/checkout@v4
+
+  #   - name: Install uv
+  #     uses: astral-sh/setup-uv@v3
+  #     with:
+  #       version: ${{ env.UV_VERSION }}
+
+  #   - name: Set up Python ${{ matrix.python-version }}
+  #     uses: actions/setup-python@v5
+  #     with:
+  #       python-version: ${{ matrix.python-version }}
+
+  #   - name: Install the project
+  #     run: uv sync
+
+  #   - name: Run pytest
+  #     run: uv run -- coverage run --source=./pdag -m pytest ./tests --import-mode importlib
+
+  #   - name: Generate coverage report
+  #     run: |
+  #       uv run -- coverage report -m
+  #       uv run -- coverage xml -o ./coverage.xml
+
+  #   - name: Upload coverage to Codecov
+  #     uses: codecov/codecov-action@v4
+  #     with:
+  #       file: coverage.xml
+  #       env_vars: OS,PYTHON
+  #       fail_ci_if_error: false # TODO: Change to true
+  #       token: ${{ secrets.CODECOV_TOKEN }}

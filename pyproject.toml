@@ -1,11 +1,76 @@
 [project]
-name = "xlrm"
-version = "0.1.0"
-description = "Add your description here"
+name = "pdag"
+version = "0.0.1"
+description = "Parameterized Directed Acyclic Graph"
 readme = "README.md"
+authors = [
+    { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
+]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = ["numpy>=2.1.1", "networkx>=3.3"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "mypy==1.11.2",
+    "pre-commit==3.8.0",
+    "pytest==8.3.3",
+    "ruff==0.6.8",
+    # Dependencies for examples - don't need to be pinned.
+    "rich>=13.8.1",
+]
+
+[tool.mypy]
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["networkx.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+ignore = [
+    #     "PLR2004", # magic numbers
+    #     "S101",    # use of assert
+    "G", # logging format
+    #     "ANN101",  # missing type annotation for self in method
+    #     "ANN102",  # missing type annotation for cls in classmethod
+    #     "D100",    # missing docstring in public module
+    #     "D101",    # missing docstring in public class
+    #     "D102",    # missing docstring in public method
+    #     "D103",    # missing docstring in public function
+    #     "D104",    # missing docstring in public package
+    #     "D105",    # missing docstring in magic method
+    #     "D107",    # missing docstring in __init__
+    "D203", # 1 blank line required before class docstring
+    "D213", # multi-line docstring summary should start at the second line
+    #     "PGH003",  # Use specific rule codes when ignoring type issues
+    #     "RET505",  # Unnecessary `else` after `return` statement
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
+    #     "D401",    # First line should be in imperative mood
+    "TD002", # Missing author in TODO
+    "TD003", # add link on issue into TODO
+    #     "PLR0913", # Too many arguments to function call
+    #     "D407",    # Missing dashed underline after section
+    #     "ERA001",  # Commented out code
+    "FIX002", # Fixme comment
+    #     "S311",    # suspicious-non-cryptographic-random-usage
+    #     "EM101",   # raw-string-in-exception
+    #     "TRY003",  # Avoid specifying long messages outside the exception class
+]
+
+[tool.ruff.lint.per-file-ignores]
+"examples/**.py" = [
+    "ERA001", # Commented out code
+    "FBT001", # Boolean-typed positional argument in function definition
+    "D",      # Docstring
+    "INP001",
+]
