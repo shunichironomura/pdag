@@ -64,7 +64,7 @@ jobs:
         run: uv sync
 
       - name: Run mypy
-        run: uv run -- mypy .
+        run: uv run -- mypy --enable-incomplete-feature=NewGenericSyntax .
 
   # build-docs:
   #   if: github.event.pull_request.draft == false
