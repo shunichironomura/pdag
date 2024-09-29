@@ -1,14 +1,15 @@
 from __future__ import annotations
-from collections.abc import Generator
 
+import logging
+from collections.abc import Callable, Generator
 from itertools import chain
-from typing import Any, Callable
+from typing import Any
+
 import networkx as nx
 
+from ._node import CalculatedNode, ParameterNode, RelationshipNode
 from ._parameter import ParameterBase
 from ._relationship import Relationship
-from ._node import ParameterNode, CalculatedNode, RelationshipNode
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +50,7 @@ class Model:
             self.add_parameter(parameter)
 
         def _function(*args: Any) -> Any:
-            results = model.evaluate(dict(zip(input_parameters, args)))
+            results = model.evaluate(dict(zip(input_parameters, args, strict=False)))
             return tuple(results[parameter] for parameter in output_parameters)
 
         self.add_relationship(_function, input_parameters, output_parameters)
@@ -79,7 +80,7 @@ class Model:
                 raise ValueError(f"Parameter {output} is not in the model.")
             # if isinstance(self._parameter_to_node[output], InputNode):
             # raise ValueError(f"Parameter {output} is an input parameter.")
-            elif isinstance(self._parameter_to_node[output], CalculatedNode):
+            if isinstance(self._parameter_to_node[output], CalculatedNode):
                 raise ValueError(f"Calculation of parameter {output} is already defined.")
 
         relationship_node = RelationshipNode(Relationship(_function, inputs, outputs))
@@ -122,17 +123,17 @@ class Model:
         for parameter in self.iter_parameters():
             logger.debug(f"Evaluating parameter: {parameter}")
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                parameter, memoized_evaluations
+                parameter, memoized_evaluations,
             )
             results[parameter] = memoized_evaluations[parameter]
 
         return results
 
     def evaluate_parameter(
-        self, parameter: ParameterBase[Any], parameter_evaluations: dict[ParameterBase[Any], Any]
+        self, parameter: ParameterBase[Any], parameter_evaluations: dict[ParameterBase[Any], Any],
     ) -> Any:
         memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-            parameter, parameter_evaluations.copy()
+            parameter, parameter_evaluations.copy(),
         )
         return memoized_evaluations[parameter]
 
@@ -148,7 +149,7 @@ class Model:
         parameter_node = self._parameter_to_node[parameter]
         try:
             relationship_node: RelationshipNode = next(
-                iter(self._nx_graph.predecessors(parameter_node))
+                iter(self._nx_graph.predecessors(parameter_node)),
             )  # Should be only one predecessor
         except StopIteration:
             raise ValueError(f"Parameter {parameter} is not in the memoized evaluations.")
@@ -158,7 +159,7 @@ class Model:
         # If there is an incoming edge, the parameter has dependencies and must be evaluated recursively.
         for dependency_node in dependency_nodes:
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                dependency_node.parameter, memoized_evaluations
+                dependency_node.parameter, memoized_evaluations,
             )
 
         logger.debug(f"Evaluating parameter {parameter} with relationship {relationship_node.relationship}")

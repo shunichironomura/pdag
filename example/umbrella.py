@@ -1,8 +1,9 @@
 import logging
-import pdag
+from itertools import product
 
 from rich.logging import RichHandler
-from itertools import product
+
+import pdag
 
 logger = logging.getLogger(__name__)
 
@@ -32,15 +33,13 @@ def main() -> None:
         if is_raining:
             if will_take_umbrella:
                 return 0
-            elif will_take_travel_umbrella:
+            if will_take_travel_umbrella:
                 return 0.5
-            else:
-                return 1
-        else:
-            return 0
+            return 1
+        return 0
 
     umbrella_model.add_relationship(
-        how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness
+        how_wet_will_i_get, (is_raining, will_take_umbrella, will_take_travel_umbrella), wetness,
     )
 
     # @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
@@ -57,7 +56,7 @@ def main() -> None:
 
     # The relationship function can be None. In that case, the relationship is marked as unknown.
     umbrella_model.add_relationship(
-        how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience
+        how_convenient_will_it_be, (will_take_umbrella, will_take_travel_umbrella), convenience,
     )
 
     # # Draw the graph
