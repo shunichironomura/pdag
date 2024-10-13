@@ -22,7 +22,7 @@ def main() -> None:
         convenience = pdag.NumericParameter("Convenience", unit=None, lower_bound=0, upper_bound=1)
 
         # Relationships (R)
-        # @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
+        @pdag.relationship((is_raining, will_take_umbrella, will_take_travel_umbrella), wetness)
         def how_wet_will_i_get(is_raining: bool, will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
             if is_raining:
                 if will_take_umbrella:
@@ -32,13 +32,7 @@ def main() -> None:
                 return 1
             return 0
 
-        umbrella_model.add_relationship(
-            how_wet_will_i_get,
-            (is_raining, will_take_umbrella, will_take_travel_umbrella),
-            wetness,
-        )
-
-        # @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
+        @pdag.relationship((will_take_umbrella, will_take_travel_umbrella), convenience)
         def how_convenient_will_it_be(will_take_umbrella: bool, will_take_travel_umbrella: bool) -> float:
             convenience = 0.0
 
@@ -50,14 +44,7 @@ def main() -> None:
 
             return convenience
 
-        # The relationship function can be None. In that case, the relationship is marked as unknown.
-        umbrella_model.add_relationship(
-            how_convenient_will_it_be,
-            (will_take_umbrella, will_take_travel_umbrella),
-            convenience,
-        )
-
-    # # Draw the graph
+    # # # Draw the graph
     # import matplotlib.pyplot as plt
 
     # pos = nx.spring_layout(umbrella_model.nx_graph)
