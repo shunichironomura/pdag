@@ -1,9 +1,6 @@
 from dataclasses import dataclass, field
 
-
-@dataclass(frozen=True, slots=True)
-class ParameterBase[T]:
-    name: str
+from ._model import ParameterBase
 
 
 @dataclass(frozen=True, slots=True)
