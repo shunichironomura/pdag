@@ -24,10 +24,8 @@ class ParameterBase[T]:
     name: str
 
     def __post_init__(self) -> None:
-        print(f"Post init for {self} called!!")
         if Model.context_is_active():
             active_model = Model.get_current()
-            print(f"Active model detected: {active_model}")
             active_model.add_parameter(self)
 
 
