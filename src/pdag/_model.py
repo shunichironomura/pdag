@@ -245,12 +245,21 @@ class Model:
         return memoized_evaluations
 
     def draw_graph(self, ax: Axes | None = None) -> None:
-        pos = nx.spring_layout(self.nx_graph)
-
         # Group nodes by type
         input_nodes = [node for node in self.nx_graph.nodes if isinstance(node, InputNode)]
         calculated_nodes = [node for node in self.nx_graph.nodes if isinstance(node, CalculatedNode)]
         relationship_nodes = [node for node in self.nx_graph.nodes if isinstance(node, RelationshipNode)]
+
+        # Set subset_key for multipartite_layout
+        for input_node in input_nodes:
+            self.nx_graph.nodes[input_node]["subset"] = 0
+        for calculated_node in calculated_nodes:
+            self.nx_graph.nodes[calculated_node]["subset"] = 2
+        for relationship_node in relationship_nodes:
+            self.nx_graph.nodes[relationship_node]["subset"] = 1
+
+        # pos = nx.spring_layout(self.nx_graph)  # noqa: ERA001
+        pos = nx.multipartite_layout(self.nx_graph)
 
         # Draw nodes with different shapes and colors
         nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=input_nodes, node_shape="^", ax=ax, node_color="r")
