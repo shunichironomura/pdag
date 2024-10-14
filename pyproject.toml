@@ -7,7 +7,11 @@ authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
 requires-python = ">=3.13"
-dependencies = ["numpy>=2.1.1", "networkx>=3.3"]
+dependencies = [
+    "numpy>=2.1.1",
+    "networkx>=3.3",
+    "matplotlib>=3.9.2",
+]
 
 [build-system]
 requires = ["hatchling"]
