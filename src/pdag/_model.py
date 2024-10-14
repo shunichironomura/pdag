@@ -1,27 +1,86 @@
 from __future__ import annotations
 
 import logging
+import queue
+import threading
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from functools import wraps
 from itertools import chain
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Self
 
 import networkx as nx
 
-from ._node import CalculatedNode, ParameterNode, RelationshipNode
-from ._parameter import ParameterBase
-from ._relationship import Relationship
+from ._node import CalculatedNode, InputNode, ParameterNode, RelationshipNode
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
+    from types import TracebackType
 
+    from matplotlib.axes import Axes
 
 logger = logging.getLogger(__name__)
 
 
+@dataclass(frozen=True, slots=True)
+class ParameterBase[T]:
+    name: str
+
+    def __post_init__(self) -> None:
+        if Model.context_is_active():
+            active_model = Model.get_current()
+            active_model.add_parameter(self)
+
+    def __repr__(self) -> str:
+        return self.name
+
+
+@dataclass(frozen=True, slots=True)
+class Relationship:
+    function: Callable[..., Any] = field(repr=False)
+    inputs: tuple[ParameterBase[Any], ...]
+    outputs: tuple[ParameterBase[Any], ...]
+
+
 class Model:
+    _thread_local = threading.local()
+
+    @classmethod
+    def _get_run_stack(cls) -> queue.LifoQueue[Self]:
+        if not hasattr(cls._thread_local, "run_stack"):
+            cls._thread_local.run_stack = queue.LifoQueue()
+        return cls._thread_local.run_stack  # type: ignore[no-any-return]
+
+    @classmethod
+    def context_is_active(cls) -> bool:
+        if not hasattr(cls._thread_local, "run_stack"):
+            return False
+        return cls._thread_local.run_stack.qsize() > 0  # type: ignore[no-any-return]
+
+    @classmethod
+    def get_current(cls) -> Self:
+        try:
+            return cls._get_run_stack().queue[-1]
+        except IndexError as e:
+            msg = "Cannot get the current model"
+            raise ValueError(msg) from e
+
     def __init__(self) -> None:
         self._nx_graph = nx.DiGraph()
         self._parameter_to_node: dict[ParameterBase[Any], ParameterNode[Any]] = {}
         self._parameters: dict[str, ParameterBase[Any]] = {}
+
+    def __enter__(self) -> Self:
+        self._get_run_stack().put(self, block=False)
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        self._get_run_stack().get(block=False)
 
     def _replace_node[T](self, old_node: ParameterNode[T], new_node: ParameterNode[T]) -> None:
         if old_node.parameter != new_node.parameter:
@@ -43,7 +102,7 @@ class Model:
         if parameter in self._parameter_to_node:
             msg = f"Parameter {parameter} is already in the model."
             raise ValueError(msg)
-        parameter_node = ParameterNode(parameter)
+        parameter_node = InputNode(parameter)
         self._parameters[parameter.name] = parameter
         self._parameter_to_node[parameter] = parameter_node
         self._nx_graph.add_node(parameter_node)
@@ -72,10 +131,11 @@ class Model:
         if isinstance(outputs, ParameterBase):
             outputs = (outputs,)
 
+            @wraps(function)
             def _function(*args: Any) -> tuple[Any, ...]:
                 return (function(*args),)
         else:
-            _function = function
+            _function = wraps(function)(function)
 
         for input_ in inputs:
             if input_ not in self._parameter_to_node:
@@ -109,7 +169,7 @@ class Model:
 
     def iter_input_parameters(self) -> Generator[ParameterBase[Any]]:
         for node in self._nx_graph.nodes:
-            if isinstance(node, ParameterNode) and not isinstance(node, CalculatedNode):
+            if isinstance(node, InputNode):
                 yield node.parameter
 
     def iter_output_parameters(self) -> Generator[ParameterBase[Any]]:
@@ -119,7 +179,7 @@ class Model:
         But we may need to mark only a subset of them as output parameters.
         """
         for node in self._nx_graph.nodes:
-            if isinstance(node, ParameterNode) and isinstance(node, CalculatedNode):
+            if isinstance(node, CalculatedNode):
                 yield node.parameter
 
     def evaluate(
@@ -183,3 +243,31 @@ class Model:
             memoized_evaluations[output] = output_value
 
         return memoized_evaluations
+
+    def draw_graph(self, ax: Axes | None = None) -> None:
+        # Group nodes by type
+        input_nodes = [node for node in self.nx_graph.nodes if isinstance(node, InputNode)]
+        calculated_nodes = [node for node in self.nx_graph.nodes if isinstance(node, CalculatedNode)]
+        relationship_nodes = [node for node in self.nx_graph.nodes if isinstance(node, RelationshipNode)]
+
+        # Set subset_key for multipartite_layout
+        for input_node in input_nodes:
+            self.nx_graph.nodes[input_node]["subset"] = 0
+        for calculated_node in calculated_nodes:
+            self.nx_graph.nodes[calculated_node]["subset"] = 2
+        for relationship_node in relationship_nodes:
+            self.nx_graph.nodes[relationship_node]["subset"] = 1
+
+        # pos = nx.spring_layout(self.nx_graph)  # noqa: ERA001
+        pos = nx.multipartite_layout(self.nx_graph)
+
+        # Draw nodes with different shapes and colors
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=input_nodes, node_shape="^", ax=ax, node_color="r")
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=calculated_nodes, node_shape="o", ax=ax, node_color="b")
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=relationship_nodes, node_shape="s", ax=ax, node_color="g")
+
+        # Draw edges
+        nx.draw_networkx_edges(self.nx_graph, pos)
+
+        # Draw labels
+        nx.draw_networkx_labels(self.nx_graph, pos)

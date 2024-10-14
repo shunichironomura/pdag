@@ -22,7 +22,7 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 env:
-  PYTHON_VERSION: "3.12"
+  PYTHON_VERSION: "3.13"
   UV_VERSION: "0.4.x"
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.13-dev", "3.12"]
+        python-version: ["3.13"]
     steps:
       - uses: actions/checkout@v4
 
@@ -64,7 +64,7 @@ jobs:
         run: uv sync
 
       - name: Run mypy
-        run: uv run -- mypy --enable-incomplete-feature=NewGenericSyntax .
+        run: uv run -- mypy .
 
   # build-docs:
   #   if: github.event.pull_request.draft == false
