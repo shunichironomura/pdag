@@ -26,7 +26,6 @@ Time steps:
 from enum import Enum, auto
 
 import matplotlib.pyplot as plt
-import networkx as nx
 
 import pdag
 
@@ -67,6 +66,7 @@ with pdag.Model() as building_model:
         Action.BUILD_EXP_33: 33.0 * 1.2,
         Action.EXP_TO_57: (57.0 - 33.0) / 1.5,
     }
+    discount_rate = 0.1
 
     # Time-series parameters
     building_state_ts: list[pdag.CategoricalParameter[BuildingState]] = [
@@ -133,7 +133,64 @@ with pdag.Model() as building_model:
     def first_state() -> BuildingState:
         return BuildingState.NONE
 
+    for t in range(n_time_steps - 1):
 
-pos = nx.spring_layout(building_model.nx_graph)
-nx.draw(building_model.nx_graph, pos, with_labels=True, arrows=True)
+        @pdag.relationship((building_state_ts[t], action_ts[t]), building_state_ts[t + 1])
+        def evolve_state(building_state: BuildingState, action: Action) -> BuildingState:  # noqa: C901
+            match building_state:
+                case BuildingState.NONE:
+                    if action == Action.BUILD_OPT_33:
+                        return BuildingState.OPT_33
+                    if action == Action.BUILD_OPT_57:
+                        return BuildingState.OPT_57
+                    if action == Action.BUILD_EXP_33:
+                        return BuildingState.EXP_33
+                case BuildingState.OPT_33:
+                    if action == Action.TEAR_DOWN_OPT_33_AND_BUILD_OPT_57:
+                        return BuildingState.OPT_57
+                case BuildingState.OPT_57:
+                    pass
+                case BuildingState.EXP_33:
+                    if action == Action.EXP_TO_57:
+                        return BuildingState.EXP_57
+                case BuildingState.EXP_57:
+                    pass
+            return building_state
+
+    # Calculate revenue
+    for t in range(n_time_steps):
+
+        @pdag.relationship((building_state_ts[t], demand_ts[t]), revenue_ts[t])
+        def calculate_revenue(building_state: BuildingState, demand: float) -> float:
+            return revenue_per_floor * max(
+                {
+                    BuildingState.NONE: 0,
+                    BuildingState.OPT_33: 33,
+                    BuildingState.OPT_57: 57,
+                    BuildingState.EXP_33: 33,
+                    BuildingState.EXP_57: 57,
+                }[building_state],
+                demand,
+            )
+
+    # Calculate cost
+    for t in range(n_time_steps):
+
+        @pdag.relationship(action_ts[t], cost_ts[t])
+        def calculate_cost(action: Action) -> float:
+            return action_cost[action]
+
+    # Calculate NPV
+    @pdag.relationship((*revenue_ts, *cost_ts), npv)
+    def calculate_npv(revenues_and_costs: tuple[float, ...]) -> float:
+        revenues, costs = revenues_and_costs[:n_time_steps], revenues_and_costs[n_time_steps:]
+        return sum(
+            (revenue - cost) / (1 + discount_rate) ** i
+            for i, (revenue, cost) in enumerate(zip(revenues, costs, strict=True))
+        )
+
+
+# Draw the graph
+
+building_model.draw_graph()
 plt.show()
