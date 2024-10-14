@@ -28,6 +28,9 @@ class ParameterBase[T]:
             active_model = Model.get_current()
             active_model.add_parameter(self)
 
+    def __repr__(self) -> str:
+        return self.name
+
 
 @dataclass(frozen=True, slots=True)
 class Relationship:
