@@ -31,9 +31,8 @@ class ParameterNode[T]:
 
 # All nodes that are not CalculatedNode are InputNode.
 class InputNode[T](ParameterNode[T]):
-    def __init__(self, parameter: ParameterBase[T], value: T) -> None:
+    def __init__(self, parameter: ParameterBase[T]) -> None:
         super().__init__(parameter)
-        self._value = value
 
     def __hash__(self) -> int:
         return hash(self._parameter)
@@ -42,10 +41,6 @@ class InputNode[T](ParameterNode[T]):
         if not isinstance(other, InputNode):
             return NotImplemented
         return self._parameter == other._parameter
-
-    @property
-    def value(self) -> T:
-        return self._value
 
 
 class CalculatedNode[T](ParameterNode[T]):

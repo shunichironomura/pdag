@@ -5,16 +5,19 @@ import queue
 import threading
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from functools import wraps
 from itertools import chain
 from typing import TYPE_CHECKING, Any, Self
 
 import networkx as nx
 
-from ._node import CalculatedNode, ParameterNode, RelationshipNode
+from ._node import CalculatedNode, InputNode, ParameterNode, RelationshipNode
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
     from types import TracebackType
+
+    from matplotlib.axes import Axes
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +102,7 @@ class Model:
         if parameter in self._parameter_to_node:
             msg = f"Parameter {parameter} is already in the model."
             raise ValueError(msg)
-        parameter_node = ParameterNode(parameter)
+        parameter_node = InputNode(parameter)
         self._parameters[parameter.name] = parameter
         self._parameter_to_node[parameter] = parameter_node
         self._nx_graph.add_node(parameter_node)
@@ -128,10 +131,11 @@ class Model:
         if isinstance(outputs, ParameterBase):
             outputs = (outputs,)
 
+            @wraps(function)
             def _function(*args: Any) -> tuple[Any, ...]:
                 return (function(*args),)
         else:
-            _function = function
+            _function = wraps(function)(function)
 
         for input_ in inputs:
             if input_ not in self._parameter_to_node:
@@ -165,7 +169,7 @@ class Model:
 
     def iter_input_parameters(self) -> Generator[ParameterBase[Any]]:
         for node in self._nx_graph.nodes:
-            if isinstance(node, ParameterNode) and not isinstance(node, CalculatedNode):
+            if isinstance(node, InputNode):
                 yield node.parameter
 
     def iter_output_parameters(self) -> Generator[ParameterBase[Any]]:
@@ -175,7 +179,7 @@ class Model:
         But we may need to mark only a subset of them as output parameters.
         """
         for node in self._nx_graph.nodes:
-            if isinstance(node, ParameterNode) and isinstance(node, CalculatedNode):
+            if isinstance(node, CalculatedNode):
                 yield node.parameter
 
     def evaluate(
@@ -239,3 +243,22 @@ class Model:
             memoized_evaluations[output] = output_value
 
         return memoized_evaluations
+
+    def draw_graph(self, ax: Axes | None = None) -> None:
+        pos = nx.spring_layout(self.nx_graph)
+
+        # Group nodes by type
+        input_nodes = [node for node in self.nx_graph.nodes if isinstance(node, InputNode)]
+        calculated_nodes = [node for node in self.nx_graph.nodes if isinstance(node, CalculatedNode)]
+        relationship_nodes = [node for node in self.nx_graph.nodes if isinstance(node, RelationshipNode)]
+
+        # Draw nodes with different shapes and colors
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=input_nodes, node_shape="^", ax=ax, node_color="r")
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=calculated_nodes, node_shape="o", ax=ax, node_color="b")
+        nx.draw_networkx_nodes(self.nx_graph, pos, nodelist=relationship_nodes, node_shape="s", ax=ax, node_color="g")
+
+        # Draw edges
+        nx.draw_networkx_edges(self.nx_graph, pos)
+
+        # Draw labels
+        nx.draw_networkx_labels(self.nx_graph, pos)
