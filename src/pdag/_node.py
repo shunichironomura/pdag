@@ -25,6 +25,9 @@ class ParameterNode[T]:
     def parameter(self) -> ParameterBase[T]:
         return self._parameter
 
+    def __repr__(self) -> str:
+        return self._parameter.name
+
 
 # All nodes that are not CalculatedNode are InputNode.
 class InputNode[T](ParameterNode[T]):
@@ -73,6 +76,9 @@ class RelationshipNode:
     @property
     def relationship(self) -> Relationship:
         return self._relationship
+
+    def __repr__(self) -> str:
+        return self._relationship.function.__name__
 
 
 class ModelNode(RelationshipNode): ...
