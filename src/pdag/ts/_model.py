@@ -1,22 +1,32 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pdag._base import ModelBase, ParameterBase
+
+from ._utils import DelayedParameterTs, InitialValueParameter
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 logger = logging.getLogger(__name__)
 
 
 class TimeSeriesModel(ModelBase):
     def __init__(self) -> None:
-        pass
+        self._parameters: dict[str, ParameterBase[Any]] = {}
 
     def add_parameter(self, parameter: ParameterBase[Any]) -> None:
+        if parameter.name in self._parameters and not isinstance(parameter, InitialValueParameter | DelayedParameterTs):
+            msg = f"Parameter {parameter} is already in the model."
+            raise ValueError(msg)
+        self._parameters[parameter.name] = parameter
+
+    def add_relationship(
+        self,
+        function: Callable[..., Any],
+        inputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
+        outputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
+    ) -> None:
         raise NotImplementedError
-
-    # def add_ts_parameter(self, ts_parameter: ParameterTsBase[Any]) -> None:
-    #     self._ts_parameters[ts_parameter.name] = ts_parameter
-
-    # def add_const_parameter(self, const_parameter: ParameterBase[Any]) -> None:
-    #     self._const_parameters[const_parameter.name] = const_parameter
