@@ -3,11 +3,13 @@ from __future__ import annotations
 from functools import wraps
 from typing import TYPE_CHECKING, Any, ParamSpec, TypeVar
 
-from ._model import Model, ParameterBase
+from ._model import Model
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from functools import _Wrapped
+
+    from ._base import ParameterBase
 
 P = ParamSpec("P")
 R = TypeVar("R")
