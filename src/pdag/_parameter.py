@@ -1,11 +1,12 @@
 from collections.abc import Hashable
 from dataclasses import dataclass, field
 
-from ._model import ParameterBase
+from ._base import ParameterBase
 
 
 @dataclass(frozen=True, slots=True)
-class BooleanParameter(ParameterBase[bool]): ...
+class BooleanParameter(ParameterBase[bool]):
+    pass
 
 
 @dataclass(frozen=True, slots=True)
