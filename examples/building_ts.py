@@ -29,6 +29,7 @@ import pdag
 import pdag.ts
 
 
+# Common types
 class BuildingState(Enum):
     NONE = auto()
     OPT_33 = auto()
@@ -52,19 +53,6 @@ class Policy(Enum):
     BUILD_OPT_33_AND_REBUILD = auto()  # needs rebuild threshold
     BUILD_EXP_33_AND_EXPAND = auto()  # needs expand threshold
 
-
-# Constants
-n_time_steps = 3
-revenue_per_floor = 1
-action_cost = {
-    Action.NONE: 0.0,
-    Action.BUILD_OPT_33: 33.0,
-    Action.BUILD_OPT_57: 57.0,
-    Action.TEAR_DOWN_OPT_33_AND_BUILD_OPT_57: 33 / 2 + 57.0,
-    Action.BUILD_EXP_33: 33.0 * 1.2,
-    Action.EXP_TO_57: (57.0 - 33.0) / 1.5,
-}
-discount_rate = 0.1
 
 with pdag.ts.TimeSeriesModel() as building_model:
     # Time-series parameters
@@ -155,6 +143,7 @@ with pdag.ts.TimeSeriesModel() as building_model:
 
     @pdag.relationship((building_state_ts, demand_ts), revenue_ts)
     def calculate_revenue(building_state: BuildingState, demand: float) -> float:
+        revenue_per_floor = 1
         return revenue_per_floor * max(
             {
                 BuildingState.NONE: 0,
@@ -169,11 +158,21 @@ with pdag.ts.TimeSeriesModel() as building_model:
     # Calculate cost
     @pdag.relationship(action_ts, cost_ts)
     def calculate_cost(action: Action) -> float:
+        action_cost = {
+            Action.NONE: 0.0,
+            Action.BUILD_OPT_33: 33.0,
+            Action.BUILD_OPT_57: 57.0,
+            Action.TEAR_DOWN_OPT_33_AND_BUILD_OPT_57: 33 / 2 + 57.0,
+            Action.BUILD_EXP_33: 33.0 * 1.2,
+            Action.EXP_TO_57: (57.0 - 33.0) / 1.5,
+        }
         return action_cost[action]
 
     # Calculate NPV
     @pdag.relationship((revenue_ts, cost_ts), npv)
     def calculate_npv(revenue_ts: tuple[float], cost_ts: tuple[float]) -> float:
+        discount_rate = 0.1
+
         return sum(
             (revenue - cost) / (1 + discount_rate) ** i
             for i, (revenue, cost) in enumerate(zip(revenue_ts, cost_ts, strict=True))
