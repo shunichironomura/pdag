@@ -8,7 +8,6 @@ __all__ = [
     "relationship",
     "CategoricalParameter",
 ]
-from ._base import Relationship
 from ._decorator import relationship
-from ._model import Model
+from ._model import Model, Relationship
 from ._parameter import BooleanParameter, CategoricalParameter, NumericParameter
