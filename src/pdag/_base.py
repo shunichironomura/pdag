@@ -3,7 +3,7 @@ from __future__ import annotations
 import queue
 import threading
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Self
 
 if TYPE_CHECKING:
@@ -50,6 +50,15 @@ class ModelBase(ABC):
     def add_parameter(self, parameter: ParameterBase[Any]) -> None:
         raise NotImplementedError
 
+    @abstractmethod
+    def add_relationship(
+        self,
+        function: Callable[..., Any],
+        inputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
+        outputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
+    ) -> None:
+        raise NotImplementedError
+
 
 @dataclass(frozen=True, slots=True)
 class ParameterBase[T]:
@@ -62,10 +71,3 @@ class ParameterBase[T]:
 
     def __repr__(self) -> str:
         return self.name
-
-
-@dataclass(frozen=True, slots=True)
-class Relationship:
-    function: Callable[..., Any] = field(repr=False)
-    inputs: tuple[ParameterBase[Any], ...]
-    outputs: tuple[ParameterBase[Any], ...]

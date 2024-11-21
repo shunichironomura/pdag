@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Callable
+from dataclasses import dataclass, field
 from functools import wraps
 from itertools import chain
 from typing import TYPE_CHECKING, Any
 
 import networkx as nx
 
-from ._base import ModelBase, ParameterBase, Relationship
+from ._base import ModelBase, ParameterBase
 from ._node import CalculatedNode, InputNode, ParameterNode, RelationshipNode
 
 if TYPE_CHECKING:
@@ -17,6 +18,13 @@ if TYPE_CHECKING:
     from matplotlib.axes import Axes
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass(frozen=True, slots=True)
+class Relationship:
+    function: Callable[..., Any] = field(repr=False)
+    inputs: tuple[ParameterBase[Any], ...]
+    outputs: tuple[ParameterBase[Any], ...]
 
 
 class Model(ModelBase):
