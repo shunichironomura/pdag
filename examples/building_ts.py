@@ -68,7 +68,6 @@ with pdag.ts.TimeSeriesModel() as building_model:
     expand_threshold = pdag.NumericParameter("expand_threshold")
     npv = pdag.NumericParameter("npv")
 
-    # Define action
     @pdag.relationship(policy, pdag.ts.initial(action_ts))
     def set_first_action(policy: Policy) -> Action:  # noqa: ARG001
         return Action.NONE
@@ -112,7 +111,6 @@ with pdag.ts.TimeSeriesModel() as building_model:
         msg = "Should not reach here"
         raise ValueError(msg)
 
-    # Define state evolution
     @pdag.relationship((), pdag.ts.initial(building_state_ts))
     def set_first_state() -> BuildingState:
         return BuildingState.NONE
@@ -139,8 +137,6 @@ with pdag.ts.TimeSeriesModel() as building_model:
                 pass
         return building_state
 
-    # Calculate revenue
-
     @pdag.relationship((building_state_ts, demand_ts), revenue_ts)
     def calculate_revenue(building_state: BuildingState, demand: float) -> float:
         revenue_per_floor = 1
@@ -155,7 +151,6 @@ with pdag.ts.TimeSeriesModel() as building_model:
             demand,
         )
 
-    # Calculate cost
     @pdag.relationship(action_ts, cost_ts)
     def calculate_cost(action: Action) -> float:
         action_cost = {
@@ -168,7 +163,6 @@ with pdag.ts.TimeSeriesModel() as building_model:
         }
         return action_cost[action]
 
-    # Calculate NPV
     @pdag.relationship((revenue_ts, cost_ts), npv)
     def calculate_npv(revenue_ts: tuple[float], cost_ts: tuple[float]) -> float:
         discount_rate = 0.1
@@ -177,3 +171,9 @@ with pdag.ts.TimeSeriesModel() as building_model:
             (revenue - cost) / (1 + discount_rate) ** i
             for i, (revenue, cost) in enumerate(zip(revenue_ts, cost_ts, strict=True))
         )
+
+
+if __name__ == "__main__":
+    from rich import print
+
+    print(building_model._relationships)
