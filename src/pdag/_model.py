@@ -1,38 +1,23 @@
 from __future__ import annotations
 
 import logging
-import queue
-import threading
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import wraps
 from itertools import chain
-from typing import TYPE_CHECKING, Any, Self
+from typing import TYPE_CHECKING, Any
 
 import networkx as nx
 
+from ._base import ModelBase, ParameterBase
 from ._node import CalculatedNode, InputNode, ParameterNode, RelationshipNode
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
-    from types import TracebackType
 
     from matplotlib.axes import Axes
 
 logger = logging.getLogger(__name__)
-
-
-@dataclass(frozen=True, slots=True)
-class ParameterBase[T]:
-    name: str
-
-    def __post_init__(self) -> None:
-        if Model.context_is_active():
-            active_model = Model.get_current()
-            active_model.add_parameter(self)
-
-    def __repr__(self) -> str:
-        return self.name
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,45 +27,11 @@ class Relationship:
     outputs: tuple[ParameterBase[Any], ...]
 
 
-class Model:
-    _thread_local = threading.local()
-
-    @classmethod
-    def _get_run_stack(cls) -> queue.LifoQueue[Self]:
-        if not hasattr(cls._thread_local, "run_stack"):
-            cls._thread_local.run_stack = queue.LifoQueue()
-        return cls._thread_local.run_stack  # type: ignore[no-any-return]
-
-    @classmethod
-    def context_is_active(cls) -> bool:
-        if not hasattr(cls._thread_local, "run_stack"):
-            return False
-        return cls._thread_local.run_stack.qsize() > 0  # type: ignore[no-any-return]
-
-    @classmethod
-    def get_current(cls) -> Self:
-        try:
-            return cls._get_run_stack().queue[-1]
-        except IndexError as e:
-            msg = "Cannot get the current model"
-            raise ValueError(msg) from e
-
+class Model(ModelBase):
     def __init__(self) -> None:
         self._nx_graph = nx.DiGraph()
         self._parameter_to_node: dict[ParameterBase[Any], ParameterNode[Any]] = {}
         self._parameters: dict[str, ParameterBase[Any]] = {}
-
-    def __enter__(self) -> Self:
-        self._get_run_stack().put(self, block=False)
-        return self
-
-    def __exit__(
-        self,
-        exc_type: type[BaseException] | None,
-        exc_value: BaseException | None,
-        traceback: TracebackType | None,
-    ) -> None:
-        self._get_run_stack().get(block=False)
 
     def _replace_node[T](self, old_node: ParameterNode[T], new_node: ParameterNode[T]) -> None:
         if old_node.parameter != new_node.parameter:
