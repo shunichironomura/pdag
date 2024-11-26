@@ -1,8 +1,10 @@
+"""Time-series subpackage for defining dynamic models."""
+
 __all__ = [
-    "TimeSeriesModel",
+    "BooleanParameterTs",
     "CategoricalParameterTs",
     "NumericParameterTs",
-    "BooleanParameterTs",
+    "TimeSeriesModel",
     "delayed",
     "initial",
 ]

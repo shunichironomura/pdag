@@ -2,11 +2,11 @@
 
 __all__ = [
     "BooleanParameter",
-    "NumericParameter",
+    "CategoricalParameter",
     "Model",
+    "NumericParameter",
     "Relationship",
     "relationship",
-    "CategoricalParameter",
 ]
 from ._decorator import relationship
 from ._model import Model, Relationship
