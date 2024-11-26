@@ -7,18 +7,14 @@ authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
 requires-python = ">=3.13"
-dependencies = [
-    "numpy>=2.1.1",
-    "networkx>=3.3",
-    "matplotlib>=3.9.2",
-]
+dependencies = ["numpy>=2.1.1", "networkx>=3.3", "matplotlib>=3.9.2"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "mypy==1.13.0",
     "pre-commit==4.0.1",
     "pytest==8.3.3",
