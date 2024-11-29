@@ -15,6 +15,7 @@ from ._node import CalculatedNode, InputNode, ParameterNode, RelationshipNode
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
+    import pydot
     from matplotlib.axes import Axes
 
 logger = logging.getLogger(__name__)
@@ -222,3 +223,6 @@ class Model(ModelBase):
 
         # Draw labels
         nx.draw_networkx_labels(self.nx_graph, pos)
+
+    def to_pydot(self) -> pydot.Dot:
+        return nx.drawing.nx_pydot.to_pydot(self.nx_graph)
