@@ -3,11 +3,13 @@ from __future__ import annotations
 from functools import wraps
 from typing import TYPE_CHECKING, Any, ParamSpec, TypeVar
 
-from ._model import Model, ParameterBase
+from ._base import ModelBase
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from functools import _Wrapped
+
+    from ._base import ParameterBase
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -18,7 +20,7 @@ def relationship(
     outputs: tuple[ParameterBase[Any], ...] | ParameterBase[Any],
 ) -> Callable[[Callable[P, R]], _Wrapped[P, R, P, R]]:
     def decorator(function: Callable[P, R]) -> _Wrapped[P, R, P, R]:
-        active_model = Model.get_current()
+        active_model = ModelBase.get_current()
         active_model.add_relationship(
             function=function,
             inputs=inputs,

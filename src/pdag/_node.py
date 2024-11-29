@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ._model import ParameterBase, Relationship
+    from ._base import ParameterBase
+    from ._model import Relationship
 
 
 class ParameterNode[T]:
