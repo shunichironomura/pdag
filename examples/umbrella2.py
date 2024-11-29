@@ -1,5 +1,4 @@
 import logging
-from itertools import product
 
 from rich.logging import RichHandler
 
@@ -43,40 +42,36 @@ with pdag.Model() as umbrella_model:
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.INFO,
+        level=logging.WARNING,
         format="%(message)s",
         datefmt="[%X]",
         handlers=[RichHandler(rich_tracebacks=True)],
     )
 
-    # # # Draw the graph
-    # import matplotlib.pyplot as plt
+    # Draw the graph
+    umbrella_model.to_pydot().write_png("umbrella_model.png")
 
-    # pos = nx.spring_layout(umbrella_model.nx_graph)
-    # nx.draw(umbrella_model.nx_graph, pos, with_labels=True, arrows=True)
-    # plt.show()
+    # logger.info(f"Model is evaluatable: {umbrella_model.is_evaluatable()}")
 
-    logger.info(f"Model is evaluatable: {umbrella_model.is_evaluatable()}")
+    # scenarios = [
+    #     {is_raining: True},
+    #     {is_raining: False},
+    # ]
+    # logger.info(f"Scenarios: {scenarios}")
 
-    scenarios = [
-        {is_raining: True},
-        {is_raining: False},
-    ]
-    logger.info(f"Scenarios: {scenarios}")
+    # decisions = [
+    #     {
+    #         will_take_umbrella: will_take_umbrella_value,
+    #         will_take_travel_umbrella: will_take_travel_umbrella_value,
+    #     }
+    #     for will_take_umbrella_value, will_take_travel_umbrella_value in product([True, False], repeat=2)
+    # ]
+    # logger.info(f"Decisions: {decisions}")
 
-    decisions = [
-        {
-            will_take_umbrella: will_take_umbrella_value,
-            will_take_travel_umbrella: will_take_travel_umbrella_value,
-        }
-        for will_take_umbrella_value, will_take_travel_umbrella_value in product([True, False], repeat=2)
-    ]
-    logger.info(f"Decisions: {decisions}")
+    # inputs = [scenario | decision for scenario, decision in product(scenarios, decisions)]
 
-    inputs = [scenario | decision for scenario, decision in product(scenarios, decisions)]
-
-    results = [umbrella_model.evaluate(input_) for input_ in inputs]  # type: ignore[arg-type] # TODO: Fix this type error
-    logger.info(f"Results: {results}")
+    # results = [umbrella_model.evaluate(input_) for input_ in inputs]  # type: ignore[arg-type] # TODO: Fix this
+    # logger.info(f"Results: {results}")
 
     # model = pdag.Model()
     # model.add_model(umbrella_model)
