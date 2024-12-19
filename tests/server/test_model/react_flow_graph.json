@@ -1,0 +1,234 @@
+{
+    "nodes": [
+        {
+            "id": "node_1",
+            "type": "custom",
+            "data": {
+                "label": "a",
+                "isComplete": true,
+                "name": "a",
+                "valuetype": "int",
+                "time_variable": false
+            },
+            "position": {
+                "x": -153.17311387074494,
+                "y": -96.57539887478791
+            },
+            "measured": {
+                "width": 47,
+                "height": 58
+            },
+            "selected": false,
+            "dragging": false
+        },
+        {
+            "id": "node_2",
+            "type": "custom",
+            "data": {
+                "label": "b",
+                "isComplete": true,
+                "name": "b",
+                "valuetype": "int",
+                "time_variable": false
+            },
+            "position": {
+                "x": -174.7381108418042,
+                "y": -4.387195209331466
+            },
+            "measured": {
+                "width": 48,
+                "height": 58
+            },
+            "selected": false,
+            "dragging": false
+        },
+        {
+            "id": "node_3",
+            "type": "custom",
+            "data": {
+                "label": "c",
+                "isComplete": true,
+                "name": "c",
+                "valuetype": "int",
+                "time_variable": true
+            },
+            "position": {
+                "x": 72.23104791179202,
+                "y": 55.09469095079875
+            },
+            "measured": {
+                "width": 53,
+                "height": 64
+            },
+            "selected": false,
+            "dragging": false
+        },
+        {
+            "id": "node_4",
+            "type": "custom",
+            "data": {
+                "label": "d",
+                "isComplete": true,
+                "name": "d",
+                "valuetype": "int",
+                "time_variable": false
+            },
+            "position": {
+                "x": -43.83989241363682,
+                "y": 168.24018553147238
+            },
+            "measured": {
+                "width": 48,
+                "height": 58
+            },
+            "selected": false,
+            "dragging": false
+        },
+        {
+            "id": "intermediate_node_5",
+            "type": "custom",
+            "data": {
+                "label": "Relationship",
+                "isIntermediate": true,
+                "name": "c_make",
+                "functionBody": "return c=a+b+c",
+                "isComplete": true
+            },
+            "position": {
+                "x": -65.47103297947646,
+                "y": -46.24035396199458
+            },
+            "measured": {
+                "width": 133,
+                "height": 78
+            },
+            "selected": false,
+            "dragging": false
+        },
+        {
+            "id": "intermediate_node_6",
+            "type": "custom",
+            "data": {
+                "label": "Relationship",
+                "isIntermediate": true,
+                "name": "sum_c",
+                "functionBody": "return d=sum(c)",
+                "isComplete": true
+            },
+            "position": {
+                "x": -161.0544222509224,
+                "y": 91.66743824113556
+            },
+            "measured": {
+                "width": 126,
+                "height": 78
+            },
+            "selected": false,
+            "dragging": false
+        }
+    ],
+    "edges": [
+        {
+            "id": "edge_1_a",
+            "source": "node_1",
+            "target": "intermediate_node_5",
+            "type": "floating",
+            "data": {
+                "delay": false
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        },
+        {
+            "id": "edge_1_b",
+            "source": "intermediate_node_5",
+            "target": "node_3",
+            "type": "floating",
+            "data": {
+                "delay": false
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        },
+        {
+            "id": "edge_3",
+            "source": "node_3",
+            "target": "intermediate_node_5",
+            "type": "floating",
+            "data": {
+                "delay": true
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        },
+        {
+            "id": "edge_4",
+            "source": "node_2",
+            "target": "intermediate_node_5",
+            "type": "floating",
+            "data": {
+                "delay": false
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        },
+        {
+            "id": "edge_5_a",
+            "source": "node_3",
+            "target": "intermediate_node_6",
+            "type": "floating",
+            "data": {
+                "delay": false
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        },
+        {
+            "id": "edge_5_b",
+            "source": "intermediate_node_6",
+            "target": "node_4",
+            "type": "floating",
+            "data": {
+                "delay": false
+            },
+            "animated": false,
+            "markerEnd": {
+                "type": "arrowclosed",
+                "color": "#999"
+            },
+            "style": {
+                "stroke": "#999"
+            }
+        }
+    ]
+}
