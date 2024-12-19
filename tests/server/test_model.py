@@ -5,7 +5,7 @@ from pdag._server._model import ReactFlowGraph
 
 def test_parse_react_flow_graph(datadir: Path) -> None:
     react_flow_graph_json = (datadir / "react_flow_graph.json").read_text()
-    graph = ReactFlowGraph.model_validate_json(react_flow_graph_json)
+    ReactFlowGraph.model_validate_json(react_flow_graph_json)
 
 
 def test_dump_parsed_react_flow_graph(datadir: Path) -> None:
