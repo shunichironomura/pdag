@@ -298,9 +298,20 @@ dev = [
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },
+    { name = "rich" },
     { name = "ruff" },
 ]
 examples = [
+    { name = "rich" },
+]
+ruff = [
+    { name = "ruff" },
+]
+testing = [
+    { name = "pytest" },
+]
+typing = [
+    { name = "mypy" },
     { name = "rich" },
 ]
 
@@ -317,9 +328,16 @@ dev = [
     { name = "mypy", specifier = "==1.14.0" },
     { name = "pre-commit", specifier = "==4.0.1" },
     { name = "pytest", specifier = "==8.3.4" },
+    { name = "rich", specifier = ">=13.8.1" },
     { name = "ruff", specifier = "==0.8.4" },
 ]
 examples = [{ name = "rich", specifier = ">=13.8.1" }]
+ruff = [{ name = "ruff", specifier = "==0.8.4" }]
+testing = [{ name = "pytest", specifier = "==8.3.4" }]
+typing = [
+    { name = "mypy", specifier = "==1.14.0" },
+    { name = "rich", specifier = ">=13.8.1" },
+]
 
 [[package]]
 name = "pillow"
