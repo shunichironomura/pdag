@@ -19,11 +19,17 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = ["mypy==1.14.0", "pre-commit==4.0.1", "pytest==8.3.4", "ruff==0.8.4"]
+dev = [
+    "pre-commit==4.0.1",
+    { include-group = "ruff" },
+    { include-group = "typing" },
+    { include-group = "testing" },
+    { include-group = "examples" },
+]
+ruff = ["ruff==0.8.4"]
+typing = ["mypy==1.14.0", "rich>=13.8.1"]
+testing = ["pytest==8.3.4"]
 examples = ["rich>=13.8.1"]
-
-[tool.uv]
-default-groups = ["dev", "examples"]
 
 [tool.mypy]
 strict = true
