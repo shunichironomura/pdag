@@ -26,7 +26,7 @@ dev = [
     { include-group = "testing" },
     { include-group = "examples" },
 ]
-ruff = ["ruff==0.8.6"]
+ruff = ["ruff==0.9.0"]
 typing = ["mypy==1.14.1", "rich>=13.8.1"]
 testing = ["pytest==8.3.4"]
 examples = ["rich>=13.8.1"]
