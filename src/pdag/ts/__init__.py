@@ -1,11 +1,14 @@
+"""ts module for time series models."""
+
 __all__ = [
-    "TimeSeriesModel",
+    "BooleanParameterTs",
     "CategoricalParameterTs",
     "NumericParameterTs",
-    "BooleanParameterTs",
+    "TimeSeriesModel",
+    "TimeSeriesModelEvaluator",
     "delayed",
     "initial",
 ]
-from ._model import TimeSeriesModel
+from ._model import TimeSeriesModel, TimeSeriesModelEvaluator
 from ._parameter import BooleanParameterTs, CategoricalParameterTs, NumericParameterTs
 from ._utils import delayed, initial
