@@ -23,10 +23,15 @@ Time steps:
 2. Second interation of planning & building
 """
 
+import logging
 from enum import Enum, auto
+
+from rich.logging import RichHandler
 
 import pdag
 import pdag.ts
+
+logger = logging.getLogger(__name__)
 
 
 # Common types
@@ -174,6 +179,20 @@ with pdag.ts.TimeSeriesModel() as building_model:
 
 
 if __name__ == "__main__":
-    from rich import print
+    import sys
 
-    print(building_model._relationships)
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler(rich_tracebacks=True)],
+    )
+    evaluator = pdag.ts.TimeSeriesModelEvaluator(building_model)
+    sys.setrecursionlimit(10_000)
+    evaluator.evaluate(
+        inputs={
+            policy: Policy.NONE,
+            rebuild_threshold: 0.5,
+            expand_threshold: 0.5,
+        },
+    )
