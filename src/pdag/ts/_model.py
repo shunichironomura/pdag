@@ -23,7 +23,7 @@ class Relationship:
     inputs: tuple[ParameterBase[Any], ...]
     outputs: tuple[ParameterBase[Any], ...]
 
-    def evaluate(self, *args: Any, time_index: int | None = None) -> tuple[Any, ...]:
+    def evaluate(self, *args: Any, time_index: int | None = None) -> tuple[Any, ...]:  # noqa: ARG002
         if self.is_snapshot_relationship():
             return self.function(*args)
         return self.function(*args)
@@ -96,11 +96,17 @@ class TimeSeriesModelEvaluator:
         parameter: ParameterBase[Any],
         memoized_evaluations: dict[ParameterBase[Any], Any],
     ) -> dict[ParameterBase[Any], Any]:
+        logger.debug(f"Updating memoized evaluations for {parameter}")
         if parameter in memoized_evaluations:
             return memoized_evaluations
 
-        for relationship_name in self._model._predecessor_relationships.get(parameter.name, []):
-            relationship = self._model._relationships[relationship_name]
+        for relationship_name in self._model._predecessor_relationships.get(parameter.name, []):  # noqa: SLF001
+            relationship = self._model._relationships[relationship_name]  # noqa: SLF001
+            for input_node in relationship.inputs:
+                memoized_evaluations = self._update_memoized_evaluations(
+                    parameter=input_node,
+                    memoized_evaluations=memoized_evaluations,
+                )
             args = tuple(memoized_evaluations[input_] for input_ in relationship.inputs)
             memoized_evaluations[parameter] = relationship.function(*args)
 
