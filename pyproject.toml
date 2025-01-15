@@ -27,9 +27,21 @@ dev = [
     { include-group = "examples" },
 ]
 ruff = ["ruff==0.9.1"]
-typing = ["mypy==1.14.1", "rich>=13.8.1"]
+typing = [
+    "mypy==1.14.1",
+    { include-group = "testing" },
+    { include-group = "examples" },
+    "pandas-stubs==2.2.3.241126",
+    "types-tqdm==4.67.0.20241221",
+]
 testing = ["pytest==8.3.4"]
-examples = ["rich>=13.8.1"]
+examples = [
+    "altair==5.5.0",
+    "marimo==0.10.13",
+    "pandas==2.2.3",
+    "rich==13.9.4",
+    "tqdm==4.67.1",
+]
 
 [tool.mypy]
 strict = true
@@ -81,4 +93,14 @@ ignore = [
     "FBT001", # Boolean-typed positional argument in function definition
     "D",      # Docstring
     "INP001",
+]
+# Marimo notebooks
+"examples/**_nb.py" = [
+    "ANN001",
+    "ANN202",
+    "N803",
+    "PLR0913",
+    "B018",
+    "C901",
+    "PLR0915",
 ]
