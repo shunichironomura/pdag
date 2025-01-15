@@ -25,8 +25,6 @@ Time steps:
 
 from enum import Enum, auto
 
-import matplotlib.pyplot as plt
-
 import pdag
 
 
@@ -47,7 +45,7 @@ class Action(Enum):
     EXP_TO_57 = auto()
 
 
-class Policy(Enum):
+class PolicyType(Enum):
     NONE = auto()
     BUILD_OPT_57 = auto()
     BUILD_OPT_33_AND_REBUILD = auto()  # needs rebuild threshold
@@ -78,7 +76,7 @@ with pdag.Model() as building_model:
     cost_ts = [pdag.NumericParameter(f"cost[{i}]") for i in range(n_time_steps)]
 
     # Static parameters
-    policy = pdag.CategoricalParameter("policy", frozenset(Policy))
+    policy_type = pdag.CategoricalParameter("policy_type", frozenset(PolicyType))
     rebuild_threshold = pdag.NumericParameter("rebuild_threshold")
     expand_threshold = pdag.NumericParameter("expand_threshold")
     npv = pdag.NumericParameter("npv")
@@ -91,25 +89,25 @@ with pdag.Model() as building_model:
     for t in range(n_time_steps - 1):
 
         @pdag.relationship(
-            (policy, demand_ts[t], building_state_ts[t], rebuild_threshold, expand_threshold),
+            (policy_type, demand_ts[t], building_state_ts[t], rebuild_threshold, expand_threshold),
             action_ts[t + 1],
         )
         def determine_action(  # noqa: C901, PLR0911, PLR0912
-            policy: Policy,
+            policy_type: PolicyType,
             demand: float,
             building_state: BuildingState,
             rebuild_threshold: float,
             expand_threshold: float,
         ) -> Action:
-            match policy:
-                case Policy.NONE:
+            match policy_type:
+                case PolicyType.NONE:
                     return Action.NONE
-                case Policy.BUILD_OPT_57:
+                case PolicyType.BUILD_OPT_57:
                     if building_state == BuildingState.NONE:
                         return Action.BUILD_OPT_57
                     if building_state == BuildingState.OPT_57:
                         return Action.NONE
-                case Policy.BUILD_OPT_33_AND_REBUILD:
+                case PolicyType.BUILD_OPT_33_AND_REBUILD:
                     if building_state == BuildingState.NONE:
                         return Action.BUILD_OPT_33
                     if building_state == BuildingState.OPT_33:
@@ -118,7 +116,7 @@ with pdag.Model() as building_model:
                         return Action.NONE
                     if building_state == BuildingState.OPT_57:
                         return Action.NONE
-                case Policy.BUILD_EXP_33_AND_EXPAND:
+                case PolicyType.BUILD_EXP_33_AND_EXPAND:
                     if building_state == BuildingState.NONE:
                         return Action.BUILD_EXP_33
                     if building_state == BuildingState.EXP_33:
@@ -182,7 +180,7 @@ with pdag.Model() as building_model:
 
     # Calculate NPV
     @pdag.relationship((*revenue_ts, *cost_ts), npv)
-    def calculate_npv(revenues_and_costs: tuple[float, ...]) -> float:
+    def calculate_npv(*revenues_and_costs: float) -> float:
         revenues, costs = revenues_and_costs[:n_time_steps], revenues_and_costs[n_time_steps:]
         return sum(
             (revenue - cost) / (1 + discount_rate) ** i
@@ -190,7 +188,43 @@ with pdag.Model() as building_model:
         )
 
 
-# Draw the graph
+if __name__ == "__main__":
+    from itertools import product
 
-building_model.draw_graph()
-plt.show()
+    import pandas as pd
+    from tqdm import tqdm
+
+    # Draw the graph
+
+    building_model.to_pydot().write_png("building_model.png")
+
+    # Policy parameters: policy_type, rebuild_threshold, expand_threshold
+    # Exogenous parameters: demand_ts
+    policy_type_values = list(PolicyType)
+    rebuild_threshold_values = [0, 10, 20]
+    expand_threshold_values = [0, 10, 20]
+    policies = [
+        {
+            policy_type: policy_type_value,
+            rebuild_threshold: rebuild_threshold_value,
+            expand_threshold: expand_threshold_value,
+        }
+        for policy_type_value, rebuild_threshold_value, expand_threshold_value in product(
+            policy_type_values,
+            rebuild_threshold_values,
+            expand_threshold_values,
+        )
+    ]
+
+    demand_scenarios = [[0, 0, 0], [0, 0, 20], [0, 20, 20], [20, 20, 20]]
+    scenarios = [
+        {demand_ts[t]: demand for t, demand in enumerate(demand_scenario)} for demand_scenario in demand_scenarios
+    ]
+
+    experiments = [scenario | policy for scenario, policy in product(scenarios, policies)]
+
+    results = [
+        {parameter.name: value for parameter, value in building_model.evaluate(experiment).items()}
+        for experiment in tqdm(experiments)
+    ]
+    results_df = pd.DataFrame(results)
