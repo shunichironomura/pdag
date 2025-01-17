@@ -136,25 +136,25 @@ class Model(ModelBase):
 
     def evaluate(
         self,
-        inputs: dict[ParameterBase[Any], Any],
-    ) -> dict[ParameterBase[Any], Any]:
+        inputs: dict[str, Any],
+    ) -> dict[str, Any]:
         results = {}
         memoized_evaluations = inputs.copy()
         for parameter in self.iter_parameters():
             logger.debug(f"Evaluating parameter: {parameter}")
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                parameter,
+                parameter.name,
                 memoized_evaluations,
             )
-            results[parameter] = memoized_evaluations[parameter]
+            results[parameter.name] = memoized_evaluations[parameter.name]
 
         return results
 
-    def evaluate_parameter[T](
+    def evaluate_parameter(
         self,
-        parameter: ParameterBase[T],
-        parameter_evaluations: dict[ParameterBase[Any], Any],
-    ) -> T:
+        parameter: str,
+        parameter_evaluations: dict[str, Any],
+    ) -> Any:
         memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
             parameter,
             parameter_evaluations.copy(),
@@ -163,14 +163,14 @@ class Model(ModelBase):
 
     def _update_memoized_evaluations_by_parameter_evaluation(
         self,
-        parameter: ParameterBase[Any],
-        memoized_evaluations: dict[ParameterBase[Any], Any],
-    ) -> dict[ParameterBase[Any], Any]:
+        parameter: str,
+        memoized_evaluations: dict[str, Any],
+    ) -> dict[str, Any]:
         if parameter in memoized_evaluations:
             logger.debug(f"Parameter {parameter} is already in the memoized evaluations.")
             return memoized_evaluations
 
-        parameter_node = self._parameter_to_node[parameter]
+        parameter_node = self._parameter_to_node[self._parameters[parameter]]
         try:
             relationship_node: RelationshipNode = next(
                 iter(self._nx_graph.predecessors(parameter_node)),
@@ -184,15 +184,17 @@ class Model(ModelBase):
         # If there is an incoming edge, the parameter has dependencies and must be evaluated recursively.
         for dependency_node in dependency_nodes:
             memoized_evaluations = self._update_memoized_evaluations_by_parameter_evaluation(
-                dependency_node.parameter,
+                dependency_node.parameter.name,
                 memoized_evaluations,
             )
 
         logger.debug(f"Evaluating parameter {parameter} with relationship {relationship_node.relationship}")
-        input_values = tuple(memoized_evaluations[dependency] for dependency in relationship_node.relationship.inputs)
+        input_values = tuple(
+            memoized_evaluations[dependency.name] for dependency in relationship_node.relationship.inputs
+        )
         output_values = relationship_node.relationship.function(*input_values)
         for output, output_value in zip(relationship_node.relationship.outputs, output_values, strict=True):
-            memoized_evaluations[output] = output_value
+            memoized_evaluations[output.name] = output_value
 
         return memoized_evaluations
 
