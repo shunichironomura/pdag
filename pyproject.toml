@@ -6,9 +6,9 @@ readme = "README.md"
 authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-    "numpy>=2.1.1",
+    "numpy>=1.22",
     "networkx>=3.3",
     "matplotlib>=3.9.2",
     "pydot>=3.0.2",
@@ -37,7 +37,7 @@ typing = [
 testing = ["pytest==8.3.4"]
 examples = [
     "altair==5.5.0",
-    "marimo==0.10.13",
+    "marimo==0.10.14",
     "pandas==2.2.3",
     "rich==13.9.4",
     "tqdm==4.67.1",
