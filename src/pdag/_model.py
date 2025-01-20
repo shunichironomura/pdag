@@ -66,8 +66,8 @@ class Model(ModelBase):
             self.add_parameter(parameter)
 
         def _function(*args: Any) -> tuple[Any, ...]:
-            results = model.evaluate(dict(zip(input_parameters, args, strict=False)))
-            return tuple(results[parameter] for parameter in output_parameters)
+            results = model.evaluate({param.name: arg for param, arg in zip(input_parameters, args, strict=True)})
+            return tuple(results[parameter.name] for parameter in output_parameters)
 
         self.add_relationship(_function, input_parameters, output_parameters)
 
@@ -159,7 +159,7 @@ class Model(ModelBase):
             parameter,
             parameter_evaluations.copy(),
         )
-        return memoized_evaluations[parameter]  # type: ignore[no-any-return]
+        return memoized_evaluations[parameter]
 
     def _update_memoized_evaluations_by_parameter_evaluation(
         self,
