@@ -321,7 +321,7 @@ wheels = [
 
 [[package]]
 name = "marimo"
-version = "0.10.16"
+version = "0.10.17"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -342,9 +342,9 @@ dependencies = [
     { name = "uvicorn" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/94/85/b8f0347844c30391cc851426d382088b1748c8818323fdbed93d2f2695d5/marimo-0.10.16.tar.gz", hash = "sha256:629d35083306971b982bb9cda4349a009d6a6c3d66de7d9451dc2d94a83a2c07", size = 11862245 }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/eb/ceff444b885b1233be1c5514c3d26abd8005909630b61936aaf06774be0b/marimo-0.10.17.tar.gz", hash = "sha256:a46fac0c318ae68fa70d3a50368d6f32c00b8015e20eda63ac86dd1f715527a0", size = 11863849 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c7/cd/5a9917fe39a9c24acd0656c2dfe90a3003622e69f320b2dcf57fa4a0bf6f/marimo-0.10.16-py3-none-any.whl", hash = "sha256:a6c9f7bb4dbeb9cfe85beee7a100ea14bc94c5180e5f73eb37cfc72a13bb89a5", size = 12162859 },
+    { url = "https://files.pythonhosted.org/packages/89/91/cf1275da8322a6520be69e26b90b5a09cea217f1131423dc93d64a643b70/marimo-0.10.17-py3-none-any.whl", hash = "sha256:2a401519943e01d939d5f8d8bd874625859711fccc70b295e96b1343949ce758", size = 12165730 },
 ]
 
 [[package]]
@@ -677,7 +677,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "altair", specifier = "==5.5.0" },
-    { name = "marimo", specifier = "==0.10.16" },
+    { name = "marimo", specifier = "==0.10.17" },
     { name = "mypy", specifier = "==1.14.1" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pandas-stubs", specifier = "==2.2.3.241126" },
@@ -690,7 +690,7 @@ dev = [
 ]
 examples = [
     { name = "altair", specifier = "==5.5.0" },
-    { name = "marimo", specifier = "==0.10.16" },
+    { name = "marimo", specifier = "==0.10.17" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "rich", specifier = "==13.9.4" },
     { name = "tqdm", specifier = "==4.67.1" },
@@ -699,7 +699,7 @@ ruff = [{ name = "ruff", specifier = "==0.9.3" }]
 testing = [{ name = "pytest", specifier = "==8.3.4" }]
 typing = [
     { name = "altair", specifier = "==5.5.0" },
-    { name = "marimo", specifier = "==0.10.16" },
+    { name = "marimo", specifier = "==0.10.17" },
     { name = "mypy", specifier = "==1.14.1" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pandas-stubs", specifier = "==2.2.3.241126" },
