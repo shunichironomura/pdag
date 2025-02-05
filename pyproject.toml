@@ -28,7 +28,7 @@ dev = [
 ]
 ruff = ["ruff==0.9.4"]
 typing = [
-    "mypy==1.14.1",
+    "mypy==1.15.0",
     { include-group = "testing" },
     { include-group = "examples" },
     "pandas-stubs==2.2.3.241126",
