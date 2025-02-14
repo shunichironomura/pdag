@@ -5,7 +5,7 @@ __generated_with = "0.10.13"
 app = marimo.App(width="medium")
 
 
-@app.cell(hide_code=True)
+@app.cell(hide_code=True)  # type: ignore[arg-type]
 def _(mo):
     mo.md(r"""## Model definition""")
 
