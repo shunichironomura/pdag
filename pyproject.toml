@@ -37,7 +37,7 @@ typing = [
 testing = ["pytest==8.3.4"]
 examples = [
     "altair==5.5.0",
-    "marimo==0.11.6",
+    "marimo==0.11.7",
     "pandas==2.2.3",
     "rich==13.9.4",
     "tqdm==4.67.1",
