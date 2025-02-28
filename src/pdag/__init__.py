@@ -1,16 +1,34 @@
-"""pdag: Parameter Directed Acyclic Graph."""
+"""pdag: A package for defining and working with directed acyclic graphs (DAGs) of parameters and relationships."""
 
 __all__ = [
-    "BooleanParameter",
     "CategoricalParameter",
+    "CoreModel",
+    "FunctionRelationship",
     "Model",
-    "ModelBase",
-    "NumericParameter",
-    "ParameterBase",
-    "Relationship",
+    "Parameter",
+    "ParameterABC",
+    "ParameterArray",
+    "ParameterCollectionABC",
+    "ParameterMapping",
+    "RealParameter",
+    "RelationshipABC",
+    "SubModelRelationship",
+    "core_model_to_content",
+    "core_model_to_dataclass_notation_ast",
+    "module_to_content",
     "relationship",
 ]
-from ._base import ModelBase, ParameterBase
-from ._decorator import relationship
-from ._model import Model, Relationship
-from ._parameter import BooleanParameter, CategoricalParameter, NumericParameter
+from ._core import (
+    CategoricalParameter,
+    CoreModel,
+    FunctionRelationship,
+    ParameterABC,
+    ParameterArray,
+    ParameterCollectionABC,
+    ParameterMapping,
+    RealParameter,
+    RelationshipABC,
+    SubModelRelationship,
+)
+from ._decorators import relationship
+from ._notation import Model, Parameter, core_model_to_content, core_model_to_dataclass_notation_ast, module_to_content
