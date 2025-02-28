@@ -2,7 +2,8 @@
 
 import ast
 import inspect
-from collections.abc import Callable
+from collections import defaultdict, deque
+from collections.abc import Callable, Collection
 from textwrap import dedent
 from typing import Any, Self
 
@@ -59,3 +60,30 @@ def get_function_body(func: Callable[..., Any]) -> str:
     if not body.endswith("\n"):
         body += "\n"
     return body
+
+
+def topological_sort(dependencies: dict[str, Collection[str]]) -> list[str]:
+    """Sort a graph of dependencies topologically.
+
+    Given a dependency graph (a dict mapping a node to a collection of nodes that depend on it),
+    perform a topological sort and return an ordered list of nodes.
+    Raises an error if a cycle is detected.
+    """
+    indegree: defaultdict[str, int] = defaultdict(int)
+    for node, deps in dependencies.items():
+        indegree[node] = indegree.get(node, 0)
+        for dep in deps:
+            indegree[dep] += 1
+    q = deque([node for node, deg in indegree.items() if deg == 0])
+    order = []
+    while q:
+        node = q.popleft()
+        order.append(node)
+        for dep in dependencies.get(node, []):
+            indegree[dep] -= 1
+            if indegree[dep] == 0:
+                q.append(dep)
+    if len(order) != len(indegree):
+        msg = "Cycle detected in relationship dependencies!"
+        raise ValueError(msg)
+    return order
