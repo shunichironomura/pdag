@@ -110,17 +110,23 @@ class RelationshipABC(ABC, InitArgsRecorder):
 
 
 @dataclass
-class FunctionRelationship(RelationshipABC):
+class FunctionRelationship[**P, T](RelationshipABC):
     type: ClassVar[str] = "function"
     name: str
     inputs: Mapping[str, str]
     outputs: Sequence[str]
     function_body: str
     output_is_scalar: bool = field(kw_only=True)
-    _function: Callable[..., Any] | None = field(default=None, compare=False)
+    _function: Callable[P, T] | None = field(default=None, compare=False)
 
     def is_hydrated(self) -> bool:
         return self._function is not None
+
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> T:
+        if self._function is None:
+            msg = f"Function relationship {self.name} has not been hydrated."
+            raise ValueError(msg)
+        return self._function(*args, **kwargs)
 
 
 @dataclass

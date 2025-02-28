@@ -1,10 +1,9 @@
-import inspect
 from collections.abc import Callable
 
+from pdag._core import FunctionRelationship
+from pdag._notation.model import function_to_function_relationship
 
-def relationship[R, **P](func: Callable[P, R]) -> Callable[P, R]:
+
+def relationship[**P, T](func: Callable[P, T]) -> FunctionRelationship[P, T]:
     """Decorate a function to mark it as a relationship."""
-    func.__is_pdag_relationship__ = True  # type: ignore[attr-defined]
-    source = inspect.getsource(func)
-    func.__pdag_source__ = source  # type: ignore[attr-defined]
-    return func
+    return function_to_function_relationship(func)

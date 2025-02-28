@@ -1,24 +1,68 @@
 import inspect
 import warnings
 from abc import ABCMeta
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
-from typing import Any, get_args, get_origin
+from typing import Any, Self, get_args, get_origin
 
 from typing_extensions import _AnnotatedAlias
 
-from pdag._core import CoreModel, FunctionRelationship, ParameterABC, ParameterCollectionABC, RelationshipABC
+from pdag._core import (
+    CoreModel,
+    FunctionRelationship,
+    ParameterABC,
+    ParameterCollectionABC,
+    RelationshipABC,
+    SubModelRelationship,
+)
 from pdag.utils import get_function_body
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)  # Frozen to be valid as a dictionary key
 class ParameterRef:
     name: str
-    delayed: bool = field(default=False, kw_only=True)
+    previous: bool = field(default=False, kw_only=True)
+    next: bool = field(default=False, kw_only=True)
     # Options to access time series data
     # TODO: Make this more flexible
     initial: bool = field(default=False, kw_only=True)
     all_time_steps: bool = field(default=False, kw_only=True)
+
+    def __post_init__(self) -> None:
+        if sum([self.previous, self.next, self.initial, self.all_time_steps]) > 1:
+            msg = "Parameter reference cannot have more than one of previous, next, initial, or all_time_steps set."
+            raise ValueError(msg)
+        if not self.name.isidentifier():
+            msg = "Parameter reference name must be a valid identifier."
+            raise ValueError(msg)
+
+    def __str__(self) -> str:
+        s = self.name
+        if self.previous:
+            s += ".previous"
+        if self.next:
+            s += ".next"
+        if self.initial:
+            s += ".initial"
+        if self.all_time_steps:
+            s += ".all_time_steps"
+        return s
+
+    @classmethod
+    def from_str(cls, s: str) -> Self:
+        if ".previous" in s:
+            name, _ = s.split(".previous")
+            return cls(name=name, previous=True)
+        if ".next" in s:
+            name, _ = s.split(".next")
+            return cls(name=name, next=True)
+        if ".initial" in s:
+            name, _ = s.split(".initial")
+            return cls(name=name, initial=True)
+        if ".all_time_steps" in s:
+            name, _ = s.split(".all_time_steps")
+            return cls(name=name, all_time_steps=True)
+        return cls(name=s)
 
 
 def _get_inputs_from_signature(sig: inspect.Signature) -> dict[str, str]:
@@ -43,7 +87,7 @@ def _get_outputs_from_signature(sig: inspect.Signature) -> tuple[list[str], bool
     return [single_annotation_to_parameter_name(arg) for arg in args], False
 
 
-def _staticmethod_to_function_relationship(func: Callable[..., Any]) -> FunctionRelationship:
+def function_to_function_relationship[**P, T](func: Callable[P, T]) -> FunctionRelationship[P, T]:
     # Get the function's signature
     sig = inspect.signature(func)
     inputs = _get_inputs_from_signature(sig)
@@ -78,9 +122,9 @@ class ModelMeta(ABCMeta):
             cls.__pdag_parameters__[attribute_name] = parameter  # type: ignore[attr-defined]
 
         for attr, value in namespace.items():
-            if hasattr(value, "__is_pdag_relationship__") and value.__is_pdag_relationship__:
+            if isinstance(value, RelationshipABC):
                 # TODO: Check validity of relationship definition
-                cls.__pdag_relationships__[attr] = _staticmethod_to_function_relationship(value)  # type: ignore[attr-defined]
+                cls.__pdag_relationships__[attr] = value  # type: ignore[attr-defined]
 
         return cls
 
@@ -106,3 +150,12 @@ class Model(metaclass=ModelMeta):
             collections=cls.collections(),
             relationships=cls.relationships(),
         )
+
+    @classmethod
+    def to_relationship(
+        cls,
+        *,
+        inputs: Mapping[ParameterRef, ParameterRef],
+        outputs: Mapping[ParameterRef, ParameterRef],
+    ) -> SubModelRelationship:
+        raise NotImplementedError
