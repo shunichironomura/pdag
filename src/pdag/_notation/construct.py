@@ -92,7 +92,7 @@ def _make_return_ast(parameters: list[ParameterABC[Any]], *, force_tuple: bool =
 
 
 def _function_relationship_to_function_def(
-    relationship: FunctionRelationship,
+    relationship: FunctionRelationship[Any, Any],
     *,
     core_model: CoreModel,
 ) -> ast.FunctionDef:
