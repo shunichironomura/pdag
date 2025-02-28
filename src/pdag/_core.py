@@ -38,7 +38,7 @@ class RealParameter(ParameterABC[float]):
 @dataclass
 class CategoricalParameter(ParameterABC[str]):
     type: ClassVar[str] = "categorical"
-    categories: frozenset[str]
+    categories: set[str]
 
     def is_hydrated(self) -> bool:
         return True
