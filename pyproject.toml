@@ -94,6 +94,14 @@ ignore = [
     "D",      # Docstring
     "INP001",
 ]
+"tests/**.py" = [
+    "D",      # Docstring
+    "INP001",
+]
+"src/pdag/experimental/**.py" = [
+    "D",      # Docstring
+    "INP001",
+]
 # Marimo notebooks
 "examples/**_nb.py" = [
     "ANN001",
