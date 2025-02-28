@@ -116,7 +116,8 @@ class FunctionRelationship(RelationshipABC):
     inputs: Mapping[str, str]
     outputs: Sequence[str]
     function_body: str
-    _function: Callable[..., Any] | None = None
+    output_is_scalar: bool = field(kw_only=True)
+    _function: Callable[..., Any] | None = field(default=None, compare=False)
 
     def is_hydrated(self) -> bool:
         return self._function is not None
@@ -129,7 +130,7 @@ class SubModelRelationship(RelationshipABC):
     submodel_name: str
     inputs: Mapping[str, str]
     outputs: Mapping[str, str]
-    _submodel: "CoreModel | None" = None
+    _submodel: "CoreModel | None" = field(default=None, compare=False)
 
     def is_hydrated(self) -> bool:
         return self._submodel is not None
@@ -138,13 +139,23 @@ class SubModelRelationship(RelationshipABC):
 @dataclass
 class CoreModel:
     name: str
-    nodes: dict[str, ParameterABC[Any]]
+    parameters: dict[str, ParameterABC[Any]]
     collections: dict[str, ParameterCollectionABC]
     relationships: dict[str, RelationshipABC]
 
     def is_hydrated(self) -> bool:
         return (
-            all(node.is_hydrated() for node in self.nodes.values())
+            all(node.is_hydrated() for node in self.parameters.values())
             and all(collection.is_hydrated() for collection in self.collections.values())
             and all(relationship.is_hydrated() for relationship in self.relationships.values())
         )
+
+
+@dataclass
+class Module:
+    pre_models: str
+    models: list[CoreModel]
+    post_models: str
+
+    def is_hydrated(self) -> bool:
+        return all(model.is_hydrated() for model in self.models)
