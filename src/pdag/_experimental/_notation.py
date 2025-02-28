@@ -15,7 +15,11 @@ def _parameter_nodes_to_ast_statements(nodes: Mapping[str, ParameterABC[Any]]) -
                     attr=parameter.__class__.__name__,
                     ctx=ast.Load(),
                 ),
-                args=[ast.Constant(value=name)],
+                args=[ast.Constant(value=arg) for arg in parameter.get_init_args()],
+                keywords=[
+                    ast.keyword(arg=key, value=ast.Constant(value=value))
+                    for key, value in parameter.get_init_kwargs().items()
+                ],
             ),
             simple=1,
         )
