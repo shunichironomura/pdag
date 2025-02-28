@@ -20,9 +20,9 @@ def square_root_model():  # type:ignore[no-untyped-def]
         @staticmethod
         def sqrt(
             *,
-            x_arg: Annotated[float, pdag.Parameter("x")],
-            z_arg: Annotated[Literal["neg", "pos"], pdag.Parameter("z")],
-        ) -> Annotated[float, pdag.Parameter("y")]:
+            x_arg: Annotated[float, pdag.ParameterRef("x")],
+            z_arg: Annotated[Literal["neg", "pos"], pdag.ParameterRef("z")],
+        ) -> Annotated[float, pdag.ParameterRef("y")]:
             if z_arg == "pos":
                 return float(x_arg**0.5)
             return -float(x_arg**0.5)
@@ -34,7 +34,7 @@ _SQUARE_ROOT_MODEL_SOURCE = """\
 class SquareRootModel(pdag.Model):
     x: Annotated[float, pdag.RealParameter("x")]
     y: Annotated[float, pdag.RealParameter("y")]
-    z: Annotated[Literal["pos", "neg"], pdag.CategoricalParameter("z", categories=frozenset({"pos", "neg"}))]
+    z: Annotated[Literal["pos", "neg"], pdag.CategoricalParameter("z", categories={"pos", "neg"})]
 
     @pdag.relationship
     @staticmethod
@@ -56,7 +56,7 @@ def square_root_core_model() -> pdag.CoreModel:
         parameters={
             "x": pdag.RealParameter("x"),
             "y": pdag.RealParameter("y"),
-            "z": pdag.CategoricalParameter("z", categories=frozenset({"pos", "neg"})),
+            "z": pdag.CategoricalParameter("z", categories={"pos", "neg"}),
         },
         collections={},
         relationships={
