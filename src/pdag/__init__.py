@@ -5,11 +5,11 @@ __all__ = [
     "CoreModel",
     "FunctionRelationship",
     "Model",
-    "Parameter",
     "ParameterABC",
     "ParameterArray",
     "ParameterCollectionABC",
     "ParameterMapping",
+    "ParameterRef",
     "RealParameter",
     "RelationshipABC",
     "SubModelRelationship",
@@ -31,4 +31,10 @@ from ._core import (
     SubModelRelationship,
 )
 from ._decorators import relationship
-from ._notation import Model, Parameter, core_model_to_content, core_model_to_dataclass_notation_ast, module_to_content
+from ._notation import (
+    Model,
+    ParameterRef,
+    core_model_to_content,
+    core_model_to_dataclass_notation_ast,
+    module_to_content,
+)

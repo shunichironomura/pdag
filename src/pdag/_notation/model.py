@@ -2,8 +2,8 @@ import inspect
 import warnings
 from abc import ABCMeta
 from collections.abc import Callable
-from dataclasses import dataclass
-from typing import Any, dataclass_transform, get_args, get_origin
+from dataclasses import dataclass, field
+from typing import Any, get_args, get_origin
 
 from typing_extensions import _AnnotatedAlias
 
@@ -12,14 +12,19 @@ from pdag.utils import get_function_body
 
 
 @dataclass
-class Parameter:
+class ParameterRef:
     name: str
+    delayed: bool = field(default=False, kw_only=True)
+    # Options to access time series data
+    # TODO: Make this more flexible
+    initial: bool = field(default=False, kw_only=True)
+    all_time_steps: bool = field(default=False, kw_only=True)
 
 
 def _get_inputs_from_signature(sig: inspect.Signature) -> dict[str, str]:
     def _get_param_name_from_annotation(annotations: _AnnotatedAlias) -> str:
         args = get_args(annotations)
-        param = next(iter(arg for arg in args if isinstance(arg, Parameter)))
+        param = next(iter(arg for arg in args if isinstance(arg, ParameterRef)))
         return param.name
 
     return {param.name: _get_param_name_from_annotation(param.annotation) for param in sig.parameters.values()}
@@ -28,7 +33,7 @@ def _get_inputs_from_signature(sig: inspect.Signature) -> dict[str, str]:
 def _get_outputs_from_signature(sig: inspect.Signature) -> tuple[list[str], bool]:
     def single_annotation_to_parameter_name(annotations: _AnnotatedAlias) -> str:
         args = get_args(annotations)
-        param = next(iter(arg for arg in args if isinstance(arg, Parameter)))
+        param = next(iter(arg for arg in args if isinstance(arg, ParameterRef)))
         return param.name
 
     if get_origin(sig.return_annotation) is not tuple:
@@ -54,7 +59,6 @@ def _staticmethod_to_function_relationship(func: Callable[..., Any]) -> Function
     )
 
 
-@dataclass_transform()
 class ModelMeta(ABCMeta):
     def __new__(metacls, name: str, bases: tuple[type[Any], ...], namespace: dict[str, Any]) -> type:  # noqa: N804
         cls = super().__new__(metacls, name, bases, namespace)
