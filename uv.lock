@@ -33,6 +33,15 @@ wheels = [
 ]
 
 [[package]]
+name = "asttokens"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/4a/e7/82da0a03e7ba5141f05cce0d302e6eed121ae055e0456ca228bf693984bc/asttokens-3.0.0.tar.gz", hash = "sha256:0dcd8baa8d62b0c1d118b399b2ddba3c4aff271d0d7a9e0d4c1681c79035bbc7", size = 61978 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/25/8a/c46dcc25341b5bce5472c718902eb3d38600a903b14fa6aeecef3f21a46f/asttokens-3.0.0-py3-none-any.whl", hash = "sha256:e3078351a059199dd5138cb1c706e6430c05eff2ff136af5eb4790f9d28932e2", size = 26918 },
+]
+
+[[package]]
 name = "attrs"
 version = "24.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -622,6 +631,7 @@ name = "pdag"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "asttokens" },
     { name = "matplotlib" },
     { name = "networkx" },
     { name = "numpy" },
@@ -669,6 +679,7 @@ typing = [
 
 [package.metadata]
 requires-dist = [
+    { name = "asttokens", specifier = ">=3.0.0" },
     { name = "matplotlib", specifier = ">=3.9.2" },
     { name = "networkx", specifier = ">=3.3" },
     { name = "numpy", specifier = ">=1.22" },
