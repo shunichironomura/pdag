@@ -12,9 +12,9 @@ def square_root_model():  # type:ignore[no-untyped-def]
     class SquareRootModel(pdag.Model):
         """A model for square root."""
 
-        x: Annotated[float, pdag.RealParameter("x")]
-        y: Annotated[float, pdag.RealParameter("y")]
-        z: Annotated[Literal["neg", "pos"], pdag.CategoricalParameter("z", categories=frozenset({"pos", "neg"}))]
+        x = pdag.RealParameter("x")
+        y = pdag.RealParameter("y")
+        z = pdag.CategoricalParameter("z", categories={"pos", "neg"})
 
         @pdag.relationship
         @staticmethod
@@ -32,17 +32,17 @@ def square_root_model():  # type:ignore[no-untyped-def]
 
 _SQUARE_ROOT_MODEL_SOURCE = """\
 class SquareRootModel(pdag.Model):
-    x: Annotated[float, pdag.RealParameter("x")]
-    y: Annotated[float, pdag.RealParameter("y")]
-    z: Annotated[Literal["pos", "neg"], pdag.CategoricalParameter("z", categories={"pos", "neg"})]
+    x = pdag.RealParameter("x")
+    y = pdag.RealParameter("y")
+    z = pdag.CategoricalParameter("z", categories={"pos", "neg"})
 
     @pdag.relationship
     @staticmethod
     def sqrt(
         *,
-        x_arg: Annotated[float, pdag.Parameter("x")],
-        z_arg: Annotated[Literal["pos", "neg"], pdag.Parameter("z")],
-    ) -> Annotated[float, pdag.Parameter("y")]:
+        x_arg: Annotated[float, pdag.ParameterRef("x")],
+        z_arg: Annotated[Literal["pos", "neg"], pdag.ParameterRef("z")],
+    ) -> Annotated[float, pdag.ParameterRef("y")]:
         if z_arg == "pos":
             return float(x_arg**0.5)
         return -float(x_arg**0.5)
@@ -62,8 +62,8 @@ def square_root_core_model() -> pdag.CoreModel:
         relationships={
             "sqrt": pdag.FunctionRelationship(
                 name="sqrt",
-                inputs={"x_arg": "x", "z_arg": "z"},
-                outputs=["y"],
+                inputs={"x_arg": pdag.ParameterRef("x"), "z_arg": pdag.ParameterRef("z")},
+                outputs=[pdag.ParameterRef("y")],
                 output_is_scalar=True,
                 function_body=dedent(
                     """\
