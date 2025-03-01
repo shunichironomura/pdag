@@ -100,8 +100,8 @@ def _function_relationship_to_function_def(
         name=relationship.name,
         args=ast.arguments(
             kwonlyargs=[
-                _make_arg_ast(arg_name, core_model.parameters[parameter_name])
-                for arg_name, parameter_name in relationship.inputs.items()
+                _make_arg_ast(arg_name, core_model.parameters[parameter_ref.name])
+                for arg_name, parameter_ref in relationship.inputs.items()
             ],
             kw_defaults=[None for _ in relationship.inputs],
         ),
@@ -115,7 +115,7 @@ def _function_relationship_to_function_def(
             ast.Name(id="staticmethod", ctx=ast.Load()),
         ],
         returns=_make_return_ast(
-            [core_model.parameters[parameter_name] for parameter_name in relationship.outputs],
+            [core_model.parameters[parameter_ref.name] for parameter_ref in relationship.outputs],
         ),
     )
 

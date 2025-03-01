@@ -1,9 +1,58 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Mapping, Sequence
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Self
 
 from .utils import InitArgsRecorder
+
+
+@dataclass(frozen=True)  # Frozen to be valid as a dictionary key
+class ParameterRef(InitArgsRecorder):
+    name: str
+    previous: bool = field(default=False, kw_only=True)
+    next: bool = field(default=False, kw_only=True)
+    # Options to access time series data
+    # TODO: Make this more flexible
+    initial: bool = field(default=False, kw_only=True)
+    all_time_steps: bool = field(default=False, kw_only=True)
+    __init_args__: tuple[Any, ...] = field(init=False, compare=False, hash=False)
+    __init_kwargs__: dict[str, Any] = field(init=False, compare=False, hash=False)
+
+    def __post_init__(self) -> None:
+        if sum([self.previous, self.next, self.initial, self.all_time_steps]) > 1:
+            msg = "Parameter reference cannot have more than one of previous, next, initial, or all_time_steps set."
+            raise ValueError(msg)
+        if not self.name.isidentifier():
+            msg = "Parameter reference name must be a valid identifier."
+            raise ValueError(msg)
+
+    def __str__(self) -> str:
+        s = self.name
+        if self.previous:
+            s += ".previous"
+        if self.next:
+            s += ".next"
+        if self.initial:
+            s += ".initial"
+        if self.all_time_steps:
+            s += ".all_time_steps"
+        return s
+
+    @classmethod
+    def from_str(cls, s: str) -> Self:
+        if ".previous" in s:
+            name, _ = s.split(".previous")
+            return cls(name=name, previous=True)
+        if ".next" in s:
+            name, _ = s.split(".next")
+            return cls(name=name, next=True)
+        if ".initial" in s:
+            name, _ = s.split(".initial")
+            return cls(name=name, initial=True)
+        if ".all_time_steps" in s:
+            name, _ = s.split(".all_time_steps")
+            return cls(name=name, all_time_steps=True)
+        return cls(name=s)
 
 
 @dataclass
@@ -113,8 +162,8 @@ class RelationshipABC(ABC, InitArgsRecorder):
 class FunctionRelationship[**P, T](RelationshipABC):
     type: ClassVar[str] = "function"
     name: str
-    inputs: Mapping[str, str]
-    outputs: Sequence[str]
+    inputs: dict[str, ParameterRef]
+    outputs: list[ParameterRef]
     function_body: str
     output_is_scalar: bool = field(kw_only=True)
     _function: Callable[P, T] | None = field(default=None, compare=False)
@@ -134,8 +183,8 @@ class SubModelRelationship(RelationshipABC):
     type: ClassVar[str] = "submodel"
     name: str
     submodel_name: str
-    inputs: Mapping[str, str]
-    outputs: Mapping[str, str]
+    inputs: dict[ParameterRef, ParameterRef]
+    outputs: dict[ParameterRef, ParameterRef]
     _submodel: "CoreModel | None" = field(default=None, compare=False)
 
     def is_hydrated(self) -> bool:
