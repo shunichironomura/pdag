@@ -77,11 +77,21 @@ def square_root_core_model() -> pdag.CoreModel:
     )
 
 
-def test_core_model_to_dataclass_notation(square_root_core_model: pdag.CoreModel) -> None:
+def test_core_model_to_dataclass_notation_by_ast(square_root_core_model: pdag.CoreModel) -> None:
     # Compare AST
     class_def_constructed = pdag.core_model_to_dataclass_notation_ast(square_root_core_model)
     expected = ast.parse(_SQUARE_ROOT_MODEL_SOURCE).body[0]
     assert ast.dump(class_def_constructed, indent=2) == ast.dump(expected, indent=2)
+
+
+def test_core_model_to_dataclass_notation_by_source(square_root_core_model: pdag.CoreModel) -> None:
+    """This test is redundant, as it is essentially the same as test_core_model_to_dataclass_notation_by_ast.
+
+    But it helps debug the conversion to source code.
+    """
+    # Compare unparsed source code
+    source_constructed = pdag.core_model_to_content(square_root_core_model)
+    assert source_constructed == ast.unparse(ast.parse(_SQUARE_ROOT_MODEL_SOURCE))
 
 
 def test_dataclass_notation_to_core_model(

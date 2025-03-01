@@ -15,29 +15,20 @@ def _object_to_ast_value(obj: Any) -> ast.expr:
 
 def _parameter_nodes_to_ast_statements(nodes: Mapping[str, ParameterABC[Any]]) -> list[ast.stmt]:
     return [
-        ast.AnnAssign(
-            target=ast.Name(id=name, ctx=ast.Store()),
-            annotation=ast.Subscript(
-                value=ast.Name(id="Annotated", ctx=ast.Load()),
-                slice=ast.Tuple(
-                    elts=[
-                        _type_hint_to_ast_node(parameter.get_type_hint()),
-                        ast.Call(
-                            func=ast.Attribute(
-                                value=ast.Name(id="pdag", ctx=ast.Load()),
-                                attr=parameter.__class__.__name__,
-                                ctx=ast.Load(),
-                            ),
-                            args=[_object_to_ast_value(arg) for arg in parameter.get_init_args()],
-                            keywords=[
-                                ast.keyword(arg=key, value=_object_to_ast_value(value))
-                                for key, value in parameter.get_init_kwargs().items()
-                            ],
-                        ),
-                    ],
+        ast.Assign(
+            targets=[ast.Name(id=name, ctx=ast.Store())],
+            value=ast.Call(
+                func=ast.Attribute(
+                    value=ast.Name(id="pdag", ctx=ast.Load()),
+                    attr=parameter.__class__.__name__,
+                    ctx=ast.Load(),
                 ),
+                args=[_object_to_ast_value(arg) for arg in parameter.get_init_args()],
+                keywords=[
+                    ast.keyword(arg=key, value=_object_to_ast_value(value))
+                    for key, value in parameter.get_init_kwargs().items()
+                ],
             ),
-            simple=1,
         )
         for name, parameter in nodes.items()
     ]
@@ -56,7 +47,7 @@ def _make_annotated_type_hint(parameter: ParameterABC[Any]) -> ast.Subscript:
                 ast.Call(
                     func=ast.Attribute(
                         value=ast.Name(id="pdag", ctx=ast.Load()),
-                        attr="Parameter",
+                        attr="ParameterRef",
                         ctx=ast.Load(),
                     ),
                     args=[ast.Constant(value=parameter.name)],
