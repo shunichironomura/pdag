@@ -23,8 +23,10 @@ class InitArgsRecorder:
         # Create the instance first
         instance = super().__new__(cls)
         # Save the arguments for later inspection
-        instance.__init_args__ = args
-        instance.__init_kwargs__ = kwargs
+        # This is a bit of a hack to avoid assigning to attributes
+        # even if the inherited dataclass has frozen=True
+        object.__setattr__(instance, "__init_args__", args)
+        object.__setattr__(instance, "__init_kwargs__", kwargs)
         return instance
 
     def get_init_args(self) -> tuple[Any, ...]:
