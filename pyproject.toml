@@ -60,8 +60,8 @@ select = ["ALL"]
 
 ignore = [
     #     "PLR2004", # magic numbers
-    #     "S101",    # use of assert
-    "G", # logging format
+    "S101", # use of assert
+    "G",    # logging format
     #     "ANN101",  # missing type annotation for self in method
     #     "ANN102",  # missing type annotation for cls in classmethod
     #     "D100",    # missing docstring in public module

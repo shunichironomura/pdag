@@ -2,7 +2,15 @@ import ast
 from collections.abc import Mapping
 from typing import Any
 
-from pdag._core import CoreModel, FunctionRelationship, Module, ParameterABC, RelationshipABC, SubModelRelationship
+from pdag._core import (
+    CoreModel,
+    FunctionRelationship,
+    Module,
+    ParameterABC,
+    ParameterRef,
+    RelationshipABC,
+    SubModelRelationship,
+)
 
 
 def _object_to_ast_value(obj: Any) -> ast.expr:
@@ -38,7 +46,7 @@ def _type_hint_to_ast_node(type_hint: str) -> ast.expr:
     return ast.parse(type_hint).body[0].value  # type: ignore[no-any-return,attr-defined]
 
 
-def _make_annotated_type_hint(parameter: ParameterABC[Any]) -> ast.Subscript:
+def _make_annotated_type_hint(parameter: ParameterABC[Any], parameter_ref: ParameterRef) -> ast.Subscript:
     return ast.Subscript(
         value=ast.Name(id="Annotated", ctx=ast.Load()),
         slice=ast.Tuple(
@@ -50,7 +58,11 @@ def _make_annotated_type_hint(parameter: ParameterABC[Any]) -> ast.Subscript:
                         attr="ParameterRef",
                         ctx=ast.Load(),
                     ),
-                    args=[ast.Constant(value=parameter.name)],
+                    args=[_object_to_ast_value(arg) for arg in parameter_ref.get_init_args()],
+                    keywords=[
+                        ast.keyword(arg=key, value=_object_to_ast_value(value))
+                        for key, value in parameter_ref.get_init_kwargs().items()
+                    ],
                 ),
             ],
             ctx=ast.Load(),
@@ -59,10 +71,10 @@ def _make_annotated_type_hint(parameter: ParameterABC[Any]) -> ast.Subscript:
     )
 
 
-def _make_arg_ast(arg_name: str, parameter: ParameterABC[Any]) -> ast.arg:
+def _make_arg_ast(arg_name: str, parameter: ParameterABC[Any], parameter_ref: ParameterRef) -> ast.arg:
     return ast.arg(
         arg=arg_name,
-        annotation=_make_annotated_type_hint(parameter),
+        annotation=_make_annotated_type_hint(parameter, parameter_ref),
     )
 
 
@@ -70,13 +82,22 @@ def _make_function_body_ast(function_body: str) -> list[ast.stmt]:
     return ast.parse(function_body).body
 
 
-def _make_return_ast(parameters: list[ParameterABC[Any]], *, force_tuple: bool = False) -> ast.Subscript:
+def _make_return_ast(
+    parameters: list[ParameterABC[Any]],
+    parameter_refs: list[ParameterRef],
+    *,
+    force_tuple: bool = False,
+) -> ast.Subscript:
+    assert len(parameters) == len(parameter_refs)
     if len(parameters) == 1 and not force_tuple:
-        return _make_annotated_type_hint(parameters[0])
+        return _make_annotated_type_hint(parameters[0], parameter_refs[0])
     return ast.Subscript(
         value=ast.Name(id="tuple", ctx=ast.Load()),
         slice=ast.Tuple(
-            elts=[_make_annotated_type_hint(parameter) for parameter in parameters],
+            elts=[
+                _make_annotated_type_hint(parameter, parameter_ref)
+                for parameter, parameter_ref in zip(parameters, parameter_refs, strict=True)
+            ],
             ctx=ast.Load(),
         ),
     )
@@ -91,7 +112,7 @@ def _function_relationship_to_function_def(
         name=relationship.name,
         args=ast.arguments(
             kwonlyargs=[
-                _make_arg_ast(arg_name, core_model.parameters[parameter_ref.name])
+                _make_arg_ast(arg_name, core_model.parameters[parameter_ref.name], parameter_ref)
                 for arg_name, parameter_ref in relationship.inputs.items()
             ],
             kw_defaults=[None for _ in relationship.inputs],
@@ -107,6 +128,8 @@ def _function_relationship_to_function_def(
         ],
         returns=_make_return_ast(
             [core_model.parameters[parameter_ref.name] for parameter_ref in relationship.outputs],
+            relationship.outputs,
+            force_tuple=not relationship.output_is_scalar,
         ),
     )
 
