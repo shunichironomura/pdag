@@ -3,7 +3,7 @@
 import ast
 import inspect
 from collections import defaultdict, deque
-from collections.abc import Callable, Collection
+from collections.abc import Callable, Collection, Hashable, Mapping
 from textwrap import dedent
 from typing import Any, Self
 
@@ -64,14 +64,14 @@ def get_function_body(func: Callable[..., Any]) -> str:
     return body
 
 
-def topological_sort(dependencies: dict[str, Collection[str]]) -> list[str]:
+def topological_sort[T: Hashable](dependencies: Mapping[T, Collection[T]]) -> list[T]:
     """Sort a graph of dependencies topologically.
 
     Given a dependency graph (a dict mapping a node to a collection of nodes that depend on it),
     perform a topological sort and return an ordered list of nodes.
     Raises an error if a cycle is detected.
     """
-    indegree: defaultdict[str, int] = defaultdict(int)
+    indegree: defaultdict[T, int] = defaultdict(int)
     for node, deps in dependencies.items():
         indegree[node] = indegree.get(node, 0)
         for dep in deps:
