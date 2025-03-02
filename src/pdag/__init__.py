@@ -30,6 +30,7 @@ from ._core import (
     ParameterArray,
     ParameterCollectionABC,
     ParameterMapping,
+    ParameterRef,
     RealParameter,
     RelationshipABC,
     SubModelRelationship,
@@ -37,7 +38,6 @@ from ._core import (
 from ._decorators import relationship
 from ._notation import (
     Model,
-    ParameterRef,
     core_model_to_content,
     core_model_to_dataclass_notation_ast,
     module_to_content,
