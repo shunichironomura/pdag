@@ -7,13 +7,7 @@ authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
 requires-python = ">=3.12"
-dependencies = [
-    "numpy>=1.22",
-    "networkx>=3.3",
-    "matplotlib>=3.9.2",
-    "pydot>=3.0.2",
-    "asttokens>=3.0.0",
-]
+dependencies = ["asttokens>=3.0.0", "rich>=13.9.4", "typing-extensions>=4.12.2"]
 
 [build-system]
 requires = ["hatchling"]
@@ -43,6 +37,7 @@ examples = [
     "rich==13.9.4",
     "tqdm==4.67.1",
 ]
+lint = ["deptry>=0.23.0", "import-linter>=2.2"]
 
 [tool.mypy]
 strict = true
@@ -51,72 +46,18 @@ strict = true
 module = ["networkx.*", "pydot.*"]
 ignore_missing_imports = true
 
-[tool.ruff]
-target-version = "py313"
-line-length = 120
+[tool.deptry.per_rule_ignores]
+"DEP003" = ["pdag"] # Allow absolute imports in pdag package
 
-[tool.ruff.lint]
-select = ["ALL"]
+[tool.importlinter]
+root_package = "pdag"
 
-ignore = [
-    #     "PLR2004", # magic numbers
-    "S101", # use of assert
-    "G",    # logging format
-    #     "ANN101",  # missing type annotation for self in method
-    #     "ANN102",  # missing type annotation for cls in classmethod
-    #     "D100",    # missing docstring in public module
-    #     "D101",    # missing docstring in public class
-    #     "D102",    # missing docstring in public method
-    #     "D103",    # missing docstring in public function
-    #     "D104",    # missing docstring in public package
-    #     "D105",    # missing docstring in magic method
-    #     "D107",    # missing docstring in __init__
-    "D203", # 1 blank line required before class docstring
-    "D213", # multi-line docstring summary should start at the second line
-    #     "PGH003",  # Use specific rule codes when ignoring type issues
-    #     "RET505",  # Unnecessary `else` after `return` statement
-    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
-    #     "D401",    # First line should be in imperative mood
-    "TD002", # Missing author in TODO
-    "TD003", # add link on issue into TODO
-    #     "PLR0913", # Too many arguments to function call
-    #     "D407",    # Missing dashed underline after section
-    #     "ERA001",  # Commented out code
-    "FIX002", # Fixme comment
-    #     "S311",    # suspicious-non-cryptographic-random-usage
-    #     "EM101",   # raw-string-in-exception
-    #     "TRY003",  # Avoid specifying long messages outside the exception class
-]
-
-[tool.ruff.lint.per-file-ignores]
-"examples/**.py" = [
-    "ERA001", # Commented out code
-    "FBT001", # Boolean-typed positional argument in function definition
-    "D",      # Docstring
-    "INP001",
-]
-"tests/**.py" = [
-    "D",      # Docstring
-    "INP001",
-    "ANN201",
-    "S101",
-]
-"src/pdag/experimental/**.py" = [
-    "D",      # Docstring
-    "INP001",
-]
-"sandbox/**.py" = [
-    "D",      # Docstring
-    "INP001",
-    "S101",
-]
-# Marimo notebooks
-"examples/**_nb.py" = [
-    "ANN001",
-    "ANN202",
-    "N803",
-    "PLR0913",
-    "B018",
-    "C901",
-    "PLR0915",
+[[tool.importlinter.contracts]]
+name = "layered models"
+type = "layers"
+layers = [
+    "pdag.examples",
+    "pdag._exec | pdag._notation",
+    "pdag._core",
+    "pdag.utils",
 ]
