@@ -7,11 +7,10 @@ from typing import Any
 
 from ._core import (
     CoreModel,
-    FunctionRelationship,
     ParameterABC,
     ParameterRef,
+    FunctionRelationship,
     RelationshipABC,
-    SubModelRelationship,
 )
 from .utils import topological_sort
 
@@ -138,8 +137,31 @@ class RelationshipPhase(StrEnum):
     PRE_OR_POST_PROPAGATION = "pre_or_post_propagation"
 
 
-def _exec_function_relationship(  # noqa: C901, PLR0912
+def _exec_function_relationship_inner(
     relationship: FunctionRelationship[Any, Any],
+    inputs: Mapping[ParameterRef, Any],
+) -> dict[ParameterRef, Any]:
+    assert relationship._function is not None
+
+    function_inputs = {arg_name: inputs[relationship.inputs[arg_name]] for arg_name in relationship.inputs}
+    function_outputs = relationship._function(**function_inputs)
+    if relationship.output_is_scalar:
+        return {relationship.outputs[0]: function_outputs}
+    assert isinstance(function_outputs, tuple)
+    return dict(zip(relationship.outputs, function_outputs, strict=True))
+
+
+def _exec_relationship_inner(
+    relationship: RelationshipABC,
+    inputs: Mapping[ParameterRef, Any],
+) -> dict[ParameterRef, Any]:
+    if isinstance(relationship, FunctionRelationship):
+        return _exec_function_relationship_inner(relationship, inputs)
+    raise NotImplementedError
+
+
+def _exec_relationship(  # noqa: C901, PLR0912
+    relationship: RelationshipABC,
     inputs: Mapping[ParameterIdentifier, Any],
     output_to_include: ParameterIdentifier,
     parameters: Mapping[str, ParameterABC[Any]],
@@ -182,7 +204,8 @@ def _exec_function_relationship(  # noqa: C901, PLR0912
             input_parameter_ref: inputs[input_parameter_ref_to_identifier[input_parameter_ref]]
             for input_parameter_ref in relationship.iter_input_parameter_refs()
         }
-        relationship_outputs = relationship.execute(input_values)
+        relationship_outputs = _exec_relationship_inner(relationship, input_values)
+
         output_parameter_ref_to_identifier: dict[ParameterRef, ParameterIdentifier] = {}
         for parameter_ref in relationship.iter_output_parameter_refs():
             if parameters[parameter_ref.name].is_time_series:
@@ -207,7 +230,7 @@ def _exec_function_relationship(  # noqa: C901, PLR0912
             ]
         else:
             input_values[parameter_ref] = inputs[StaticParameterIdentifier(name=parameter_ref.name)]
-    relationship_outputs = relationship.execute(input_values)
+    relationship_outputs = _exec_relationship_inner(relationship, input_values)
     output_by_identifier: dict[ParameterIdentifier, Any] = {}
     for parameter_ref, output_value in relationship_outputs.items():
         if parameters[parameter_ref.name].is_time_series:
@@ -318,21 +341,14 @@ def exec_core_model(  # noqa: C901, PLR0912
         else:
             # Execute the relationship to get the value
             relationship = core_model.relationships[identifier_to_relationship[identifier]]
-            if isinstance(relationship, FunctionRelationship):
-                results.update(
-                    _exec_function_relationship(
-                        relationship,
-                        results,
-                        output_to_include=identifier,
-                        parameters=core_model.parameters,
-                        n_time_steps=n_time_steps,
-                    ),
-                )
-            elif isinstance(relationship, SubModelRelationship):
-                msg = "Executing a submodel relationship is not yet supported."
-                raise NotImplementedError(msg)
-            else:
-                msg = f"Invalid relationship type: {relationship}"
-                raise ValueError(msg)
+            results.update(
+                _exec_relationship(
+                    relationship,
+                    results,
+                    output_to_include=identifier,
+                    parameters=core_model.parameters,
+                    n_time_steps=n_time_steps,
+                ),
+            )
 
     return results

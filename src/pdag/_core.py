@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Self
 
@@ -169,10 +169,6 @@ class RelationshipABC(ABC, InitArgsRecorder):
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         raise NotImplementedError
 
-    @abstractmethod
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        raise NotImplementedError
-
     @property
     def includes_past(self) -> bool:
         return any(param_ref.previous for param_ref in self.iter_input_parameter_refs())
@@ -207,16 +203,6 @@ class FunctionRelationship[**P, T](RelationshipABC):
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         return self.outputs
 
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        assert self._function is not None
-
-        function_inputs = {arg_name: inputs[self.inputs[arg_name]] for arg_name in self.inputs}
-        function_outputs = self._function(**function_inputs)  # type: ignore[call-arg]
-        if self.output_is_scalar:
-            return {self.outputs[0]: function_outputs}
-        assert isinstance(function_outputs, tuple)
-        return dict(zip(self.outputs, function_outputs, strict=True))
-
 
 @dataclass
 class SubModelRelationship(RelationshipABC):
@@ -235,10 +221,6 @@ class SubModelRelationship(RelationshipABC):
 
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         return self.outputs.values()
-
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        msg = "Executing a submodel relationship is not yet supported."
-        raise NotImplementedError(msg)
 
 
 @dataclass
