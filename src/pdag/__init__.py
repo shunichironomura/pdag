@@ -35,10 +35,10 @@ from ._core import (
     RelationshipABC,
     SubModelRelationship,
 )
-from ._decorators import relationship
 from ._notation import (
     Model,
     core_model_to_content,
     core_model_to_dataclass_notation_ast,
     module_to_content,
+    relationship,
 )

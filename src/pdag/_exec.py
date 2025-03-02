@@ -5,7 +5,15 @@ from enum import StrEnum
 from itertools import product
 from typing import Any
 
-import pdag
+from ._core import (
+    CoreModel,
+    FunctionRelationship,
+    ParameterABC,
+    ParameterRef,
+    RelationshipABC,
+    SubModelRelationship,
+)
+from .utils import topological_sort
 
 
 @dataclass(frozen=True, slots=True)
@@ -23,8 +31,8 @@ type ParameterIdentifier = StaticParameterIdentifier | TimeSeriesParameterIdenti
 
 
 def _to_identifiers(  # noqa: C901, PLR0912, PLR0913, PLR0915
-    input_parameter_ref: pdag.ParameterRef,
-    output_parameter_ref: pdag.ParameterRef,
+    input_parameter_ref: ParameterRef,
+    output_parameter_ref: ParameterRef,
     *,
     input_parameter_is_time_series: bool,
     output_parameter_is_time_series: bool,
@@ -131,10 +139,10 @@ class RelationshipPhase(StrEnum):
 
 
 def _exec_function_relationship(  # noqa: C901, PLR0912
-    relationship: pdag.FunctionRelationship[Any, Any],
+    relationship: FunctionRelationship[Any, Any],
     inputs: Mapping[ParameterIdentifier, Any],
     output_to_include: ParameterIdentifier,
-    parameters: Mapping[str, pdag.ParameterABC[Any]],
+    parameters: Mapping[str, ParameterABC[Any]],
     *,
     n_time_steps: int,
 ) -> dict[ParameterIdentifier, Any]:
@@ -161,7 +169,7 @@ def _exec_function_relationship(  # noqa: C901, PLR0912
         relationship_time_step = (
             output_to_include.time_step - 1 if corresponding_output_parameter_ref.next else output_to_include.time_step
         )
-        input_parameter_ref_to_identifier: dict[pdag.ParameterRef, ParameterIdentifier] = {}
+        input_parameter_ref_to_identifier: dict[ParameterRef, ParameterIdentifier] = {}
         for parameter_ref in relationship.iter_input_parameter_refs():
             if parameters[parameter_ref.name].is_time_series:
                 input_parameter_ref_to_identifier[parameter_ref] = TimeSeriesParameterIdentifier(
@@ -175,7 +183,7 @@ def _exec_function_relationship(  # noqa: C901, PLR0912
             for input_parameter_ref in relationship.iter_input_parameter_refs()
         }
         relationship_outputs = relationship.execute(input_values)
-        output_parameter_ref_to_identifier: dict[pdag.ParameterRef, ParameterIdentifier] = {}
+        output_parameter_ref_to_identifier: dict[ParameterRef, ParameterIdentifier] = {}
         for parameter_ref in relationship.iter_output_parameter_refs():
             if parameters[parameter_ref.name].is_time_series:
                 output_parameter_ref_to_identifier[parameter_ref] = TimeSeriesParameterIdentifier(
@@ -221,8 +229,8 @@ def _exec_function_relationship(  # noqa: C901, PLR0912
 
 
 def exec_core_model(  # noqa: C901, PLR0912
-    core_model: pdag.CoreModel,
-    inputs: Mapping[pdag.ParameterRef, Any],
+    core_model: CoreModel,
+    inputs: Mapping[ParameterRef, Any],
     *,
     n_time_steps: int = 1,
 ) -> dict[ParameterIdentifier, Any]:
@@ -238,8 +246,8 @@ def exec_core_model(  # noqa: C901, PLR0912
     }
     identifier_to_relationship: dict[ParameterIdentifier, str] = {}
 
-    relationships_without_inputs: set[pdag.RelationshipABC] = set()
-    relationships_without_outputs: set[pdag.RelationshipABC] = set()
+    relationships_without_inputs: set[RelationshipABC] = set()
+    relationships_without_outputs: set[RelationshipABC] = set()
     dependencies_dd: defaultdict[ParameterIdentifier, set[ParameterIdentifier]] = defaultdict(set)  # input -> [output]
     for relationship in core_model.relationships.values():
         if not relationship.iter_input_parameter_refs():
@@ -267,7 +275,7 @@ def exec_core_model(  # noqa: C901, PLR0912
                 identifier_to_relationship[output_identifier] = relationship.name
     dependencies = dict(dependencies_dd)
     # Topological sort
-    sorted_identifiers = pdag.utils.topological_sort(dependencies)
+    sorted_identifiers = topological_sort(dependencies)
 
     assert set(sorted_identifiers) == parameter_identieifers, (
         f"Missing parameters: {parameter_identieifers - set(sorted_identifiers)}"
@@ -310,7 +318,7 @@ def exec_core_model(  # noqa: C901, PLR0912
         else:
             # Execute the relationship to get the value
             relationship = core_model.relationships[identifier_to_relationship[identifier]]
-            if isinstance(relationship, pdag.FunctionRelationship):
+            if isinstance(relationship, FunctionRelationship):
                 results.update(
                     _exec_function_relationship(
                         relationship,
@@ -320,7 +328,7 @@ def exec_core_model(  # noqa: C901, PLR0912
                         n_time_steps=n_time_steps,
                     ),
                 )
-            elif isinstance(relationship, pdag.SubModelRelationship):
+            elif isinstance(relationship, SubModelRelationship):
                 msg = "Executing a submodel relationship is not yet supported."
                 raise NotImplementedError(msg)
             else:
