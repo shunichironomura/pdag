@@ -237,7 +237,8 @@ class SubModelRelationship(RelationshipABC):
         return self.outputs.values()
 
     def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        raise NotImplementedError
+        msg = "Executing a submodel relationship is not yet supported."
+        raise NotImplementedError(msg)
 
 
 @dataclass

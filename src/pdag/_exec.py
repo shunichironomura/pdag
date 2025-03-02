@@ -321,7 +321,8 @@ def exec_core_model(  # noqa: C901, PLR0912
                     ),
                 )
             elif isinstance(relationship, pdag.SubModelRelationship):
-                raise NotImplementedError
+                msg = "Executing a submodel relationship is not yet supported."
+                raise NotImplementedError(msg)
             else:
                 msg = f"Invalid relationship type: {relationship}"
                 raise ValueError(msg)
