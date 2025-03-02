@@ -732,7 +732,7 @@ requires-dist = [
 dev = [
     { name = "altair", specifier = "==5.5.0" },
     { name = "coverage", specifier = "==7.6.12" },
-    { name = "marimo", specifier = "==0.11.10" },
+    { name = "marimo", specifier = "==0.11.13" },
     { name = "mypy", specifier = "==1.15.0" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pandas-stubs", specifier = "==2.2.3.241126" },
@@ -750,7 +750,7 @@ examples = [
     { name = "rich", specifier = "==13.9.4" },
     { name = "tqdm", specifier = "==4.67.1" },
 ]
-ruff = [{ name = "ruff", specifier = "==0.9.7" }]
+ruff = [{ name = "ruff", specifier = "==0.9.9" }]
 testing = [
     { name = "coverage", specifier = "==7.6.12" },
     { name = "pytest", specifier = "==8.3.4" },
@@ -758,7 +758,7 @@ testing = [
 typing = [
     { name = "altair", specifier = "==5.5.0" },
     { name = "coverage", specifier = "==7.6.12" },
-    { name = "marimo", specifier = "==0.11.10" },
+    { name = "marimo", specifier = "==0.11.13" },
     { name = "mypy", specifier = "==1.15.0" },
     { name = "pandas", specifier = "==2.2.3" },
     { name = "pandas-stubs", specifier = "==2.2.3.241126" },
