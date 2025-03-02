@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Self
 
@@ -25,6 +25,10 @@ class ParameterRef(InitArgsRecorder):
         if not self.name.isidentifier():
             msg = "Parameter reference name must be a valid identifier."
             raise ValueError(msg)
+
+    @property
+    def normal(self) -> bool:
+        return not any([self.previous, self.next, self.initial, self.all_time_steps])
 
     def __str__(self) -> str:
         s = self.name
@@ -157,6 +161,26 @@ class RelationshipABC(ABC, InitArgsRecorder):
     def is_hydrated(self) -> bool:
         raise NotImplementedError
 
+    @abstractmethod
+    def iter_input_parameter_refs(self) -> Iterable[ParameterRef]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
+        raise NotImplementedError
+
+    @property
+    def includes_past(self) -> bool:
+        return any(param_ref.previous for param_ref in self.iter_input_parameter_refs())
+
+    @property
+    def includes_future(self) -> bool:
+        return any(param_ref.next for param_ref in self.iter_output_parameter_refs())
+
 
 @dataclass
 class FunctionRelationship[**P, T](RelationshipABC):
@@ -177,6 +201,22 @@ class FunctionRelationship[**P, T](RelationshipABC):
             raise ValueError(msg)
         return self._function(*args, **kwargs)
 
+    def iter_input_parameter_refs(self) -> Iterable[ParameterRef]:
+        return self.inputs.values()
+
+    def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
+        return self.outputs
+
+    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
+        assert self._function is not None
+
+        function_inputs = {arg_name: inputs[self.inputs[arg_name]] for arg_name in self.inputs}
+        function_outputs = self._function(**function_inputs)  # type: ignore[call-arg]
+        if self.output_is_scalar:
+            return {self.outputs[0]: function_outputs}
+        assert isinstance(function_outputs, tuple)
+        return dict(zip(self.outputs, function_outputs, strict=True))
+
 
 @dataclass
 class SubModelRelationship(RelationshipABC):
@@ -190,6 +230,15 @@ class SubModelRelationship(RelationshipABC):
     def is_hydrated(self) -> bool:
         return self._submodel is not None
 
+    def iter_input_parameter_refs(self) -> Iterable[ParameterRef]:
+        return self.inputs.values()
+
+    def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
+        return self.outputs.values()
+
+    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
+        raise NotImplementedError
+
 
 @dataclass
 class CoreModel:
@@ -200,16 +249,19 @@ class CoreModel:
 
     def is_hydrated(self) -> bool:
         return (
-            all(node.is_hydrated() for node in self.parameters.values())
+            all(parameter.is_hydrated() for parameter in self.parameters.values())
             and all(collection.is_hydrated() for collection in self.collections.values())
             and all(relationship.is_hydrated() for relationship in self.relationships.values())
         )
+
+    def is_dynamic(self) -> bool:
+        return any(parameter.is_time_series for parameter in self.parameters.values())
 
 
 @dataclass
 class Module:
     pre_models: str
-    models: list[CoreModel]
+    models: list[CoreModel]  # Assuming topological order
     post_models: str
 
     def is_hydrated(self) -> bool:
