@@ -1,18 +1,28 @@
 # `pdag` — Parameter Directed Acyclic Graph
 
-To watch the output diagram in real-time, you can use the `fswatch` and `xargs`. Make sure you have `fswatch` installed
- and run the following command in the root directory of the project:
+<!-- [![PyPI](https://img.shields.io/pypi/v/pdag)](https://pypi.org/project/pdag/) -->
+<!-- [![conda-forge](https://img.shields.io/conda/vn/conda-forge/pdag.svg)](https://anaconda.org/conda-forge/pdag) -->
+<!-- ![PyPI - License](https://img.shields.io/pypi/l/pdag) -->
+<!-- ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pdag) -->
+![Test Status](https://github.com/shunichironomura/pdag/workflows/Test/badge.svg?event=push&branch=main)
+[![codecov](https://codecov.io/gh/shunichironomura/pdag/graph/badge.svg?token=Hz2YE2769a)](https://codecov.io/gh/shunichironomura/pdag)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+<!-- ![PyPI - Downloads](https://img.shields.io/pypi/dm/pdag) -->
 
-```bach
-fswatch ./examples/umbrella2.py | xargs -n1 -I{} uv run python {}
-```
+> [!WARNING]
+> This package is under development and is not yet ready for use.
 
 ## Tests
 
 Run test with:
 
 ```bash
-dotenvx run -f .env.pytest -- uv run pytest -svv tests
+dotenvx run -f .env.pytest -- uv run pytest tests
 ```
 
-This is to make tests deterministic by setting `PYTHONHASHSEED` to `0` in the `.env.pytest` file.
+or simply
+
+```bash
+PYTHONHASHSEED=0 uv run pytest tests
+```
