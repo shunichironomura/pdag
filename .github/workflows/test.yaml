@@ -104,7 +104,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install the project
-      run: uv sync
+      run: uv sync --no-dev --group testing
 
     - name: Run pytest
       run: PYTHONHASHSEED=0 uv run -- coverage run --source=./src/pdag -m pytest ./tests --import-mode importlib
@@ -117,7 +117,49 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        file: coverage.xml
+        files: coverage.xml
         env_vars: OS,PYTHON
         fail_ci_if_error: false
         token: ${{ secrets.CODECOV_TOKEN }}
+
+  lint-imports:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install the project
+        run: uv sync --no-dev --group linting
+
+      - name: Run isort
+        run: uv run -- lint-imports
+
+  deptry:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install the project
+        run: uv sync --no-dev --group linting
+
+      - name: Run deptry
+        run: uv run -- deptry .

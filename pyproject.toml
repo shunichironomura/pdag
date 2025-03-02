@@ -7,13 +7,7 @@ authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
 requires-python = ">=3.12"
-dependencies = [
-    "numpy>=1.22",
-    "networkx>=3.3",
-    "matplotlib>=3.9.2",
-    "pydot>=3.0.2",
-    "asttokens>=3.0.0",
-]
+dependencies = ["asttokens>=3.0.0", "rich>=13.9.4", "typing-extensions>=4.12.2"]
 
 [build-system]
 requires = ["hatchling"]
@@ -23,26 +17,19 @@ build-backend = "hatchling.build"
 dev = [
     "pre-commit==4.1.0",
     { include-group = "ruff" },
+    { include-group = "linting" },
     { include-group = "typing" },
     { include-group = "testing" },
-    { include-group = "examples" },
 ]
 ruff = ["ruff==0.9.9"]
 typing = [
     "mypy==1.15.0",
     { include-group = "testing" },
-    { include-group = "examples" },
     "pandas-stubs==2.2.3.241126",
     "types-tqdm==4.67.0.20250301",
 ]
 testing = ["coverage==7.6.12", "pytest==8.3.5"]
-examples = [
-    "altair==5.5.0",
-    "marimo==0.11.13",
-    "pandas==2.2.3",
-    "rich==13.9.4",
-    "tqdm==4.67.1",
-]
+linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 
 [tool.mypy]
 strict = true
@@ -51,11 +38,26 @@ strict = true
 module = ["networkx.*", "pydot.*"]
 ignore_missing_imports = true
 
+[tool.deptry.per_rule_ignores]
+"DEP003" = ["pdag"] # Allow absolute imports in pdag package
+
+[tool.importlinter]
+root_package = "pdag"
+
+[[tool.importlinter.contracts]]
+name = "layered models"
+type = "layers"
+layers = [
+    "pdag.examples",
+    "pdag._exec | pdag._notation",
+    "pdag._core",
+    "pdag.utils",
+]
+
 [tool.ruff]
-target-version = "py313"
 line-length = 120
 
-[tool.ruff.lint]
+[tool.rufflint]
 select = ["ALL"]
 
 ignore = [
@@ -88,7 +90,7 @@ ignore = [
     #     "TRY003",  # Avoid specifying long messages outside the exception class
 ]
 
-[tool.ruff.lint.per-file-ignores]
+[tool.ruffper-file-ignores]
 "examples/**.py" = [
     "ERA001", # Commented out code
     "FBT001", # Boolean-typed positional argument in function definition
