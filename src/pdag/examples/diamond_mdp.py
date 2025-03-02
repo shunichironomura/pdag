@@ -47,7 +47,7 @@ class DiamondMdpModel(pdag.Model):
         *,
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
         action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")],
-    ) -> Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location", delayed=True)]:
+    ) -> Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location", next=True)]:
         match location, action:
             case "start", "go_left":
                 return "left"
@@ -69,18 +69,16 @@ class DiamondMdpModel(pdag.Model):
         *,
         previous_location: Annotated[
             Literal["start", "left", "right", "end"],
-            pdag.ParameterRef("location", delayed=True),
+            pdag.ParameterRef("location", previous=True),
         ],
-        action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")],  # noqa: ARG004
+        action: Annotated[  # noqa: ARG004
+            Literal["go_left", "go_right", "move_forward", "none"],
+            pdag.ParameterRef("action", previous=True),
+        ],
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
     ) -> Annotated[float, pdag.ParameterRef("reward")]:
         if previous_location != "end" and location == "end":
             return 1.0
-        return 0.0
-
-    @pdag.relationship
-    @staticmethod
-    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:  # noqa: D102
         return 0.0
 
     @pdag.relationship
@@ -90,3 +88,22 @@ class DiamondMdpModel(pdag.Model):
         reward: Annotated[list[float], pdag.ParameterRef("reward", all_time_steps=True)],
     ) -> Annotated[float, pdag.ParameterRef("cumulative_reward")]:
         return sum(reward)
+
+
+if __name__ == "__main__":
+    from rich import print  # noqa: A004
+
+    from pdag._exec import exec_core_model
+
+    core_model = DiamondMdpModel.to_core_model()
+    print(core_model)
+    results = exec_core_model(
+        core_model,
+        inputs={
+            pdag.ParameterRef("location", initial=True): "start",
+            pdag.ParameterRef("reward", initial=True): 0.0,
+            pdag.ParameterRef("policy"): "left",
+        },
+        n_time_steps=4,
+    )
+    print(results)
