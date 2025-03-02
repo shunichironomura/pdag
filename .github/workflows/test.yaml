@@ -107,7 +107,7 @@ jobs:
       run: uv sync
 
     - name: Run pytest
-      run: uv run -- coverage run --source=./pdag -m pytest ./tests --import-mode importlib
+      run: PYTHONHASHSEED=0 uv run -- coverage run --source=./pdag -m pytest ./tests --import-mode importlib
 
     - name: Generate coverage report
       run: |
