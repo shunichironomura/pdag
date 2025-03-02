@@ -162,4 +162,4 @@ jobs:
         run: uv sync --no-dev --group linting
 
       - name: Run deptry
-        run: uv run -- deptry
+        run: uv run -- deptry .
