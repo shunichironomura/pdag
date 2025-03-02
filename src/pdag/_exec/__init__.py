@@ -5,14 +5,14 @@ from enum import StrEnum
 from itertools import product
 from typing import Any
 
-from ._core import (
+from pdag._core import (
     CoreModel,
     ParameterABC,
     ParameterRef,
     FunctionRelationship,
     RelationshipABC,
 )
-from .utils import topological_sort
+from pdag.utils import topological_sort
 
 
 @dataclass(frozen=True, slots=True)
