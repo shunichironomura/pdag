@@ -1,6 +1,5 @@
 from collections import defaultdict, deque
 from collections.abc import Mapping
-from dataclasses import dataclass
 from enum import StrEnum
 from itertools import product
 from typing import Any
@@ -13,20 +12,7 @@ from pdag._core import (
     RelationshipABC,
 )
 from pdag.utils import topological_sort
-
-
-@dataclass(frozen=True, slots=True)
-class StaticParameterIdentifier:
-    name: str
-
-
-@dataclass(frozen=True, slots=True)
-class TimeSeriesParameterIdentifier:
-    name: str
-    time_step: int
-
-
-type ParameterIdentifier = StaticParameterIdentifier | TimeSeriesParameterIdentifier
+from .model import StaticParameterIdentifier, TimeSeriesParameterIdentifier, ParameterIdentifier
 
 
 def _to_identifiers(  # noqa: C901, PLR0912, PLR0913, PLR0915
