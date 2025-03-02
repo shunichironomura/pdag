@@ -35,7 +35,7 @@ typing = [
     "pandas-stubs==2.2.3.241126",
     "types-tqdm==4.67.0.20250301",
 ]
-testing = ["pytest==8.3.4"]
+testing = ["coverage==7.6.12", "pytest==8.3.4"]
 examples = [
     "altair==5.5.0",
     "marimo==0.11.13",
