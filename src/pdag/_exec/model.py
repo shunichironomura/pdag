@@ -51,11 +51,18 @@ type AbsoluteRelationshipId = AbsoluteStaticRelationshipId | AbsoluteTimeSeriesR
 type NodeId = AbsoluteParameterId | AbsoluteRelationshipId
 
 
+@dataclass(slots=True)
+class FunctionRelationshipInfo:
+    function_relationship: FunctionRelationship[Any, Any]
+    input_parameter_ids: dict[str, AbsoluteParameterId | tuple[AbsoluteParameterId, ...]]
+    output_parameter_ids: tuple[AbsoluteParameterId | tuple[AbsoluteParameterId, ...], ...]
+
+
 @dataclass
 class ExecutionModel:
     parameter_ids: set[AbsoluteParameterId]
     # SubModelRelationships should be flattened into FunctionRelationships
-    relationships: list[FunctionRelationship[Any, Any]]
+    relationship_infos: dict[AbsoluteRelationshipId, FunctionRelationshipInfo]
     input_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]]
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]]
     # parent model output to sub-model input / sub-model output to parent model input

@@ -10,6 +10,7 @@ from .model import (
     AbsoluteStaticRelationshipId,
     AbsoluteTimeSeriesRelationshipId,
     AbsoluteRelationshipId,
+    FunctionRelationshipInfo,
 )
 from pdag.utils import merge_two_set_dicts
 
@@ -78,6 +79,7 @@ def _calculate_dependencies_of_time_series_function_relationship(
 ) -> tuple[
     dict[AbsoluteParameterId, set[AbsoluteRelationshipId]],  # input_parameter_id_to_relationship_ids
     dict[AbsoluteRelationshipId, set[AbsoluteParameterId]],  # relationship_id_to_output_parameter_ids
+    dict[AbsoluteRelationshipId, FunctionRelationshipInfo],  # relationship_id_to_function_relationship_info
 ]:
     assert relationship.evaluated_at_each_time_step, (
         "This function should only be called for time series relationships."
@@ -89,6 +91,7 @@ def _calculate_dependencies_of_time_series_function_relationship(
     relationship_id_to_output_parameter_ids_dd: defaultdict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = (
         defaultdict(set)
     )
+    relationship_id_to_function_relationship_info: dict[AbsoluteRelationshipId, FunctionRelationshipInfo] = {}
 
     match relationship.includes_past, relationship.includes_future:
         case True, True:
@@ -106,7 +109,8 @@ def _calculate_dependencies_of_time_series_function_relationship(
             name=relationship.name,
             time_step=time_step,
         )
-        for input_parameter_ref in relationship.iter_input_parameter_refs():
+        input_args: dict[str, AbsoluteParameterId | tuple[AbsoluteParameterId, ...]] = {}
+        for input_arg_name, input_parameter_ref in relationship.inputs.items():
             input_parameter = core_model.get_parameter(input_parameter_ref)
             if input_parameter.is_time_series:
                 input_parameter_id: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
@@ -117,8 +121,10 @@ def _calculate_dependencies_of_time_series_function_relationship(
             else:
                 input_parameter_id = AbsoluteStaticParameterId(model_name=core_model.name, name=input_parameter.name)
             input_parameter_id_to_relationship_ids_dd[input_parameter_id].add(relationship_id)
+            input_args[input_arg_name] = input_parameter_id
 
-        for output_parameter_ref in relationship.iter_output_parameter_refs():
+        output_args: list[AbsoluteParameterId | tuple[AbsoluteParameterId, ...]] = []
+        for output_parameter_ref in relationship.outputs:
             output_parameter = core_model.get_parameter(output_parameter_ref)
             if output_parameter.is_time_series:
                 output_parameter_id: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
@@ -129,8 +135,19 @@ def _calculate_dependencies_of_time_series_function_relationship(
             else:
                 output_parameter_id = AbsoluteStaticParameterId(model_name=core_model.name, name=output_parameter.name)
             relationship_id_to_output_parameter_ids_dd[relationship_id].add(output_parameter_id)
+            output_args.append(output_parameter_id)
 
-    return dict(input_parameter_id_to_relationship_ids_dd), dict(relationship_id_to_output_parameter_ids_dd)
+        relationship_id_to_function_relationship_info[relationship_id] = FunctionRelationshipInfo(
+            function_relationship=relationship,
+            input_parameter_ids=input_args,
+            output_parameter_ids=tuple(output_args),
+        )
+
+    return (
+        dict(input_parameter_id_to_relationship_ids_dd),
+        dict(relationship_id_to_output_parameter_ids_dd),
+        relationship_id_to_function_relationship_info,
+    )
 
 
 def _calculate_dependencies_of_static_function_relationship(
@@ -141,51 +158,68 @@ def _calculate_dependencies_of_static_function_relationship(
 ) -> tuple[
     dict[AbsoluteParameterId, set[AbsoluteRelationshipId]],  # input_parameter_id_to_relationship_ids
     dict[AbsoluteRelationshipId, set[AbsoluteParameterId]],  # relationship_id_to_output_parameter_ids
+    dict[AbsoluteRelationshipId, FunctionRelationshipInfo],  # relationship_id_to_function_relationship_info
 ]:
     assert not relationship.evaluated_at_each_time_step, "This function should only be called for static relationships."
     relationship_id = AbsoluteStaticRelationshipId(model_name=core_model.name, name=relationship.name)
     input_parameter_ids: set[AbsoluteParameterId] = set()
     output_parameter_ids: set[AbsoluteParameterId] = set()
 
-    for input_parameter_ref in relationship.iter_input_parameter_refs():
+    input_args: dict[str, AbsoluteParameterId | tuple[AbsoluteParameterId, ...]] = {}
+    for input_arg_name, input_parameter_ref in relationship.inputs.items():
         input_parameter = core_model.get_parameter(input_parameter_ref)
         if input_parameter.is_time_series:
             assert input_parameter_ref.all_time_steps, (
                 "Time-series parameters for static relationships must be all-time-steps."
             )
-            input_parameter_ids.update(
+            input_parameter_ids_local: list[AbsoluteParameterId] = [
                 AbsoluteTimeSeriesParameterId(
                     model_name=core_model.name,
                     name=input_parameter.name,
                     time_step=time_step,
                 )
                 for time_step in range(n_time_steps)
-            )
+            ]
+            input_parameter_ids.update(input_parameter_ids_local)
+            input_args[input_arg_name] = tuple(input_parameter_ids_local)
         else:
             input_parameter_ids.add(AbsoluteStaticParameterId(model_name=core_model.name, name=input_parameter.name))
+            input_args[input_arg_name] = AbsoluteStaticParameterId(
+                model_name=core_model.name, name=input_parameter.name
+            )
 
-    for output_parameter_ref in relationship.iter_output_parameter_refs():
+    output_args: list[AbsoluteParameterId | tuple[AbsoluteParameterId, ...]] = []
+    for output_parameter_ref in relationship.outputs:
         output_parameter = core_model.get_parameter(output_parameter_ref)
         if output_parameter.is_time_series:
             match output_parameter_ref.all_time_steps, output_parameter_ref.initial:
                 case True, True:
                     raise ValueError("Time-series parameters cannot be both all-time-steps and initial.")
-                case True, False:
-                    time_steps = list(range(n_time_steps))
-                case False, True:
-                    time_steps = [0]
+                case True, False:  # all-time-steps
+                    output_parameter_ids_local: list[AbsoluteParameterId] = [
+                        AbsoluteTimeSeriesParameterId(
+                            model_name=core_model.name,
+                            name=output_parameter.name,
+                            time_step=time_step,
+                        )
+                        for time_step in range(n_time_steps)
+                    ]
+                    output_parameter_ids.update(output_parameter_ids_local)
+                    output_args.append(tuple(output_parameter_ids_local))
+                case False, True:  # initial
+                    output_parameter_id_local: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
+                        model_name=core_model.name, name=output_parameter.name, time_step=0
+                    )
+                    output_parameter_ids.add(output_parameter_id_local)
+                    output_args.append(output_parameter_id_local)
                 case False, False:
                     raise ValueError("Time-series parameters must be either all-time-steps or initial.")
-            output_parameter_ids.update(
-                AbsoluteTimeSeriesParameterId(
-                    model_name=core_model.name,
-                    name=output_parameter.name,
-                    time_step=time_step,
-                )
-                for time_step in time_steps
-            )
         else:
-            output_parameter_ids.add(AbsoluteStaticParameterId(model_name=core_model.name, name=output_parameter.name))
+            output_parameter_id_local = AbsoluteStaticParameterId(
+                model_name=core_model.name, name=output_parameter.name
+            )
+            output_parameter_ids.add(output_parameter_id_local)
+            output_args.append(output_parameter_id_local)
 
     input_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]] = {
         input_parameter_id: {relationship_id} for input_parameter_id in input_parameter_ids
@@ -193,7 +227,18 @@ def _calculate_dependencies_of_static_function_relationship(
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = {
         relationship_id: output_parameter_ids
     }
-    return input_parameter_id_to_relationship_ids, relationship_id_to_output_parameter_ids
+    relationship_id_to_function_relationship_info: dict[AbsoluteRelationshipId, FunctionRelationshipInfo] = {
+        relationship_id: FunctionRelationshipInfo(
+            function_relationship=relationship,
+            input_parameter_ids=input_args,
+            output_parameter_ids=tuple(output_args),
+        )
+    }
+    return (
+        input_parameter_id_to_relationship_ids,
+        relationship_id_to_output_parameter_ids,
+        relationship_id_to_function_relationship_info,
+    )
 
 
 def _calculate_port_mapping_of_time_series_submodel_relationship(
@@ -377,29 +422,34 @@ def create_exec_model_from_core_model(
         else:
             parameter_ids.add(AbsoluteStaticParameterId(model_name=model.name, name=parameter.name))
 
-    relationships: list[FunctionRelationship[Any, Any]] = []
+    relationships: dict[AbsoluteRelationshipId, FunctionRelationshipInfo] = {}
     input_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]] = {}
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = {}
     port_mapping: dict[AbsoluteParameterId, AbsoluteParameterId] = {}
 
     for model, function_relationship in _iter_function_relationships_recursively(core_model):
-        relationships.append(function_relationship)
         if function_relationship.evaluated_at_each_time_step:
-            input_parameter_id_to_relationship_ids_local, relationship_id_to_output_parameter_ids_local = (
-                _calculate_dependencies_of_time_series_function_relationship(
-                    function_relationship,
-                    core_model=model,
-                    n_time_steps=n_time_steps,
-                )
+            (
+                input_parameter_id_to_relationship_ids_local,
+                relationship_id_to_output_parameter_ids_local,
+                relationships_local,
+            ) = _calculate_dependencies_of_time_series_function_relationship(
+                function_relationship,
+                core_model=model,
+                n_time_steps=n_time_steps,
             )
         else:
-            input_parameter_id_to_relationship_ids_local, relationship_id_to_output_parameter_ids_local = (
-                _calculate_dependencies_of_static_function_relationship(
-                    function_relationship,
-                    core_model=model,
-                    n_time_steps=n_time_steps,
-                )
+            (
+                input_parameter_id_to_relationship_ids_local,
+                relationship_id_to_output_parameter_ids_local,
+                relationships_local,
+            ) = _calculate_dependencies_of_static_function_relationship(
+                function_relationship,
+                core_model=model,
+                n_time_steps=n_time_steps,
             )
+        relationships.update(relationships_local)
+
         input_parameter_id_to_relationship_ids = merge_two_set_dicts(
             input_parameter_id_to_relationship_ids, input_parameter_id_to_relationship_ids_local
         )
@@ -420,7 +470,7 @@ def create_exec_model_from_core_model(
 
     return ExecutionModel(
         parameter_ids=parameter_ids,
-        relationships=relationships,
+        relationship_infos=relationships,
         input_parameter_id_to_relationship_ids=input_parameter_id_to_relationship_ids,
         relationship_id_to_output_parameter_ids=relationship_id_to_output_parameter_ids,
         port_mapping=port_mapping,
