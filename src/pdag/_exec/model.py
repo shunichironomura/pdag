@@ -1,8 +1,8 @@
+from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
 
 from pdag._core import FunctionRelationship
-from collections import defaultdict
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,10 +56,14 @@ class ExecutionModel:
 
     # Derived attributes
     relationship_id_to_input_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = field(
-        init=False, repr=False, compare=False
+        init=False,
+        repr=False,
+        compare=False,
     )
     output_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]] = field(
-        init=False, repr=False, compare=False
+        init=False,
+        repr=False,
+        compare=False,
     )
     port_mapping_inverse: dict[AbsoluteParameterId, AbsoluteParameterId] = field(init=False, repr=False, compare=False)
 

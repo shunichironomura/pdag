@@ -1,18 +1,20 @@
 from collections import defaultdict
 from collections.abc import Iterable
 from typing import Any
-from pdag._core import CoreModel, FunctionRelationship, SubModelRelationship, ParameterABC
+
+from pdag._core import CoreModel, FunctionRelationship, ParameterABC, SubModelRelationship
+from pdag.utils import merge_two_set_dicts
+
 from .model import (
-    ExecutionModel,
-    AbsoluteTimeSeriesParameterId,
-    AbsoluteStaticParameterId,
     AbsoluteParameterId,
-    AbsoluteStaticRelationshipId,
-    AbsoluteTimeSeriesRelationshipId,
     AbsoluteRelationshipId,
+    AbsoluteStaticParameterId,
+    AbsoluteStaticRelationshipId,
+    AbsoluteTimeSeriesParameterId,
+    AbsoluteTimeSeriesRelationshipId,
+    ExecutionModel,
     FunctionRelationshipInfo,
 )
-from pdag.utils import merge_two_set_dicts
 
 
 def _iter_submodels_recursively(
@@ -25,9 +27,8 @@ def _iter_submodels_recursively(
         yield core_model
     for relationship in core_model.relationships.values():
         if isinstance(relationship, SubModelRelationship):
-            assert relationship._submodel is not None, "SubModelRelationship must be hydrated."
-            yield relationship._submodel
-            yield from _iter_submodels_recursively(relationship._submodel)
+            yield relationship.submodel
+            yield from _iter_submodels_recursively(relationship.submodel)
 
 
 def _iter_function_relationships_recursively(
@@ -95,7 +96,8 @@ def _calculate_dependencies_of_time_series_function_relationship(
 
     match relationship.includes_past, relationship.includes_future:
         case True, True:
-            raise ValueError("Relationships with both past and future dependencies are not supported.")
+            msg = "Relationships with both past and future dependencies are not supported."
+            raise ValueError(msg)
         case True, False:
             time_steps = list(range(1, n_time_steps))
         case False, True:
@@ -185,7 +187,8 @@ def _calculate_dependencies_of_static_function_relationship(
         else:
             input_parameter_ids.add(AbsoluteStaticParameterId(model_name=core_model.name, name=input_parameter.name))
             input_args[input_arg_name] = AbsoluteStaticParameterId(
-                model_name=core_model.name, name=input_parameter.name
+                model_name=core_model.name,
+                name=input_parameter.name,
             )
 
     output_args: list[AbsoluteParameterId | tuple[AbsoluteParameterId, ...]] = []
@@ -194,7 +197,8 @@ def _calculate_dependencies_of_static_function_relationship(
         if output_parameter.is_time_series:
             match output_parameter_ref.all_time_steps, output_parameter_ref.initial:
                 case True, True:
-                    raise ValueError("Time-series parameters cannot be both all-time-steps and initial.")
+                    msg = "Time-series parameters cannot be both all-time-steps and initial."
+                    raise ValueError(msg)
                 case True, False:  # all-time-steps
                     output_parameter_ids_local: list[AbsoluteParameterId] = [
                         AbsoluteTimeSeriesParameterId(
@@ -208,15 +212,19 @@ def _calculate_dependencies_of_static_function_relationship(
                     output_args.append(tuple(output_parameter_ids_local))
                 case False, True:  # initial
                     output_parameter_id_local: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
-                        model_name=core_model.name, name=output_parameter.name, time_step=0
+                        model_name=core_model.name,
+                        name=output_parameter.name,
+                        time_step=0,
                     )
                     output_parameter_ids.add(output_parameter_id_local)
                     output_args.append(output_parameter_id_local)
                 case False, False:
-                    raise ValueError("Time-series parameters must be either all-time-steps or initial.")
+                    msg = "Time-series parameters must be either all-time-steps or initial."
+                    raise ValueError(msg)
         else:
             output_parameter_id_local = AbsoluteStaticParameterId(
-                model_name=core_model.name, name=output_parameter.name
+                model_name=core_model.name,
+                name=output_parameter.name,
             )
             output_parameter_ids.add(output_parameter_id_local)
             output_args.append(output_parameter_id_local)
@@ -225,14 +233,14 @@ def _calculate_dependencies_of_static_function_relationship(
         input_parameter_id: {relationship_id} for input_parameter_id in input_parameter_ids
     }
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = {
-        relationship_id: output_parameter_ids
+        relationship_id: output_parameter_ids,
     }
     relationship_id_to_function_relationship_info: dict[AbsoluteRelationshipId, FunctionRelationshipInfo] = {
         relationship_id: FunctionRelationshipInfo(
             function_relationship=relationship,
             input_parameter_ids=input_args,
             output_parameter_ids=tuple(output_args),
-        )
+        ),
     }
     return (
         input_parameter_id_to_relationship_ids,
@@ -241,20 +249,19 @@ def _calculate_dependencies_of_static_function_relationship(
     )
 
 
-def _calculate_port_mapping_of_time_series_submodel_relationship(
+def _calculate_port_mapping_of_time_series_submodel_relationship(  # noqa: C901, PLR0912
     relationship: SubModelRelationship,
     *,
     core_model: CoreModel,
     n_time_steps: int,
 ) -> dict[AbsoluteParameterId, AbsoluteParameterId]:
-    sub_model = relationship._submodel
-    assert sub_model is not None, "SubModelRelationship must be hydrated."
     # parent model input to sub-model input / sub-model output to parent model input
     port_mapping: dict[AbsoluteParameterId, AbsoluteParameterId] = {}
 
     match relationship.includes_past, relationship.includes_future:
         case True, True:
-            raise ValueError("Relationships with both past and future dependencies are not supported.")
+            msg = "Relationships with both past and future dependencies are not supported."
+            raise ValueError(msg)
         case True, False:
             time_steps = list(range(1, n_time_steps))
         case False, True:
@@ -264,17 +271,17 @@ def _calculate_port_mapping_of_time_series_submodel_relationship(
 
     for time_step in time_steps:
         for input_parameter_ref_inner, input_parameter_ref_outer in relationship.inputs.items():
-            input_parameter_inner = sub_model.get_parameter(input_parameter_ref_inner)
+            input_parameter_inner = relationship.submodel.get_parameter(input_parameter_ref_inner)
             input_parameter_outer = core_model.get_parameter(input_parameter_ref_outer)
             if input_parameter_inner.is_time_series:
                 input_parameter_id_inner: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
-                    model_name=sub_model.name,
+                    model_name=relationship.submodel.name,
                     name=input_parameter_inner.name,
                     time_step=time_step,
                 )
             else:
                 input_parameter_id_inner = AbsoluteStaticParameterId(
-                    model_name=sub_model.name,
+                    model_name=relationship.submodel.name,
                     name=input_parameter_inner.name,
                 )
 
@@ -293,17 +300,17 @@ def _calculate_port_mapping_of_time_series_submodel_relationship(
             port_mapping[input_parameter_id_outer] = input_parameter_id_inner
 
         for output_parameter_ref_inner, output_parameter_ref_outer in relationship.outputs.items():
-            output_parameter_inner = sub_model.get_parameter(output_parameter_ref_inner)
+            output_parameter_inner = relationship.submodel.get_parameter(output_parameter_ref_inner)
             output_parameter_outer = core_model.get_parameter(output_parameter_ref_outer)
             if output_parameter_inner.is_time_series:
                 output_parameter_id_inner: AbsoluteParameterId = AbsoluteTimeSeriesParameterId(
-                    model_name=sub_model.name,
+                    model_name=relationship.submodel.name,
                     name=output_parameter_inner.name,
                     time_step=time_step,
                 )
             else:
                 output_parameter_id_inner = AbsoluteStaticParameterId(
-                    model_name=sub_model.name,
+                    model_name=relationship.submodel.name,
                     name=output_parameter_inner.name,
                 )
 
@@ -330,21 +337,18 @@ def _calculate_port_mapping_of_static_submodel_relationship(
     core_model: CoreModel,
     n_time_steps: int,
 ) -> dict[AbsoluteParameterId, AbsoluteParameterId]:
-    sub_model = relationship._submodel
-    assert sub_model is not None, "SubModelRelationship must be hydrated."
     # parent model input to sub-model input / sub-model output to parent model input
     port_mapping: dict[AbsoluteParameterId, AbsoluteParameterId] = {}
 
     for input_parameter_ref_inner, input_parameter_ref_outer in relationship.inputs.items():
-        input_parameter_inner = sub_model.get_parameter(input_parameter_ref_inner)
+        input_parameter_inner = relationship.submodel.get_parameter(input_parameter_ref_inner)
         input_parameter_outer = core_model.get_parameter(input_parameter_ref_outer)
         if input_parameter_outer.is_time_series:
             assert input_parameter_ref_outer.all_time_steps, (
                 "Time-series parameters for static relationships must be all-time-steps."
             )
-            assert input_parameter_inner.is_time_series and input_parameter_ref_inner.all_time_steps, (
-                "Parameter types must match."
-            )
+            assert input_parameter_inner.is_time_series, "Parameter types must match."
+            assert input_parameter_ref_inner.all_time_steps, "Parameter types must match."
             port_mapping.update(
                 {
                     AbsoluteTimeSeriesParameterId(
@@ -352,21 +356,21 @@ def _calculate_port_mapping_of_static_submodel_relationship(
                         name=input_parameter_outer.name,
                         time_step=time_step,
                     ): AbsoluteTimeSeriesParameterId(
-                        model_name=sub_model.name,
+                        model_name=relationship.submodel.name,
                         name=input_parameter_inner.name,
                         time_step=time_step,
                     )
                     for time_step in range(n_time_steps)
-                }
+                },
             )
         else:
             assert not input_parameter_outer.is_time_series, "Parameter types must match."
             port_mapping[AbsoluteStaticParameterId(model_name=core_model.name, name=input_parameter_outer.name)] = (
-                AbsoluteStaticParameterId(model_name=sub_model.name, name=input_parameter_inner.name)
+                AbsoluteStaticParameterId(model_name=relationship.submodel.name, name=input_parameter_inner.name)
             )
 
     for output_parameter_ref_inner, output_parameter_ref_outer in relationship.outputs.items():
-        output_parameter_inner = sub_model.get_parameter(output_parameter_ref_inner)
+        output_parameter_inner = relationship.submodel.get_parameter(output_parameter_ref_inner)
         output_parameter_outer = core_model.get_parameter(output_parameter_ref_outer)
         if output_parameter_outer.is_time_series:
             assert output_parameter_inner.is_time_series, "Parameter types must match."
@@ -375,15 +379,12 @@ def _calculate_port_mapping_of_static_submodel_relationship(
                 output_parameter_ref_outer.initial and output_parameter_ref_inner.initial
             ), "Parameter types must match."
 
-            if output_parameter_ref_outer.all_time_steps:
-                time_steps = list(range(n_time_steps))
-            else:
-                time_steps = [0]
+            time_steps = list(range(n_time_steps)) if output_parameter_ref_outer.all_time_steps else [0]
 
             port_mapping.update(
                 {
                     AbsoluteTimeSeriesParameterId(
-                        model_name=sub_model.name,
+                        model_name=relationship.submodel.name,
                         name=output_parameter_inner.name,
                         time_step=time_step,
                     ): AbsoluteTimeSeriesParameterId(
@@ -392,13 +393,13 @@ def _calculate_port_mapping_of_static_submodel_relationship(
                         time_step=time_step,
                     )
                     for time_step in time_steps
-                }
+                },
             )
         else:
             assert not output_parameter_inner.is_time_series, "Parameter types must match."
-            port_mapping[AbsoluteStaticParameterId(model_name=sub_model.name, name=output_parameter_inner.name)] = (
-                AbsoluteStaticParameterId(model_name=core_model.name, name=output_parameter_outer.name)
-            )
+            port_mapping[
+                AbsoluteStaticParameterId(model_name=relationship.submodel.name, name=output_parameter_inner.name)
+            ] = AbsoluteStaticParameterId(model_name=core_model.name, name=output_parameter_outer.name)
 
     return port_mapping
 
@@ -451,20 +452,26 @@ def create_exec_model_from_core_model(
         relationships.update(relationships_local)
 
         input_parameter_id_to_relationship_ids = merge_two_set_dicts(
-            input_parameter_id_to_relationship_ids, input_parameter_id_to_relationship_ids_local
+            input_parameter_id_to_relationship_ids,
+            input_parameter_id_to_relationship_ids_local,
         )
         relationship_id_to_output_parameter_ids = merge_two_set_dicts(
-            relationship_id_to_output_parameter_ids, relationship_id_to_output_parameter_ids_local
+            relationship_id_to_output_parameter_ids,
+            relationship_id_to_output_parameter_ids_local,
         )
 
     for model, sub_model_relationship in _iter_submodel_relationships_recursively(core_model):
         if sub_model_relationship.evaluated_at_each_time_step:
             port_mapping_local = _calculate_port_mapping_of_time_series_submodel_relationship(
-                sub_model_relationship, core_model=model, n_time_steps=n_time_steps
+                sub_model_relationship,
+                core_model=model,
+                n_time_steps=n_time_steps,
             )
         else:
             port_mapping_local = _calculate_port_mapping_of_static_submodel_relationship(
-                sub_model_relationship, core_model=model, n_time_steps=n_time_steps
+                sub_model_relationship,
+                core_model=model,
+                n_time_steps=n_time_steps,
             )
         port_mapping.update(port_mapping_local)
 

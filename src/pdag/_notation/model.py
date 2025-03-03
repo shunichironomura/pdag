@@ -1,7 +1,7 @@
 import inspect
 from abc import ABCMeta
 from collections.abc import Callable, Mapping
-from typing import Any, get_args, get_origin, ClassVar, cast
+from typing import Any, ClassVar, cast, get_args, get_origin
 
 from typing_extensions import _AnnotatedAlias
 
@@ -62,18 +62,22 @@ class ModelMeta(ABCMeta):
 
         cls.name = name
         cls.__pdag_collections__ = {}
-        cls.__pdag_parameters__ = {name: value for name, value in namespace.items() if isinstance(value, ParameterABC)}
+        cls.__pdag_parameters__ = {
+            parameter_name: parameter
+            for parameter_name, parameter in namespace.items()
+            if isinstance(parameter, ParameterABC)
+        }
 
         # TODO: Check validity of relationship definition
         cls.__pdag_relationships__ = {}
-        for name, relationship in namespace.items():
+        for relationship_name, relationship in namespace.items():
             if isinstance(relationship, RelationshipABC):
                 for output_parameter_ref in relationship.iter_output_parameter_refs():
                     output_parameter = cls.__pdag_parameters__[output_parameter_ref.name]
                     if output_parameter.is_time_series and (output_parameter_ref.normal or output_parameter_ref.next):
                         relationship.evaluated_at_each_time_step = True
                         break
-                cls.__pdag_relationships__[name] = relationship
+                cls.__pdag_relationships__[relationship_name] = relationship
 
         return cls
 
