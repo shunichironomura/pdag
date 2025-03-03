@@ -5,8 +5,8 @@ from typing import Annotated
 import pytest
 
 import pdag
-from pdag._exec import exec_core_model
-from pdag._exec import StaticParameterIdentifier
+from pdag._exec import exec_core_model_via_paramref as exec_core_model
+from pdag._exec import StaticParameterId
 
 
 class SquareModel(pdag.Model):
@@ -50,6 +50,10 @@ class PolynomialModel(pdag.Model):
         return a0 + a1 * x + a2 * x_squared
 
 
+def test_model_name() -> None:
+    assert PolynomialModel.name == "PolynomialModel"
+
+
 @pytest.mark.xfail(reason="Not implemented")
 def test_polynomial_model() -> None:
     core_model = PolynomialModel.to_core_model()
@@ -64,10 +68,10 @@ def test_polynomial_model() -> None:
     )
 
     assert results == {
-        StaticParameterIdentifier(name="a0"): 1.0,
-        StaticParameterIdentifier(name="a1"): 2.0,
-        StaticParameterIdentifier(name="a2"): 3.0,
-        StaticParameterIdentifier(name="x"): 4.0,
-        StaticParameterIdentifier(name="x_squared"): 4**2,
-        StaticParameterIdentifier(name="y"): 1 + 2 * 4 + 3 * 4**2,
+        StaticParameterId("a0"): 1.0,
+        StaticParameterId("a1"): 2.0,
+        StaticParameterId("a2"): 3.0,
+        StaticParameterId("x"): 4.0,
+        StaticParameterId("x_squared"): 4**2,
+        StaticParameterId("y"): 1 + 2 * 4 + 3 * 4**2,
     }

@@ -3,7 +3,7 @@
 from typing import Annotated, Literal
 
 import pdag
-from pdag._exec import exec_core_model, StaticParameterIdentifier, TimeSeriesParameterIdentifier
+from pdag._exec import exec_core_model_via_paramref as exec_core_model, StaticParameterId, TimeSeriesParameterId
 
 
 class DiamondMdpModel(pdag.Model):
@@ -91,6 +91,10 @@ class DiamondMdpModel(pdag.Model):
         return sum(reward)
 
 
+def test_model_name() -> None:
+    assert DiamondMdpModel.name == "DiamondMdpModel"
+
+
 def test_diamond_mdp() -> None:
     core_model = DiamondMdpModel.to_core_model()
     results = exec_core_model(
@@ -103,18 +107,18 @@ def test_diamond_mdp() -> None:
         n_time_steps=4,
     )
     assert results == {
-        StaticParameterIdentifier(name="policy"): "left",
-        TimeSeriesParameterIdentifier(name="location", time_step=0): "start",
-        TimeSeriesParameterIdentifier(name="reward", time_step=0): 0.0,
-        TimeSeriesParameterIdentifier(name="action", time_step=0): "go_left",
-        TimeSeriesParameterIdentifier(name="location", time_step=1): "left",
-        TimeSeriesParameterIdentifier(name="reward", time_step=1): 0.0,
-        TimeSeriesParameterIdentifier(name="action", time_step=1): "move_forward",
-        TimeSeriesParameterIdentifier(name="location", time_step=2): "end",
-        TimeSeriesParameterIdentifier(name="action", time_step=2): "none",
-        TimeSeriesParameterIdentifier(name="reward", time_step=2): 1.0,
-        TimeSeriesParameterIdentifier(name="location", time_step=3): "end",
-        TimeSeriesParameterIdentifier(name="action", time_step=3): "none",
-        TimeSeriesParameterIdentifier(name="reward", time_step=3): 0.0,
-        StaticParameterIdentifier(name="cumulative_reward"): 1.0,
+        StaticParameterId("policy"): "left",
+        TimeSeriesParameterId("location", time_step=0): "start",
+        TimeSeriesParameterId("reward", time_step=0): 0.0,
+        TimeSeriesParameterId("action", time_step=0): "go_left",
+        TimeSeriesParameterId("location", time_step=1): "left",
+        TimeSeriesParameterId("reward", time_step=1): 0.0,
+        TimeSeriesParameterId("action", time_step=1): "move_forward",
+        TimeSeriesParameterId("location", time_step=2): "end",
+        TimeSeriesParameterId("action", time_step=2): "none",
+        TimeSeriesParameterId("reward", time_step=2): 1.0,
+        TimeSeriesParameterId("location", time_step=3): "end",
+        TimeSeriesParameterId("action", time_step=3): "none",
+        TimeSeriesParameterId("reward", time_step=3): 0.0,
+        StaticParameterId("cumulative_reward"): 1.0,
     }
