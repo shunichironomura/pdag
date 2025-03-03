@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from collections.abc import Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Self
 
@@ -156,6 +156,7 @@ class ParameterArray(ParameterCollectionABC):
 class RelationshipABC(ABC, InitArgsRecorder):
     type: ClassVar[str] = "relationship"
     name: str
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     @abstractmethod
     def is_hydrated(self) -> bool:
@@ -167,10 +168,6 @@ class RelationshipABC(ABC, InitArgsRecorder):
 
     @abstractmethod
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
-        raise NotImplementedError
-
-    @abstractmethod
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
         raise NotImplementedError
 
     @property
@@ -190,7 +187,8 @@ class FunctionRelationship[**P, T](RelationshipABC):
     outputs: list[ParameterRef]
     function_body: str
     output_is_scalar: bool = field(kw_only=True)
-    _function: Callable[P, T] | None = field(default=None, compare=False)
+    _function: Callable[P, T] | None = field(default=None, compare=False, kw_only=True)
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._function is not None
@@ -207,25 +205,16 @@ class FunctionRelationship[**P, T](RelationshipABC):
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         return self.outputs
 
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        assert self._function is not None
-
-        function_inputs = {arg_name: inputs[self.inputs[arg_name]] for arg_name in self.inputs}
-        function_outputs = self._function(**function_inputs)  # type: ignore[call-arg]
-        if self.output_is_scalar:
-            return {self.outputs[0]: function_outputs}
-        assert isinstance(function_outputs, tuple)
-        return dict(zip(self.outputs, function_outputs, strict=True))
-
 
 @dataclass
 class SubModelRelationship(RelationshipABC):
     type: ClassVar[str] = "submodel"
     name: str
     submodel_name: str
-    inputs: dict[ParameterRef, ParameterRef]
-    outputs: dict[ParameterRef, ParameterRef]
-    _submodel: "CoreModel | None" = field(default=None, compare=False)
+    inputs: dict[ParameterRef, ParameterRef]  # sub-model parameter ref -> parent model parameter ref
+    outputs: dict[ParameterRef, ParameterRef]  # sub-model parameter ref -> parent model parameter ref
+    _submodel: "CoreModel | None" = field(default=None, compare=False, kw_only=True)
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._submodel is not None
@@ -235,10 +224,6 @@ class SubModelRelationship(RelationshipABC):
 
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         return self.outputs.values()
-
-    def execute(self, inputs: Mapping[ParameterRef, Any]) -> dict[ParameterRef, Any]:
-        msg = "Executing a submodel relationship is not yet supported."
-        raise NotImplementedError(msg)
 
 
 @dataclass
@@ -257,6 +242,9 @@ class CoreModel:
 
     def is_dynamic(self) -> bool:
         return any(parameter.is_time_series for parameter in self.parameters.values())
+
+    def get_parameter(self, parameter_ref: ParameterRef) -> ParameterABC[Any]:
+        return self.parameters[parameter_ref.name]
 
 
 @dataclass

@@ -65,6 +65,11 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
+    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:
+        return 0.0
+
+    @pdag.relationship
+    @staticmethod
     def reward_function(  # noqa: D102
         *,
         previous_location: Annotated[
@@ -93,17 +98,16 @@ class DiamondMdpModel(pdag.Model):
 if __name__ == "__main__":
     from rich import print  # noqa: A004
 
-    from pdag._exec import exec_core_model
-
     core_model = DiamondMdpModel.to_core_model()
     print(core_model)
-    results = exec_core_model(
-        core_model,
+    exec_model = pdag.create_exec_model_from_core_model(core_model, n_time_steps=4)
+    print(exec_model)
+    results = pdag.execute_exec_model(
+        exec_model,
         inputs={
-            pdag.ParameterRef("location", initial=True): "start",
-            pdag.ParameterRef("reward", initial=True): 0.0,
-            pdag.ParameterRef("policy"): "left",
+            pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
         },
-        n_time_steps=4,
     )
+
     print(results)

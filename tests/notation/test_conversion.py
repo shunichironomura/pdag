@@ -46,6 +46,7 @@ square_root_core_model = pdag.CoreModel(
                 return -float(x_arg**0.5)
                 """,
             ),
+            evaluated_at_each_time_step=False,
         ),
     },
 )

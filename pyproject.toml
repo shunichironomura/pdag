@@ -90,35 +90,15 @@ ignore = [
     #     "TRY003",  # Avoid specifying long messages outside the exception class
 ]
 
-[tool.ruffper-file-ignores]
-"examples/**.py" = [
-    "ERA001", # Commented out code
-    "FBT001", # Boolean-typed positional argument in function definition
-    "D",      # Docstring
-    "INP001",
-]
+[tool.ruff.lint.per-file-ignores]
 "tests/**.py" = [
     "D",      # Docstring
     "INP001",
     "ANN201",
     "S101",
 ]
-"src/pdag/experimental/**.py" = [
-    "D",      # Docstring
-    "INP001",
-]
 "sandbox/**.py" = [
     "D",      # Docstring
     "INP001",
     "S101",
-]
-# Marimo notebooks
-"examples/**_nb.py" = [
-    "ANN001",
-    "ANN202",
-    "N803",
-    "PLR0913",
-    "B018",
-    "C901",
-    "PLR0915",
 ]

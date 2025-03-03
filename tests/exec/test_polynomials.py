@@ -2,11 +2,8 @@
 
 from typing import Annotated
 
-import pytest
 
 import pdag
-from pdag._exec import exec_core_model
-from pdag._exec import StaticParameterIdentifier
 
 
 class SquareModel(pdag.Model):
@@ -50,24 +47,30 @@ class PolynomialModel(pdag.Model):
         return a0 + a1 * x + a2 * x_squared
 
 
-@pytest.mark.xfail(reason="Not implemented")
+def test_model_name() -> None:
+    assert PolynomialModel.name == "PolynomialModel"
+
+
 def test_polynomial_model() -> None:
     core_model = PolynomialModel.to_core_model()
-    results = exec_core_model(
-        core_model,
+    exec_model = pdag.create_exec_model_from_core_model(core_model)
+    results = pdag.execute_exec_model(
+        exec_model,
         inputs={
-            pdag.ParameterRef("a0"): 1.0,
-            pdag.ParameterRef("a1"): 2.0,
-            pdag.ParameterRef("a2"): 3.0,
-            pdag.ParameterRef("x"): 4.0,
+            pdag.AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
+            pdag.AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
+            pdag.AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
+            pdag.AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
         },
     )
 
     assert results == {
-        StaticParameterIdentifier(name="a0"): 1.0,
-        StaticParameterIdentifier(name="a1"): 2.0,
-        StaticParameterIdentifier(name="a2"): 3.0,
-        StaticParameterIdentifier(name="x"): 4.0,
-        StaticParameterIdentifier(name="x_squared"): 4**2,
-        StaticParameterIdentifier(name="y"): 1 + 2 * 4 + 3 * 4**2,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "x_squared"): 4**2,
+        pdag.AbsoluteStaticParameterId("PolynomialModel", "y"): 1 + 2 * 4 + 3 * 4**2,
+        pdag.AbsoluteStaticParameterId("SquareModel", "x"): 4.0,
+        pdag.AbsoluteStaticParameterId("SquareModel", "y"): 4**2,
     }

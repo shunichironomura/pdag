@@ -1,7 +1,7 @@
 import inspect
 from abc import ABCMeta
 from collections.abc import Callable, Mapping
-from typing import Any, get_args, get_origin
+from typing import Any, get_args, get_origin, ClassVar, cast
 
 from typing_extensions import _AnnotatedAlias
 
@@ -56,22 +56,37 @@ def function_to_function_relationship[**P, T](func: Callable[P, T]) -> FunctionR
 class ModelMeta(ABCMeta):
     def __new__(metacls, name: str, bases: tuple[type[Any], ...], namespace: dict[str, Any]) -> type:  # noqa: N804
         cls = super().__new__(metacls, name, bases, namespace)
-        cls.__pdag_collections__ = {}  # type: ignore[attr-defined]
 
-        cls.__pdag_parameters__ = {name: value for name, value in namespace.items() if isinstance(value, ParameterABC)}  # type: ignore[attr-defined]
+        # Tell type checker that cls is essentially of type Model
+        cls = cast(type["Model"], cls)
+
+        cls.name = name
+        cls.__pdag_collections__ = {}
+        cls.__pdag_parameters__ = {name: value for name, value in namespace.items() if isinstance(value, ParameterABC)}
 
         # TODO: Check validity of relationship definition
-        cls.__pdag_relationships__ = {  # type: ignore[attr-defined]
-            name: value for name, value in namespace.items() if isinstance(value, RelationshipABC)
-        }
+        cls.__pdag_relationships__ = {}
+        for name, relationship in namespace.items():
+            if isinstance(relationship, RelationshipABC):
+                for output_parameter_ref in relationship.iter_output_parameter_refs():
+                    output_parameter = cls.__pdag_parameters__[output_parameter_ref.name]
+                    if output_parameter.is_time_series and (output_parameter_ref.normal or output_parameter_ref.next):
+                        relationship.evaluated_at_each_time_step = True
+                        break
+                cls.__pdag_relationships__[name] = relationship
 
         return cls
 
 
 class Model(metaclass=ModelMeta):
+    name: ClassVar[str]
+    __pdag_parameters__: dict[str, ParameterABC[Any]]
+    __pdag_collections__: dict[str, ParameterCollectionABC]
+    __pdag_relationships__: dict[str, RelationshipABC]
+
     @classmethod
     def parameters(cls) -> dict[str, ParameterABC[Any]]:
-        return cls.__pdag_parameters__  # type: ignore[attr-defined,no-any-return]
+        return cls.__pdag_parameters__
 
     @classmethod
     def collections(cls) -> dict[str, ParameterCollectionABC]:
@@ -79,7 +94,7 @@ class Model(metaclass=ModelMeta):
 
     @classmethod
     def relationships(cls) -> dict[str, RelationshipABC]:
-        return cls.__pdag_relationships__  # type: ignore[attr-defined,no-any-return]
+        return cls.__pdag_relationships__
 
     @classmethod
     def to_core_model(cls) -> CoreModel:
@@ -101,7 +116,7 @@ class Model(metaclass=ModelMeta):
     ) -> SubModelRelationship:
         return SubModelRelationship(
             name=name,
-            submodel_name=cls.__name__,
+            submodel_name=cls.name,
             inputs=dict(inputs),
             outputs=dict(outputs),
             _submodel=cls.to_core_model(),

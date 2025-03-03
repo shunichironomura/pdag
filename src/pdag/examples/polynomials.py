@@ -49,16 +49,7 @@ class PolynomialModel(pdag.Model):
 if __name__ == "__main__":
     from rich import print  # noqa: A004
 
-    from pdag._exec import exec_core_model
-
     core_model = PolynomialModel.to_core_model()
     print(core_model)
-    results = exec_core_model(
-        core_model,
-        inputs={
-            pdag.ParameterRef("a0"): 1.0,
-            pdag.ParameterRef("a1"): 2.0,
-            pdag.ParameterRef("a2"): 3.0,
-            pdag.ParameterRef("x"): 4.0,
-        },
-    )
+    exec_model = pdag.create_exec_model_from_core_model(core_model)
+    print(exec_model)
