@@ -5,4 +5,4 @@ __all__ = [
     "ParameterId",
 ]
 from .model import StaticParameterId, TimeSeriesParameterId, ParameterId
-from .exec_via_paramref import exec_core_model as exec_core_model_via_paramref
+from .exec_via_param_ref import exec_core_model as exec_core_model_via_paramref
