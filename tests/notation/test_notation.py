@@ -28,5 +28,6 @@ def test_capture_relationship() -> None:
             output_is_scalar=True,
             function_body="return x_arg\n",
             _function=Model.f._function,  # noqa: SLF001
+            evaluated_at_each_time_step=False,
         ),
     }

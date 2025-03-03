@@ -156,6 +156,7 @@ class ParameterArray(ParameterCollectionABC):
 class RelationshipABC(ABC, InitArgsRecorder):
     type: ClassVar[str] = "relationship"
     name: str
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     @abstractmethod
     def is_hydrated(self) -> bool:
@@ -186,7 +187,8 @@ class FunctionRelationship[**P, T](RelationshipABC):
     outputs: list[ParameterRef]
     function_body: str
     output_is_scalar: bool = field(kw_only=True)
-    _function: Callable[P, T] | None = field(default=None, compare=False)
+    _function: Callable[P, T] | None = field(default=None, compare=False, kw_only=True)
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._function is not None
@@ -211,7 +213,8 @@ class SubModelRelationship(RelationshipABC):
     submodel_name: str
     inputs: dict[ParameterRef, ParameterRef]
     outputs: dict[ParameterRef, ParameterRef]
-    _submodel: "CoreModel | None" = field(default=None, compare=False)
+    _submodel: "CoreModel | None" = field(default=None, compare=False, kw_only=True)
+    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._submodel is not None
@@ -239,6 +242,9 @@ class CoreModel:
 
     def is_dynamic(self) -> bool:
         return any(parameter.is_time_series for parameter in self.parameters.values())
+
+    def get_parameter(self, parameter_ref: ParameterRef) -> ParameterABC[Any]:
+        return self.parameters[parameter_ref.name]
 
 
 @dataclass
