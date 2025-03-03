@@ -90,7 +90,7 @@ ignore = [
     #     "TRY003",  # Avoid specifying long messages outside the exception class
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/**.py" = [
     "D",      # Docstring
     "INP001",
