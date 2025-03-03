@@ -361,7 +361,7 @@ def _calculate_port_mapping_of_static_submodel_relationship(
 def create_exec_model_from_core_model(
     core_model: CoreModel,
     *,
-    n_time_steps: int,
+    n_time_steps: int = 1,
 ) -> ExecutionModel:
     parameter_ids: set[AbsoluteParameterId] = set()
     for model, parameter in _iter_parameters_recursively(core_model):
