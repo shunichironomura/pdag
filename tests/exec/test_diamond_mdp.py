@@ -21,7 +21,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def action_selection(  # noqa: D102
+    def action_selection(
         *,
         policy: Annotated[Literal["left", "right"], pdag.ParameterRef("policy")],
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
@@ -43,7 +43,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def state_transition(  # noqa: D102
+    def state_transition(
         *,
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
         action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")],
@@ -65,7 +65,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def reward_function(  # noqa: D102
+    def reward_function(
         *,
         previous_location: Annotated[
             Literal["start", "left", "right", "end"],
@@ -88,7 +88,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def cumulative_reward_calculation(  # noqa: D102
+    def cumulative_reward_calculation(
         *,
         reward: Annotated[list[float], pdag.ParameterRef("reward", all_time_steps=True)],
     ) -> Annotated[float, pdag.ParameterRef("cumulative_reward")]:

@@ -225,6 +225,13 @@ class SubModelRelationship(RelationshipABC):
     def iter_output_parameter_refs(self) -> Iterable[ParameterRef]:
         return self.outputs.values()
 
+    @property
+    def submodel(self) -> "CoreModel":
+        if self._submodel is None:
+            msg = f"Sub-model relationship {self.name} has not been hydrated."
+            raise ValueError(msg)
+        return self._submodel
+
 
 @dataclass
 class CoreModel:

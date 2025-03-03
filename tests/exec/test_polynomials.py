@@ -2,7 +2,6 @@
 
 from typing import Annotated
 
-
 import pdag
 
 
@@ -14,7 +13,7 @@ class SquareModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def square(*, x: Annotated[float, pdag.ParameterRef("x")]) -> Annotated[float, pdag.ParameterRef("y")]:  # noqa: D102
+    def square(*, x: Annotated[float, pdag.ParameterRef("x")]) -> Annotated[float, pdag.ParameterRef("y")]:
         return x**2
 
 
@@ -36,7 +35,7 @@ class PolynomialModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def polynomial(  # noqa: D102
+    def polynomial(
         *,
         a0: Annotated[float, pdag.ParameterRef("a0")],
         a1: Annotated[float, pdag.ParameterRef("a1")],

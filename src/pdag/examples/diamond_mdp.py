@@ -65,7 +65,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:
+    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:  # noqa: D102
         return 0.0
 
     @pdag.relationship

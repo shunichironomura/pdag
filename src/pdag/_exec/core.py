@@ -1,19 +1,21 @@
 from collections import defaultdict, deque
-from typing import Any, Mapping, cast
+from collections.abc import Mapping
+from typing import Any, cast
+
+from pdag.utils import topological_sort
 
 from .model import (
+    AbsoluteParameterId,
     AbsoluteStaticParameterId,
     AbsoluteStaticRelationshipId,
     AbsoluteTimeSeriesParameterId,
     AbsoluteTimeSeriesRelationshipId,
     ExecutionModel,
     NodeId,
-    AbsoluteParameterId,
 )
-from pdag.utils import topological_sort
 
 
-def execute_exec_model(
+def execute_exec_model(  # noqa: C901, PLR0912
     exec_model: ExecutionModel,
     inputs: Mapping[AbsoluteParameterId, Any],
 ) -> dict[AbsoluteParameterId, Any]:
@@ -38,24 +40,24 @@ def execute_exec_model(
         if node_id in results:
             continue
 
-        if isinstance(node_id, (AbsoluteStaticParameterId, AbsoluteTimeSeriesParameterId)):
+        if isinstance(node_id, AbsoluteStaticParameterId | AbsoluteTimeSeriesParameterId):
             if node_id in inputs:
                 results[node_id] = inputs[node_id]
                 continue
-            elif node_id in exec_model.port_mapping_inverse:
+            if node_id in exec_model.port_mapping_inverse:
                 parent_node_id = exec_model.port_mapping_inverse[node_id]
                 if parent_node_id in inputs:
                     results[node_id] = inputs[parent_node_id]
                     continue
-                elif parent_node_id in results:
+                if parent_node_id in results:
                     results[node_id] = results[parent_node_id]
                     continue
-                else:
-                    raise ValueError(f"Parent node {parent_node_id} not in results")
-            else:
-                raise ValueError(f"Node {node_id} not in inputs or port_mapping")
+                msg = f"Parent node {parent_node_id} not in results"
+                raise ValueError(msg)
+            msg = f"Node {node_id} not in inputs or port_mapping"
+            raise ValueError(msg)
 
-        if isinstance(node_id, (AbsoluteStaticRelationshipId, AbsoluteTimeSeriesRelationshipId)):
+        if isinstance(node_id, AbsoluteStaticRelationshipId | AbsoluteTimeSeriesRelationshipId):
             relationship_info = exec_model.relationship_infos[node_id]
             input_values: dict[str, Any] = {}
             for input_arg_name, input_parameter_id in relationship_info.input_parameter_ids.items():
@@ -71,11 +73,12 @@ def execute_exec_model(
             if relationship_info.function_relationship.output_is_scalar:
                 output_values = (output_values,)
             for output_parameter_id, output_value in zip(
-                relationship_info.output_parameter_ids, output_values, strict=True
+                relationship_info.output_parameter_ids,
+                output_values,
+                strict=True,
             ):
                 if isinstance(output_parameter_id, tuple):
-                    for output_param_id, output_val in zip(output_parameter_id, output_value, strict=True):
-                        results[output_param_id] = output_val
+                    results.update(zip(output_parameter_id, output_value, strict=True))
                 else:
                     results[output_parameter_id] = output_value
 
