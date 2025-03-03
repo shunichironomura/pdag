@@ -11,7 +11,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pdag)
 
 > [!WARNING]
-> This package is under development and is not yet ready for use.
+> This package is under development.
 
 ## Tests
 
