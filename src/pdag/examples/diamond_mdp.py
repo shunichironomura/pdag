@@ -65,6 +65,11 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
+    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:
+        return 0.0
+
+    @pdag.relationship
+    @staticmethod
     def reward_function(  # noqa: D102
         *,
         previous_location: Annotated[
@@ -102,7 +107,6 @@ if __name__ == "__main__":
         inputs={
             pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
             pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
-            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
         },
     )
 
