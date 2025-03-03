@@ -377,18 +377,18 @@ def create_exec_model_from_core_model(
         else:
             parameter_ids.add(AbsoluteStaticParameterId(model_name=model.name, name=parameter.name))
 
-    relationships: set[FunctionRelationship[Any, Any]] = set()
+    relationships: list[FunctionRelationship[Any, Any]] = []
     input_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]] = {}
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = {}
     port_mapping: dict[AbsoluteParameterId, AbsoluteParameterId] = {}
 
     for model, function_relationship in _iter_function_relationships_recursively(core_model):
-        relationships.add(function_relationship)
+        relationships.append(function_relationship)
         if function_relationship.evaluated_at_each_time_step:
             input_parameter_id_to_relationship_ids_local, relationship_id_to_output_parameter_ids_local = (
                 _calculate_dependencies_of_time_series_function_relationship(
                     function_relationship,
-                    core_model=core_model,
+                    core_model=model,
                     n_time_steps=n_time_steps,
                 )
             )
@@ -396,7 +396,7 @@ def create_exec_model_from_core_model(
             input_parameter_id_to_relationship_ids_local, relationship_id_to_output_parameter_ids_local = (
                 _calculate_dependencies_of_static_function_relationship(
                     function_relationship,
-                    core_model=core_model,
+                    core_model=model,
                     n_time_steps=n_time_steps,
                 )
             )

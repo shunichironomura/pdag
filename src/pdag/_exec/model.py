@@ -54,7 +54,7 @@ type NodeId = AbsoluteParameterId | AbsoluteRelationshipId
 class ExecutionModel:
     parameter_ids: set[AbsoluteParameterId]
     # SubModelRelationships should be flattened into FunctionRelationships
-    relationships: set[FunctionRelationship[Any, Any]]
+    relationships: list[FunctionRelationship[Any, Any]]
     input_parameter_id_to_relationship_ids: dict[AbsoluteParameterId, set[AbsoluteRelationshipId]]
     relationship_id_to_output_parameter_ids: dict[AbsoluteRelationshipId, set[AbsoluteParameterId]]
     # parent model output to sub-model input / sub-model output to parent model input
