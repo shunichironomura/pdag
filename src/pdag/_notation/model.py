@@ -1,7 +1,7 @@
 import inspect
 from abc import ABCMeta
 from collections.abc import Callable, Mapping
-from typing import Any, get_args, get_origin
+from typing import Any, get_args, get_origin, ClassVar
 
 from typing_extensions import _AnnotatedAlias
 
@@ -56,6 +56,8 @@ def function_to_function_relationship[**P, T](func: Callable[P, T]) -> FunctionR
 class ModelMeta(ABCMeta):
     def __new__(metacls, name: str, bases: tuple[type[Any], ...], namespace: dict[str, Any]) -> type:  # noqa: N804
         cls = super().__new__(metacls, name, bases, namespace)
+        # Set name
+        cls.name = name  # type: ignore[attr-defined]
         cls.__pdag_collections__ = {}  # type: ignore[attr-defined]
 
         cls.__pdag_parameters__ = {name: value for name, value in namespace.items() if isinstance(value, ParameterABC)}  # type: ignore[attr-defined]
@@ -69,6 +71,8 @@ class ModelMeta(ABCMeta):
 
 
 class Model(metaclass=ModelMeta):
+    name: ClassVar[str]
+
     @classmethod
     def parameters(cls) -> dict[str, ParameterABC[Any]]:
         return cls.__pdag_parameters__  # type: ignore[attr-defined,no-any-return]
@@ -101,7 +105,7 @@ class Model(metaclass=ModelMeta):
     ) -> SubModelRelationship:
         return SubModelRelationship(
             name=name,
-            submodel_name=cls.__name__,
+            submodel_name=cls.name,
             inputs=dict(inputs),
             outputs=dict(outputs),
             _submodel=cls.to_core_model(),
