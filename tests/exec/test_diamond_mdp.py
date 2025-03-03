@@ -83,6 +83,11 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
+    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:
+        return 0.0
+
+    @pdag.relationship
+    @staticmethod
     def cumulative_reward_calculation(  # noqa: D102
         *,
         reward: Annotated[list[float], pdag.ParameterRef("reward", all_time_steps=True)],
@@ -102,7 +107,6 @@ def test_diamond_mdp() -> None:
         inputs={
             pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
             pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
-            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
         },
     )
     assert results == {
