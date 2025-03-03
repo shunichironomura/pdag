@@ -3,9 +3,6 @@
 from typing import Annotated, Literal
 
 import pdag
-from pdag._exec.to_exec_model import create_exec_model_from_core_model
-from pdag._exec.model import AbsoluteStaticParameterId, AbsoluteTimeSeriesParameterId
-from pdag._exec.core import execute_exec_model
 
 
 class DiamondMdpModel(pdag.Model):
@@ -99,28 +96,28 @@ def test_model_name() -> None:
 
 def test_diamond_mdp() -> None:
     core_model = DiamondMdpModel.to_core_model()
-    exec_model = create_exec_model_from_core_model(core_model, n_time_steps=4)
-    results = execute_exec_model(
+    exec_model = pdag.create_exec_model_from_core_model(core_model, n_time_steps=4)
+    results = pdag.execute_exec_model(
         exec_model,
         inputs={
-            AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
-            AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
-            AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
+            pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
+            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
         },
     )
     assert results == {
-        AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=0): "start",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=0): 0.0,
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=0): "go_left",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=1): "left",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=1): 0.0,
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=1): "move_forward",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=2): "end",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=2): "none",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=2): 1.0,
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=3): "end",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=3): "none",
-        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=3): 0.0,
-        AbsoluteStaticParameterId("DiamondMdpModel", "cumulative_reward"): 1.0,
+        pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=0): "start",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=0): 0.0,
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=0): "go_left",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=1): "left",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=1): 0.0,
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=1): "move_forward",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=2): "end",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=2): "none",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=2): 1.0,
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=3): "end",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=3): "none",
+        pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=3): 0.0,
+        pdag.AbsoluteStaticParameterId("DiamondMdpModel", "cumulative_reward"): 1.0,
     }

@@ -6,20 +6,6 @@ from collections import defaultdict
 
 
 @dataclass(frozen=True, slots=True)
-class StaticParameterId:
-    name: str
-
-
-@dataclass(frozen=True, slots=True)
-class TimeSeriesParameterId:
-    name: str
-    time_step: int
-
-
-type ParameterId = StaticParameterId | TimeSeriesParameterId
-
-
-@dataclass(frozen=True, slots=True)
 class AbsoluteStaticParameterId:
     model_name: str
     name: str

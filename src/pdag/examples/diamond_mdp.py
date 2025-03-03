@@ -93,17 +93,17 @@ class DiamondMdpModel(pdag.Model):
 if __name__ == "__main__":
     from rich import print  # noqa: A004
 
-    from pdag._exec import exec_core_model_via_paramref as exec_core_model
-
     core_model = DiamondMdpModel.to_core_model()
     print(core_model)
-    results = exec_core_model(
-        core_model,
+    exec_model = pdag.create_exec_model_from_core_model(core_model, n_time_steps=4)
+    print(exec_model)
+    results = pdag.execute_exec_model(
+        exec_model,
         inputs={
-            pdag.ParameterRef("location", initial=True): "start",
-            pdag.ParameterRef("reward", initial=True): 0.0,
-            pdag.ParameterRef("policy"): "left",
+            pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
+            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
         },
-        n_time_steps=4,
     )
+
     print(results)
