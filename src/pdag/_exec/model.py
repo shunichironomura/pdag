@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from pdag._core import FunctionRelationship
+from collections import defaultdict
 
 
 @dataclass(frozen=True, slots=True)
@@ -70,20 +71,18 @@ class ExecutionModel:
     port_mapping_inverse: dict[AbsoluteParameterId, AbsoluteParameterId] = field(init=False, repr=False, compare=False)
 
     def __post_init__(self) -> None:
-        self.relationship_id_to_input_parameter_ids = {
-            relationship_id: {
-                parameter_id
-                for parameter_id, relationship_ids in self.input_parameter_id_to_relationship_ids.items()
-                if relationship_id in relationship_ids
-            }
-            for relationship_id in self.relationship_id_to_output_parameter_ids
-        }
-        self.output_parameter_id_to_relationship_ids = {
-            output_parameter_id: {
-                relationship_id
-                for relationship_id, output_parameter_ids in self.relationship_id_to_output_parameter_ids.items()
-                if output_parameter_id in output_parameter_ids
-            }
-            for output_parameter_id in self.parameter_ids
-        }
+        relationship_id_to_input_parameter_ids_dd: defaultdict[AbsoluteRelationshipId, set[AbsoluteParameterId]] = (
+            defaultdict(set)
+        )
+        for input_parameter_id, relationship_ids in self.input_parameter_id_to_relationship_ids.items():
+            for relationship_id in relationship_ids:
+                relationship_id_to_input_parameter_ids_dd[relationship_id].add(input_parameter_id)
+        self.relationship_id_to_input_parameter_ids = dict(relationship_id_to_input_parameter_ids_dd)
+
+        output_parameter_id_to_relationship_ids_dd: defaultdict[AbsoluteParameterId, set[AbsoluteRelationshipId]] = (
+            defaultdict(set)
+        )
+        for relationship_id, output_parameter_ids in self.relationship_id_to_output_parameter_ids.items():
+            for output_parameter_id in output_parameter_ids:
+                output_parameter_id_to_relationship_ids_dd[output_parameter_id].add(relationship_id)
         self.port_mapping_inverse = {value: key for key, value in self.port_mapping.items()}
