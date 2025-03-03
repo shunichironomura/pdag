@@ -49,10 +49,6 @@ linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 [tool.mypy]
 strict = true
 
-[[tool.mypy.overrides]]
-module = ["networkx.*", "pydot.*"]
-ignore_missing_imports = true
-
 [tool.deptry.per_rule_ignores]
 "DEP003" = ["pdag"] # Allow absolute imports in pdag package
 
@@ -72,7 +68,7 @@ layers = [
 [tool.ruff]
 line-length = 120
 
-[tool.rufflint]
+[tool.ruff.lint]
 select = ["ALL"]
 
 ignore = [
