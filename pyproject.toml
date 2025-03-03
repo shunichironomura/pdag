@@ -1,13 +1,28 @@
 [project]
 name = "pdag"
 version = "0.0.2"
-description = "Parameterized Directed Acyclic Graph"
+description = "Directed Acyclic Graph (DAG) of Parameters"
 readme = "README.md"
 authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = ["asttokens>=3.0.0", "rich>=13.9.4", "typing-extensions>=4.12.2"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Repository = "https://github.com/shunichironomura/pdag"
+Issues = "https://github.com/shunichironomura/pdag/issues"
 
 [build-system]
 requires = ["hatchling"]
