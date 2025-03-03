@@ -211,8 +211,8 @@ class SubModelRelationship(RelationshipABC):
     type: ClassVar[str] = "submodel"
     name: str
     submodel_name: str
-    inputs: dict[ParameterRef, ParameterRef]
-    outputs: dict[ParameterRef, ParameterRef]
+    inputs: dict[ParameterRef, ParameterRef]  # sub-model parameter ref -> parent model parameter ref
+    outputs: dict[ParameterRef, ParameterRef]  # sub-model parameter ref -> parent model parameter ref
     _submodel: "CoreModel | None" = field(default=None, compare=False, kw_only=True)
     evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
