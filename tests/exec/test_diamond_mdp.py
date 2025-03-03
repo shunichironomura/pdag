@@ -3,7 +3,9 @@
 from typing import Annotated, Literal
 
 import pdag
-from pdag._exec import exec_core_model_via_paramref as exec_core_model, StaticParameterId, TimeSeriesParameterId
+from pdag._exec.to_exec_model import create_exec_model_from_core_model
+from pdag._exec.model import AbsoluteStaticParameterId, AbsoluteTimeSeriesParameterId
+from pdag._exec.core import execute_exec_model
 
 
 class DiamondMdpModel(pdag.Model):
@@ -97,28 +99,28 @@ def test_model_name() -> None:
 
 def test_diamond_mdp() -> None:
     core_model = DiamondMdpModel.to_core_model()
-    results = exec_core_model(
-        core_model,
+    exec_model = create_exec_model_from_core_model(core_model, n_time_steps=4)
+    results = execute_exec_model(
+        exec_model,
         inputs={
-            pdag.ParameterRef("location", initial=True): "start",
-            pdag.ParameterRef("reward", initial=True): 0.0,
-            pdag.ParameterRef("policy"): "left",
+            AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+            AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
+            AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", 0): 0.0,
         },
-        n_time_steps=4,
     )
     assert results == {
-        StaticParameterId("policy"): "left",
-        TimeSeriesParameterId("location", time_step=0): "start",
-        TimeSeriesParameterId("reward", time_step=0): 0.0,
-        TimeSeriesParameterId("action", time_step=0): "go_left",
-        TimeSeriesParameterId("location", time_step=1): "left",
-        TimeSeriesParameterId("reward", time_step=1): 0.0,
-        TimeSeriesParameterId("action", time_step=1): "move_forward",
-        TimeSeriesParameterId("location", time_step=2): "end",
-        TimeSeriesParameterId("action", time_step=2): "none",
-        TimeSeriesParameterId("reward", time_step=2): 1.0,
-        TimeSeriesParameterId("location", time_step=3): "end",
-        TimeSeriesParameterId("action", time_step=3): "none",
-        TimeSeriesParameterId("reward", time_step=3): 0.0,
-        StaticParameterId("cumulative_reward"): 1.0,
+        AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=0): "start",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=0): 0.0,
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=0): "go_left",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=1): "left",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=1): 0.0,
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=1): "move_forward",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=2): "end",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=2): "none",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=2): 1.0,
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", time_step=3): "end",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "action", time_step=3): "none",
+        AbsoluteTimeSeriesParameterId("DiamondMdpModel", "reward", time_step=3): 0.0,
+        AbsoluteStaticParameterId("DiamondMdpModel", "cumulative_reward"): 1.0,
     }

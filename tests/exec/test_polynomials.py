@@ -2,11 +2,11 @@
 
 from typing import Annotated
 
-import pytest
 
 import pdag
-from pdag._exec import exec_core_model_via_paramref as exec_core_model
-from pdag._exec import StaticParameterId
+from pdag._exec.to_exec_model import create_exec_model_from_core_model
+from pdag._exec.model import AbsoluteStaticParameterId
+from pdag._exec.core import execute_exec_model
 
 
 class SquareModel(pdag.Model):
@@ -54,24 +54,26 @@ def test_model_name() -> None:
     assert PolynomialModel.name == "PolynomialModel"
 
 
-@pytest.mark.xfail(reason="Not implemented")
 def test_polynomial_model() -> None:
     core_model = PolynomialModel.to_core_model()
-    results = exec_core_model(
-        core_model,
+    exec_model = create_exec_model_from_core_model(core_model)
+    results = execute_exec_model(
+        exec_model,
         inputs={
-            pdag.ParameterRef("a0"): 1.0,
-            pdag.ParameterRef("a1"): 2.0,
-            pdag.ParameterRef("a2"): 3.0,
-            pdag.ParameterRef("x"): 4.0,
+            AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
+            AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
+            AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
+            AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
         },
     )
 
     assert results == {
-        StaticParameterId("a0"): 1.0,
-        StaticParameterId("a1"): 2.0,
-        StaticParameterId("a2"): 3.0,
-        StaticParameterId("x"): 4.0,
-        StaticParameterId("x_squared"): 4**2,
-        StaticParameterId("y"): 1 + 2 * 4 + 3 * 4**2,
+        AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
+        AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
+        AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
+        AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
+        AbsoluteStaticParameterId("PolynomialModel", "x_squared"): 4**2,
+        AbsoluteStaticParameterId("PolynomialModel", "y"): 1 + 2 * 4 + 3 * 4**2,
+        AbsoluteStaticParameterId("SquareModel", "x"): 4.0,
+        AbsoluteStaticParameterId("SquareModel", "y"): 4**2,
     }
