@@ -46,6 +46,24 @@ typing = [
 testing = ["coverage==7.6.12", "pytest==8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 
+[tool.pytest.ini_options]
+addopts = "-ra --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+exclude_also = [
+    'def __repr__',
+    'if self.debug:',
+    'if settings.DEBUG',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    'if 0:',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod',
+]
+
 [tool.mypy]
 strict = true
 

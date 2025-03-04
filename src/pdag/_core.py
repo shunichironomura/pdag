@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Self
+from typing import Any, ClassVar
 
 from .utils import InitArgsRecorder
 
@@ -29,34 +29,6 @@ class ParameterRef(InitArgsRecorder):
     @property
     def normal(self) -> bool:
         return not any([self.previous, self.next, self.initial, self.all_time_steps])
-
-    def __str__(self) -> str:
-        s = self.name
-        if self.previous:
-            s += ".previous"
-        if self.next:
-            s += ".next"
-        if self.initial:
-            s += ".initial"
-        if self.all_time_steps:
-            s += ".all_time_steps"
-        return s
-
-    @classmethod
-    def from_str(cls, s: str) -> Self:
-        if ".previous" in s:
-            name, _ = s.split(".previous")
-            return cls(name=name, previous=True)
-        if ".next" in s:
-            name, _ = s.split(".next")
-            return cls(name=name, next=True)
-        if ".initial" in s:
-            name, _ = s.split(".initial")
-            return cls(name=name, initial=True)
-        if ".all_time_steps" in s:
-            name, _ = s.split(".all_time_steps")
-            return cls(name=name, all_time_steps=True)
-        return cls(name=s)
 
 
 @dataclass
