@@ -47,7 +47,7 @@ testing = ["coverage==7.6.12", "pytest==8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 
 [tool.pytest.ini_options]
-addopts = "-ra --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
+addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
 testpaths = ["tests"]
 
 [tool.coverage.report]
