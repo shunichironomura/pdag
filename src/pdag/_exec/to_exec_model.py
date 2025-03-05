@@ -305,7 +305,7 @@ def _calculate_port_mapping_of_time_series_submodel_relationship(
                 core_model=core_model,
                 model_path=model_path,
                 time_series_relationship=True,
-                time_step=time_step - 1 if input_parameter_ref_outer.previous else time_step,
+                time_step=time_step,
             )
             for input_parameter_id_inner, input_parameter_id_outer in zip(
                 input_parameter_inner.iter_parameter_ids(),
@@ -330,7 +330,7 @@ def _calculate_port_mapping_of_time_series_submodel_relationship(
                 core_model=core_model,
                 model_path=model_path,
                 time_series_relationship=True,
-                time_step=time_step + 1 if output_parameter_ref_outer.next else time_step,
+                time_step=time_step,
             )
             for output_parameter_id_inner, output_parameter_id_outer in zip(
                 output_parameter_inner.iter_parameter_ids(),

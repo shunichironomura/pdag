@@ -96,11 +96,21 @@ def _resolve_parameter_ref_in_time_series_relationship(
     time_step: int,
 ) -> ConnectorABC:
     assert isinstance(parameter.name, str)
+    if ref.normal:
+        param_time_step = time_step
+    elif ref.previous:
+        param_time_step = time_step - 1
+    elif ref.next:
+        param_time_step = time_step + 1
+    else:
+        msg = "Unsupported reference type."
+        raise ValueError(msg)
+
     if parameter.is_time_series:
         input_parameter_id: ParameterId = TimeSeriesParameterId(
             model_path=model_path,
             name=parameter.name,
-            time_step=time_step - 1 if ref.previous else time_step,
+            time_step=param_time_step,
         )
     else:
         input_parameter_id = StaticParameterId(
@@ -119,11 +129,21 @@ def _resolve_collection_ref_in_time_series_relationship(
     time_step: int,
 ) -> ConnectorABC:
     if collection.is_time_series():
+        if ref.normal:
+            param_time_step = time_step
+        elif ref.previous:
+            param_time_step = time_step - 1
+        elif ref.next:
+            param_time_step = time_step + 1
+        else:
+            msg = "Unsupported reference type."
+            raise ValueError(msg)
+
         parameter_ids: dict[Hashable, ParameterId] = {
             key: TimeSeriesParameterId(
                 model_path=model_path,
                 name=parameter.name,  # type: ignore[arg-type]
-                time_step=time_step - 1 if ref.previous else time_step,
+                time_step=param_time_step,
             )
             for key, parameter in collection.items()
         }
