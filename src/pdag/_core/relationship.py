@@ -16,8 +16,7 @@ if TYPE_CHECKING:
 class RelationshipABC(ABC, InitArgsRecorder):
     type: ClassVar[str] = "relationship"
     name: str | EllipsisType
-    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
-    iter_over: str | tuple[str, ...] | None = field(default=None, kw_only=True)
+    at_each_time_step: bool = field(default=False, kw_only=True)
 
     @abstractmethod
     def is_hydrated(self) -> bool:
@@ -49,7 +48,6 @@ class FunctionRelationship[**P, T](RelationshipABC):
     function_body: str
     output_is_scalar: bool = field(kw_only=True)
     _function: Callable[P, T] | None = field(default=None, compare=False, kw_only=True)
-    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._function is not None
@@ -81,7 +79,6 @@ class SubModelRelationship(RelationshipABC):
         ReferenceABC,
     ]  # sub-model parameter ref -> parent model parameter ref
     _submodel: "CoreModel | None" = field(default=None, compare=False, kw_only=True)
-    evaluated_at_each_time_step: bool = field(default=False, kw_only=True)
 
     def is_hydrated(self) -> bool:
         return self._submodel is not None

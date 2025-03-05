@@ -3,7 +3,7 @@ from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Literal, cast
 
-from pdag.utils import InitArgsRecorder
+from pdag.utils import ElementOrArrayType, InitArgsRecorder
 
 from .parameter import ParameterABC
 from .relationship import RelationshipABC
@@ -86,21 +86,18 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
         yield from self.mapping.keys()
 
 
-type ElementOrArray[T] = list["ElementOrArray[T]"] | T
-
-
 @dataclass
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
     type: ClassVar[str] = "array"
     name: str
-    array: list[ElementOrArray[T]]
+    array: list[ElementOrArrayType[T]]
     shape: tuple[int, ...] = field(init=False)
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
         def _get_shape_recursive(
-            elm_or_array: ElementOrArray[T],
+            elm_or_array: ElementOrArrayType[T],
             *,
             _shape: tuple[int, ...] = (),
         ) -> tuple[int, ...]:
@@ -117,7 +114,7 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
         self.shape = _get_shape_recursive(self.array)
 
     def __getitem__(self, key: tuple[int, ...]) -> T:
-        element: ElementOrArray[T] = self.array
+        element: ElementOrArrayType[T] = self.array
         for i in key:
             assert isinstance(element, list), (
                 f"Key must be a tuple of integers matching the array shape. Got {key}, expected shape {self.shape}."
@@ -130,7 +127,7 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
 
     def items(self) -> Iterable[tuple[tuple[int, ...], T]]:
         def _iter_parameters_with_index_recursive(
-            array_or_param: ElementOrArray[T],
+            array_or_param: ElementOrArrayType[T],
             index: tuple[int, ...],
         ) -> Iterable[tuple[tuple[int, ...], T]]:
             if not isinstance(array_or_param, list):

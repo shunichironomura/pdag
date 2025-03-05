@@ -1,7 +1,7 @@
 import inspect
 from collections.abc import Callable, Hashable
 from types import EllipsisType
-from typing import Any, get_args, get_origin, overload
+from typing import Any, Literal, get_args, get_origin, overload
 
 from typing_extensions import _AnnotatedAlias
 
@@ -32,6 +32,28 @@ def _get_outputs_from_signature(
 def _get_inputs_from_signature(
     sig: inspect.Signature,
 ) -> dict[str, ReferenceABC | ExecInfo]:
+    """Get the input references from the signature of a function.
+
+    The references are extracted from the annotations of the function's parameters.
+    Note that it is possible that an argument does not have a reference annotation.
+    For example, users may bind the loop variable in a for loop as the default value of a function argument.
+    In this case, we return None, and the argument will be ignored.
+
+    Example:
+    ```python
+    class MyModel(pdag.Model):
+        for k in ["a", "b"]:
+            @pdag.relationship(identifier=k)
+            @staticmethod
+            def f(
+                x: Annotated[floag, pdag.ParameterRef("x")],
+                k: str = k, # k is bound to the loop variable
+            ) -> Annotated[float, pdag.ParameterRef("y")]:
+                pass
+    ```
+
+    """
+
     def _get_ref_from_annotation(
         annotations: _AnnotatedAlias,
     ) -> ReferenceABC | ExecInfo | None:
@@ -39,6 +61,7 @@ def _get_inputs_from_signature(
         try:
             return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ExecInfo)))
         except StopIteration:
+            # No annotation of type ReferenceABC or ExecInfo found.
             return None
 
     return {
@@ -53,6 +76,7 @@ def relationship[**P, T](
     func: Callable[P, T],
     *,
     identifier: None = None,
+    at_each_time_step: Literal[False] = False,
 ) -> FunctionRelationship[P, T]: ...
 
 
@@ -61,6 +85,7 @@ def relationship[**P, T](
     func: None = None,
     *,
     identifier: Any = None,
+    at_each_time_step: bool = False,
 ) -> Callable[[Callable[P, T]], FunctionRelationship[P, T]]: ...
 
 
@@ -68,6 +93,7 @@ def relationship[**P, T](
     func: Callable[P, T] | None = None,
     *,
     identifier: Hashable = None,
+    at_each_time_step: bool = False,
 ) -> (
     FunctionRelationship[P, T]
     | Callable[[Callable[P, T]], FunctionRelationship[P, T]]
@@ -92,6 +118,7 @@ def relationship[**P, T](
             function_body=function_body,
             output_is_scalar=output_is_scalar,
             _function=func,
+            at_each_time_step=at_each_time_step,
         )
 
     if func is not None:

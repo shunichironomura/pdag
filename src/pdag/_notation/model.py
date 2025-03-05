@@ -4,12 +4,10 @@ from typing import Any, ClassVar, cast
 
 from pdag._core import (
     CollectionABC,
-    CollectionRef,
     CoreModel,
     FunctionRelationship,
     Mapping,
     ParameterABC,
-    ParameterRef,
     ReferenceABC,
     RelationshipABC,
     SubModelRelationship,
@@ -40,7 +38,6 @@ class ModelMeta(MultiDefMeta):
         cls = cast(type["Model"], cls)
 
         cls.name = name
-        # TODO: Collect function relationship mappings
         cls.__pdag_collections__ = {
             collection_name: collection
             for collection_name, collection in namespace.items()
@@ -62,20 +59,6 @@ class ModelMeta(MultiDefMeta):
         cls.__pdag_relationships__ = {}
         for relationship_name, relationship in namespace.items():
             if isinstance(relationship, RelationshipABC):
-                for output_ref in relationship.iter_output_refs():
-                    assert isinstance(output_ref.name, str)
-                    if isinstance(output_ref, ParameterRef):
-                        output_param_or_col: CollectionABC[Any, Any] | ParameterABC[Any] = cls.__pdag_parameters__[
-                            output_ref.name
-                        ]
-                    elif isinstance(output_ref, CollectionRef):
-                        output_param_or_col = cls.__pdag_collections__[output_ref.name]
-                    else:
-                        msg = f"Output reference {output_ref} is not a ParameterRef or CollectionRef"
-                        raise TypeError(msg)
-                    if output_param_or_col.is_time_series and (output_ref.normal or output_ref.next):
-                        relationship.evaluated_at_each_time_step = True
-                        break
                 cls.__pdag_relationships__[relationship_name] = relationship
 
         return cls
@@ -116,6 +99,7 @@ class Model(MultiDef, metaclass=ModelMeta):
         *,
         inputs: MappingABC[ReferenceABC, ReferenceABC],
         outputs: MappingABC[ReferenceABC, ReferenceABC],
+        at_each_time_step: bool = False,
     ) -> SubModelRelationship:
         return SubModelRelationship(
             name=name,
@@ -123,4 +107,5 @@ class Model(MultiDef, metaclass=ModelMeta):
             inputs=dict(inputs),
             outputs=dict(outputs),
             _submodel=cls.to_core_model(),
+            at_each_time_step=at_each_time_step,
         )
