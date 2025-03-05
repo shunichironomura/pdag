@@ -3,14 +3,21 @@ from typing import Annotated
 import pdag
 
 
-def test_capture_parameter() -> None:
+def test_capture_plain_parameter() -> None:
     class Model(pdag.Model):
         x = pdag.RealParameter("x")
 
     assert Model.parameters() == {"x": pdag.RealParameter("x")}
 
 
-def test_capture_relationship() -> None:
+def test_time_step_parameter() -> None:
+    class Model(pdag.Model):
+        x = pdag.RealParameter("x", is_time_series=True)
+
+    assert Model.parameters() == {"x": pdag.RealParameter("x", is_time_series=True)}
+
+
+def test_capture_plain_relationship() -> None:
     class Model(pdag.Model):
         x = pdag.RealParameter("x")
         y = pdag.RealParameter("y")
@@ -28,6 +35,6 @@ def test_capture_relationship() -> None:
             output_is_scalar=True,
             function_body="return x_arg\n",
             _function=Model.f._function,  # noqa: SLF001
-            evaluated_at_each_time_step=False,
+            at_each_time_step=False,
         ),
     }
