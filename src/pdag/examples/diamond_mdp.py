@@ -19,7 +19,7 @@ class DiamondMdpModel(pdag.Model):
     reward = pdag.RealParameter("reward", is_time_series=True)
     cumulative_reward = pdag.RealParameter("cumulative_reward")
 
-    @pdag.relationship
+    @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def action_selection(  # noqa: D102
         *,
@@ -41,7 +41,7 @@ class DiamondMdpModel(pdag.Model):
         msg = "Invalid policy and location combination"
         raise ValueError(msg)
 
-    @pdag.relationship
+    @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def state_transition(  # noqa: D102
         *,
@@ -68,7 +68,7 @@ class DiamondMdpModel(pdag.Model):
     def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:  # noqa: D102
         return 0.0
 
-    @pdag.relationship
+    @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def reward_function(  # noqa: D102
         *,
@@ -105,8 +105,8 @@ if __name__ == "__main__":
     results = pdag.execute_exec_model(
         exec_model,
         inputs={
-            pdag.AbsoluteStaticParameterId("DiamondMdpModel", "policy"): "left",
-            pdag.AbsoluteTimeSeriesParameterId("DiamondMdpModel", "location", 0): "start",
+            pdag.StaticParameterId((), "policy"): "left",
+            pdag.TimeSeriesParameterId((), "location", 0): "start",
         },
     )
 
