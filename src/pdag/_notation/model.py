@@ -1,80 +1,79 @@
-import inspect
-from abc import ABCMeta
-from collections.abc import Callable, Mapping
-from typing import Any, ClassVar, cast, get_args, get_origin
-
-from typing_extensions import _AnnotatedAlias
+from collections.abc import Mapping as MappingABC
+from types import EllipsisType
+from typing import Any, ClassVar, cast
 
 from pdag._core import (
+    CollectionABC,
+    CollectionRef,
     CoreModel,
     FunctionRelationship,
+    Mapping,
     ParameterABC,
-    ParameterCollectionABC,
     ParameterRef,
+    ReferenceABC,
     RelationshipABC,
     SubModelRelationship,
 )
-from pdag.utils import get_function_body
+from pdag.utils._multidef import MultiDef, MultiDefMeta, MultiDefStorage
 
 
-def _get_inputs_from_signature(sig: inspect.Signature) -> dict[str, ParameterRef]:
-    def _get_param_ref_from_annotation(annotations: _AnnotatedAlias) -> ParameterRef:
-        args = get_args(annotations)
-        return next(iter(arg for arg in args if isinstance(arg, ParameterRef)))
-
-    return {param.name: _get_param_ref_from_annotation(param.annotation) for param in sig.parameters.values()}
-
-
-def _get_outputs_from_signature(sig: inspect.Signature) -> tuple[list[ParameterRef], bool]:
-    def single_annotation_to_parameter_ref(annotations: _AnnotatedAlias) -> ParameterRef:
-        args = get_args(annotations)
-        return next(iter(arg for arg in args if isinstance(arg, ParameterRef)))
-
-    if get_origin(sig.return_annotation) is not tuple:
-        parameter_name = single_annotation_to_parameter_ref(sig.return_annotation)
-        return [parameter_name], True
-    args = get_args(sig.return_annotation)
-    return [single_annotation_to_parameter_ref(arg) for arg in args], False
-
-
-def function_to_function_relationship[**P, T](func: Callable[P, T]) -> FunctionRelationship[P, T]:
-    # Get the function's signature
-    sig = inspect.signature(func)
-    inputs = _get_inputs_from_signature(sig)
-    outputs, output_is_scalar = _get_outputs_from_signature(sig)
-    function_body = get_function_body(func)
-    return FunctionRelationship(
-        name=func.__name__,
-        inputs=inputs,
-        outputs=outputs,
-        function_body=function_body,
-        output_is_scalar=output_is_scalar,
-        _function=func,
+def _function_relationship_multidef_storage_to_mapping(
+    storage_name: str,
+    storage: MultiDefStorage[FunctionRelationship[Any, Any]],
+) -> Mapping[str | tuple[str, ...], FunctionRelationship[Any, Any]]:
+    return Mapping(
+        name=storage_name,
+        mapping=dict(storage),  # type: ignore[arg-type]
     )
 
 
-class ModelMeta(ABCMeta):
-    def __new__(metacls, name: str, bases: tuple[type[Any], ...], namespace: dict[str, Any]) -> type:  # noqa: N804
+class ModelMeta(MultiDefMeta):
+    def __new__(
+        metacls,  # noqa: N804
+        name: str,
+        bases: tuple[type[Any], ...],
+        namespace: dict[str, Any],
+    ) -> type:
         cls = super().__new__(metacls, name, bases, namespace)
 
         # Tell type checker that cls is essentially of type Model
         cls = cast(type["Model"], cls)
 
         cls.name = name
-        cls.__pdag_collections__ = {}
+        # TODO: Collect function relationship mappings
+        cls.__pdag_collections__ = {
+            collection_name: collection
+            for collection_name, collection in namespace.items()
+            if isinstance(collection, CollectionABC)
+        }
+        cls.__pdag_collections__.update(
+            {
+                storage_name: _function_relationship_multidef_storage_to_mapping(storage_name, storage)
+                for storage_name, storage in namespace.items()
+                if isinstance(storage, MultiDefStorage)
+            },
+        )
         cls.__pdag_parameters__ = {
             parameter_name: parameter
             for parameter_name, parameter in namespace.items()
             if isinstance(parameter, ParameterABC)
         }
 
-        # TODO: Check validity of relationship definition
         cls.__pdag_relationships__ = {}
         for relationship_name, relationship in namespace.items():
             if isinstance(relationship, RelationshipABC):
-                for output_parameter_ref in relationship.iter_output_parameter_refs():
-                    output_parameter = cls.__pdag_parameters__[output_parameter_ref.name]
-                    if output_parameter.is_time_series and (output_parameter_ref.normal or output_parameter_ref.next):
+                for output_ref in relationship.iter_output_refs():
+                    assert isinstance(output_ref.name, str)
+                    if isinstance(output_ref, ParameterRef):
+                        output_param_or_col: CollectionABC[Any, Any] | ParameterABC[Any] = cls.__pdag_parameters__[
+                            output_ref.name
+                        ]
+                    elif isinstance(output_ref, CollectionRef):
+                        output_param_or_col = cls.__pdag_collections__[output_ref.name]
+                    else:
+                        msg = f"Output reference {output_ref} is not a ParameterRef or CollectionRef"
+                        raise TypeError(msg)
+                    if output_param_or_col.is_time_series and (output_ref.normal or output_ref.next):
                         relationship.evaluated_at_each_time_step = True
                         break
                 cls.__pdag_relationships__[relationship_name] = relationship
@@ -82,19 +81,19 @@ class ModelMeta(ABCMeta):
         return cls
 
 
-class Model(metaclass=ModelMeta):
+class Model(MultiDef, metaclass=ModelMeta):
     name: ClassVar[str]
     __pdag_parameters__: dict[str, ParameterABC[Any]]
-    __pdag_collections__: dict[str, ParameterCollectionABC]
     __pdag_relationships__: dict[str, RelationshipABC]
+    __pdag_collections__: dict[str, CollectionABC[Any, Any]]
 
     @classmethod
     def parameters(cls) -> dict[str, ParameterABC[Any]]:
         return cls.__pdag_parameters__
 
     @classmethod
-    def collections(cls) -> dict[str, ParameterCollectionABC]:
-        return {}  # TODO: Implement
+    def collections(cls) -> dict[str, CollectionABC[Any, Any]]:
+        return cls.__pdag_collections__
 
     @classmethod
     def relationships(cls) -> dict[str, RelationshipABC]:
@@ -113,10 +112,10 @@ class Model(metaclass=ModelMeta):
     def to_relationship(
         cls,
         /,
-        name: str,
+        name: str | EllipsisType,
         *,
-        inputs: Mapping[ParameterRef, ParameterRef],
-        outputs: Mapping[ParameterRef, ParameterRef],
+        inputs: MappingABC[ReferenceABC, ReferenceABC],
+        outputs: MappingABC[ReferenceABC, ReferenceABC],
     ) -> SubModelRelationship:
         return SubModelRelationship(
             name=name,
