@@ -3,12 +3,14 @@ from collections.abc import Mapping as MappingABC
 from types import EllipsisType
 from typing import Any
 
+import numpy as np
+import numpy.typing as npt
+
 from pdag._core import ReferenceABC
 from pdag._core.collection import Array, CollectionABC, Mapping
 from pdag._core.model import CoreModel
 from pdag._core.parameter import ParameterABC
 from pdag._core.reference import CollectionRef, ParameterRef
-from pdag.utils import nested_list_from_mapping
 
 from .model import (
     ArrayConnector,
@@ -21,6 +23,21 @@ from .model import (
     StaticParameterId,
     TimeSeriesParameterId,
 )
+
+
+def _mapping_to_array[T](
+    mapping: MappingABC[tuple[int, ...], T],
+    shape: tuple[int, ...],
+    *,
+    error_on_missing: bool = False,
+) -> npt.NDArray[T]:  # type: ignore[type-var]
+    array = np.empty(shape, dtype=object)
+    for key, value in mapping.items():
+        array[key] = value
+    if error_on_missing and np.any(array == None):  # noqa: E711
+        msg = "Missing values in mapping."
+        raise ValueError(msg)
+    return array
 
 
 def resolve_ref(  # noqa: PLR0913
@@ -120,7 +137,7 @@ def _resolve_collection_ref_in_time_series_relationship(
         return _filter(MappingConnector(parameter_ids=parameter_ids), key=ref.key)
     if isinstance(collection, Array):
         return ArrayConnector(
-            parameter_ids=nested_list_from_mapping(
+            parameter_ids=_mapping_to_array(
                 parameter_ids,  # type: ignore[arg-type]
                 shape=collection.shape,
                 error_on_missing=True,
@@ -150,7 +167,7 @@ def _resolve_parameter_ref_in_static_relationship(
                 )
                 for time_step in range(n_time_steps)
             ]
-            return ArrayConnector(parameter_ids=parameter_ids)  # type: ignore[arg-type]
+            return ArrayConnector(parameter_ids=np.array(parameter_ids))
         if ref.initial:
             return ScalarConnector(
                 parameter_id=TimeSeriesParameterId(
@@ -216,19 +233,21 @@ def _resolve_collection_ref_in_static_relationship(
         return _filter(connector, key=ref.key)
     if isinstance(collection, Array):
         if isinstance(connector, MappingListConnector):
-            # Time-series of a mapping element
+            # Time-series of an array collection
             return ArrayConnector(
-                parameter_ids=[
-                    nested_list_from_mapping(
-                        mapping,  # type: ignore[arg-type]
-                        shape=collection.shape,  # type: ignore[attr-defined]
-                        error_on_missing=True,
-                    )
-                    for mapping in connector.parameter_ids
-                ],
+                parameter_ids=np.array(
+                    [
+                        _mapping_to_array(
+                            mapping,  # type: ignore[arg-type]
+                            shape=collection.shape,  # type: ignore[attr-defined]
+                            error_on_missing=True,
+                        )
+                        for mapping in connector.parameter_ids
+                    ],
+                ),
             )
         return ArrayConnector(
-            parameter_ids=nested_list_from_mapping(
+            parameter_ids=_mapping_to_array(
                 parameter_ids,  # type: ignore[arg-type]
                 shape=collection.shape,  # type: ignore[attr-defined]
                 error_on_missing=True,
@@ -243,7 +262,7 @@ def _filter(connector: ConnectorABC, key: Hashable | None = None) -> ConnectorAB
     if key is None:
         return connector
     if isinstance(connector, MappingConnector):
-        if isinstance(key, str):
+        if isinstance(key, str) or (isinstance(key, tuple) and all(isinstance(k, str) for k in key)):
             return ScalarConnector(parameter_id=connector.parameter_ids[key])
         if isinstance(key, tuple):
             return MappingConnector(
@@ -258,7 +277,7 @@ def _filter(connector: ConnectorABC, key: Hashable | None = None) -> ConnectorAB
         sample_key = next(iter(connector.parameter_ids[0]))
         if isinstance(sample_key, str):
             return ArrayConnector(
-                parameter_ids=[mapping[key] for mapping in connector.parameter_ids],
+                parameter_ids=np.array([mapping[key] for mapping in connector.parameter_ids]),
             )
         if isinstance(sample_key, tuple):
             return MappingListConnector(
@@ -285,7 +304,7 @@ def _filter_mapping[T](
 
     # Reduce the dimension of the key if the value is provided
     def _reduce_key(key_in_mapping: tuple[str, ...]) -> str | tuple[str, ...]:
-        reduced_key = tuple(k for k, k_provided in zip(key_in_mapping, key, strict=True) if k_provided is not Ellipsis)
+        reduced_key = tuple(k for k, k_provided in zip(key_in_mapping, key, strict=True) if k_provided is Ellipsis)
         if len(reduced_key) == 1:
             return reduced_key[0]
         return reduced_key

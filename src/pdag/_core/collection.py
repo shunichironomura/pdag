@@ -3,7 +3,10 @@ from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
 from typing import Any, ClassVar, Literal, cast
 
-from pdag.utils import ElementOrArrayType, InitArgsRecorder
+import numpy as np
+import numpy.typing as npt
+
+from pdag.utils import InitArgsRecorder
 
 from .parameter import ParameterABC
 from .relationship import RelationshipABC
@@ -90,54 +93,20 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
     type: ClassVar[str] = "array"
     name: str
-    array: list[ElementOrArrayType[T]]
-    shape: tuple[int, ...] = field(init=False)
+    array: npt.NDArray[T]  # type: ignore[type-var]
+
+    @property
+    def shape(self) -> tuple[int, ...]:
+        return self.array.shape
 
     def __post_init__(self) -> None:
         super().__post_init__()
 
-        def _get_shape_recursive(
-            elm_or_array: ElementOrArrayType[T],
-            *,
-            _shape: tuple[int, ...] = (),
-        ) -> tuple[int, ...]:
-            if isinstance(elm_or_array, ParameterABC | RelationshipABC):
-                return _shape
-            assert len(elm_or_array) == 0 or all(
-                isinstance(element, ParameterABC) == isinstance(elm_or_array[0], ParameterABC)
-                and isinstance(element, RelationshipABC) == isinstance(elm_or_array[0], RelationshipABC)
-                for element in elm_or_array
-            ), "All elements in an array must be of the same type."
-            shape = (*_shape, len(elm_or_array))
-            return _get_shape_recursive(elm_or_array[0], _shape=shape)
-
-        self.shape = _get_shape_recursive(self.array)
-
     def __getitem__(self, key: tuple[int, ...]) -> T:
-        element: ElementOrArrayType[T] = self.array
-        for i in key:
-            assert isinstance(element, list), (
-                f"Key must be a tuple of integers matching the array shape. Got {key}, expected shape {self.shape}."
-            )
-            element = element[i]
-        assert not isinstance(element, list), (
-            f"Key must be a tuple of integers matching the array shape. Got {key}, expected shape {self.shape}."
-        )
-        return element
+        return self.array[key]  # type: ignore[no-any-return]
 
     def items(self) -> Iterable[tuple[tuple[int, ...], T]]:
-        def _iter_parameters_with_index_recursive(
-            array_or_param: ElementOrArrayType[T],
-            index: tuple[int, ...],
-        ) -> Iterable[tuple[tuple[int, ...], T]]:
-            if not isinstance(array_or_param, list):
-                yield index, array_or_param
-            else:
-                for i, element in enumerate(array_or_param):
-                    yield from _iter_parameters_with_index_recursive(element, (*index, i))
-
-        for i, element in enumerate(self.array):
-            yield from _iter_parameters_with_index_recursive(element, (i,))
+        yield from np.ndenumerate(self.array)
 
 
 @dataclass

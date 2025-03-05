@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Annotated, Any, Self
 
+import numpy.typing as npt
 from typing_extensions import Doc
 
 from pdag._core import ExecInfo, FunctionRelationship
@@ -97,17 +98,10 @@ type ElementOrArray[T] = list["ElementOrArray[T]"] | T
 
 @dataclass(slots=True)
 class ArrayConnector(ConnectorABC):
-    parameter_ids: list[ElementOrArray[ParameterId]]
+    parameter_ids: npt.NDArray[ParameterId]  # type: ignore[type-var]
 
     def iter_parameter_ids(self) -> Iterable[ParameterId]:
-        def _iter_recursive(element_or_array: ElementOrArray[ParameterId]) -> Iterable[ParameterId]:
-            if isinstance(element_or_array, list):
-                for element in element_or_array:
-                    yield from _iter_recursive(element)
-            else:
-                yield element_or_array
-
-        yield from _iter_recursive(self.parameter_ids)
+        yield from self.parameter_ids.flat
 
 
 @dataclass(slots=True)
@@ -157,4 +151,14 @@ class ExecutionModel:
         for relationship_id, output_parameter_ids in self.relationship_id_to_output_parameter_ids.items():
             for output_parameter_id in output_parameter_ids:
                 output_parameter_id_to_relationship_ids_dd[output_parameter_id].add(relationship_id)
+        self.output_parameter_id_to_relationship_ids = dict(output_parameter_id_to_relationship_ids_dd)
+
         self.port_mapping_inverse = {value: key for key, value in self.port_mapping.items()}
+
+    def input_parameter_ids(self) -> set[ParameterId]:
+        return {
+            parameter_id
+            for parameter_id in self.parameter_ids
+            if parameter_id not in self.output_parameter_id_to_relationship_ids
+            and parameter_id not in self.port_mapping_inverse
+        }
