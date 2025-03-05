@@ -2,6 +2,8 @@
 
 from typing import Annotated
 
+import numpy as np
+
 import pdag
 
 
@@ -20,9 +22,7 @@ class SquareModel(pdag.Model):
 class PolynomialModel(pdag.Model):
     """Polynomial model."""
 
-    a0 = pdag.RealParameter("a0")
-    a1 = pdag.RealParameter("a1")
-    a2 = pdag.RealParameter("a2")
+    a = pdag.Array("a", np.array([pdag.RealParameter(...) for _ in range(3)]))
     x = pdag.RealParameter("x")
     x_squared = pdag.RealParameter("x_squared")
     y = pdag.RealParameter("y")
@@ -37,13 +37,11 @@ class PolynomialModel(pdag.Model):
     @staticmethod
     def polynomial(  # noqa: D102
         *,
-        a0: Annotated[float, pdag.ParameterRef("a0")],
-        a1: Annotated[float, pdag.ParameterRef("a1")],
-        a2: Annotated[float, pdag.ParameterRef("a2")],
+        a: Annotated[list[float], pdag.ArrayRef("a")],
         x: Annotated[float, pdag.ParameterRef("x")],
         x_squared: Annotated[float, pdag.ParameterRef("x_squared")],
     ) -> Annotated[float, pdag.ParameterRef("y")]:
-        return a0 + a1 * x + a2 * x_squared
+        return a[0] + a[1] * x + a[2] * x_squared
 
 
 if __name__ == "__main__":
