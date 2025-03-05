@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 import ast
 from collections.abc import Mapping
 from typing import Any

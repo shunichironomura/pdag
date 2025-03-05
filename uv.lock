@@ -329,6 +329,7 @@ version = "0.0.3"
 source = { editable = "." }
 dependencies = [
     { name = "asttokens" },
+    { name = "numpy" },
     { name = "rich" },
     { name = "typing-extensions" },
 ]
@@ -367,6 +368,7 @@ typing = [
 [package.metadata]
 requires-dist = [
     { name = "asttokens", specifier = ">=3.0.0" },
+    { name = "numpy", specifier = ">=1.24" },
     { name = "rich", specifier = ">=13.9.4" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
 ]

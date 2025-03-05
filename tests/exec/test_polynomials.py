@@ -14,20 +14,20 @@ def test_polynomial_model() -> None:
     results = pdag.execute_exec_model(
         exec_model,
         inputs={
-            pdag.AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
-            pdag.AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
-            pdag.AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
-            pdag.AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
+            pdag.StaticParameterId((), "a[0]"): 1.0,
+            pdag.StaticParameterId((), "a[1]"): 2.0,
+            pdag.StaticParameterId((), "a[2]"): 3.0,
+            pdag.StaticParameterId((), "x"): 4.0,
         },
     )
 
     assert results == {
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "a0"): 1.0,
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "a1"): 2.0,
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "a2"): 3.0,
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "x"): 4.0,
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "x_squared"): 4**2,
-        pdag.AbsoluteStaticParameterId("PolynomialModel", "y"): 1 + 2 * 4 + 3 * 4**2,
-        pdag.AbsoluteStaticParameterId("SquareModel", "x"): 4.0,
-        pdag.AbsoluteStaticParameterId("SquareModel", "y"): 4**2,
+        pdag.StaticParameterId((), "a[0]"): 1.0,
+        pdag.StaticParameterId((), "a[1]"): 2.0,
+        pdag.StaticParameterId((), "a[2]"): 3.0,
+        pdag.StaticParameterId((), "x"): 4.0,
+        pdag.StaticParameterId((), "x_squared"): 4**2,
+        pdag.StaticParameterId((), "y"): 1 + 2 * 4 + 3 * 4**2,
+        pdag.StaticParameterId(("calc_square_term",), "x"): 4.0,
+        pdag.StaticParameterId(("calc_square_term",), "y"): 4**2,
     }
