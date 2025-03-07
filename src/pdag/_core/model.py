@@ -61,7 +61,7 @@ class CoreModel:
         yield from self.parameters.values()
         for collection in self.collections.values():
             if collection.item_type == "parameter":
-                yield from collection.values()
+                yield from cast(CollectionABC[Hashable, ParameterABC[Any]], collection).values()
 
     def iter_all_relationships(self) -> Iterable[RelationshipABC]:
         """Yield all relationships contained in the model, including those in collections.
@@ -71,7 +71,7 @@ class CoreModel:
         yield from self.relationships.values()
         for collection in self.collections.values():
             if collection.item_type == "relationship":
-                yield from collection.values()
+                yield from cast(CollectionABC[Hashable, RelationshipABC], collection).values()
 
     def get_relationship(self, name: str) -> RelationshipABC:
         return self._relationship_dict[name]
