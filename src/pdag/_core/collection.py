@@ -9,6 +9,7 @@ import numpy.typing as npt
 from pdag.utils import InitArgsRecorder
 
 from .parameter import ParameterABC
+from .reference import ArrayRef, MappingRef
 from .relationship import RelationshipABC
 
 
@@ -19,7 +20,10 @@ def _key_to_str(key: Any) -> str:
 
 
 @dataclass
-class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](ABC, InitArgsRecorder):
+class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
+    ABC,
+    InitArgsRecorder,
+):
     type: ClassVar[str] = "collection"
     name: str
     item_type: Literal["parameter", "relationship"] = field(init=False)
@@ -69,9 +73,23 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](ABC, In
         msg = "Only collections of parameters can be time series."
         raise TypeError(msg)
 
+    @abstractmethod
+    def ref(
+        self,
+        key: K,
+        *,
+        previous: bool = False,
+        next: bool = False,  # noqa: A002
+        initial: bool = False,
+        all_time_steps: bool = False,
+    ) -> Any:
+        raise NotImplementedError
+
 
 @dataclass
-class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](CollectionABC[K, T]):
+class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
+    CollectionABC[K, T],
+):
     type: ClassVar[str] = "mapping"
     name: str
     mapping: dict[K, T]
@@ -87,6 +105,25 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 
     def keys(self) -> Iterable[K]:
         yield from self.mapping.keys()
+
+    def ref(
+        self,
+        key: K,
+        *,
+        previous: bool = False,
+        next: bool = False,  # noqa: A002
+        initial: bool = False,
+        all_time_steps: bool = False,
+    ) -> Any:
+        assert isinstance(self.name, str), "Mapping name must be hydrated to create a reference."
+        return MappingRef(
+            name=self.name,
+            key=key,
+            previous=previous,
+            next=next,
+            initial=initial,
+            all_time_steps=all_time_steps,
+        )
 
 
 @dataclass
@@ -108,24 +145,21 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
     def items(self) -> Iterable[tuple[tuple[int, ...], T]]:
         yield from np.ndenumerate(self.array)
 
-
-@dataclass
-class ParameterCollectionABC[K: Hashable](CollectionABC[K, ParameterABC[Any]]):
-    def __post_init__(self) -> None:
-        super().__post_init__()
-
-    @abstractmethod
-    def iter_parameters(self) -> Iterable[ParameterABC[Any]]:
-        raise NotImplementedError
-
-    @abstractmethod
-    def iter_parameter_names(self) -> Iterable[str]:
-        raise NotImplementedError
-
-    @abstractmethod
-    def is_hydrated(self) -> bool:
-        raise NotImplementedError
-
-    @abstractmethod
-    def name_parameters(self) -> None:
-        raise NotImplementedError
+    def ref(
+        self,
+        key: tuple[int, ...],
+        *,
+        previous: bool = False,
+        next: bool = False,  # noqa: A002
+        initial: bool = False,
+        all_time_steps: bool = False,
+    ) -> Any:
+        assert isinstance(self.name, str), "Array name must be hydrated to create a reference."
+        return ArrayRef(
+            name=self.name,
+            key=key,
+            previous=previous,
+            next=next,
+            initial=initial,
+            all_time_steps=all_time_steps,
+        )
