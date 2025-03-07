@@ -14,7 +14,6 @@ __all__ = [
     "Model",
     "NodeId",
     "ParameterABC",
-    "ParameterCollectionABC",
     "ParameterId",
     "ParameterRef",
     "RealParameter",
@@ -31,6 +30,10 @@ __all__ = [
     "execute_exec_model",
     "module_to_content",
     "relationship",
+    "results_to_df",
+    "run_experiments",
+    "sample_parameter_values",
+    "sample_parameter_values",
     "utils",
 ]
 
@@ -64,6 +67,7 @@ from ._exec import (
     create_exec_model_from_core_model,
     execute_exec_model,
 )
+from ._experiment import results_to_df, run_experiments, sample_parameter_values
 from ._notation import (
     Model,
     core_model_to_content,
