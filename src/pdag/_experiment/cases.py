@@ -28,7 +28,7 @@ def latin_hypercube_sampling(
     n_samples: Annotated[int, Doc("Number of sample points.")],
     n_dimensions: Annotated[int, Doc("Number of dimensions (parameters).")],
     *,
-    rng: Annotated[np.random.Generator | None, Doc("NumPy random number generator.") | None] = None,
+    rng: Annotated[np.random.Generator | None, Doc("NumPy random number generator.")] = None,
 ) -> Annotated[npt.NDArray[np.float64], Doc("An array of shape (n_samples, n_dimensions) containing the samples.")]:
     """Generate Latin Hypercube Samples.
 
