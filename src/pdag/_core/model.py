@@ -1,4 +1,4 @@
-from collections.abc import Iterable
+from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
 from typing import Annotated, Any, cast
 
@@ -26,7 +26,7 @@ class CoreModel:
         ),
     ]
     collections: Annotated[
-        dict[str, CollectionABC[Any, Any]],
+        dict[str, CollectionABC[Hashable, ParameterABC[Any] | RelationshipABC]],
         Doc("Mapping of collection names to collections."),
     ]
 
