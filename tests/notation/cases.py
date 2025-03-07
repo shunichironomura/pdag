@@ -81,15 +81,15 @@ tech_dev_completion_core_model = pdag.CoreModel(
     | {f"dev_time[{tech}]": pdag.RealParameter(f"dev_time[{tech}]") for tech in _TECHNOLOGIES}
     | {f"dev_completion_time[{tech}]": pdag.RealParameter(f"dev_completion_time[{tech}]") for tech in _TECHNOLOGIES},
     collections={
-        "dev_start_time": pdag.Mapping(
+        "dev_start_time": pdag.Mapping(  # type: ignore[dict-item]
             "dev_start_time",
             {tech: pdag.RealParameter(f"dev_start_time[{tech}]") for tech in _TECHNOLOGIES},
         ),
-        "dev_time": pdag.Mapping(
+        "dev_time": pdag.Mapping(  # type: ignore[dict-item]
             "dev_time",
             {tech: pdag.RealParameter(f"dev_time[{tech}]") for tech in _TECHNOLOGIES},
         ),
-        "dev_completion_time": pdag.Mapping(
+        "dev_completion_time": pdag.Mapping(  # type: ignore[dict-item]
             "dev_completion_time",
             {tech: pdag.RealParameter(f"dev_completion_time[{tech}]") for tech in _TECHNOLOGIES},
         ),
