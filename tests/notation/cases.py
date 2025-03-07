@@ -7,7 +7,7 @@ import pdag
 class SquareRootModel(pdag.Model):
     x = pdag.RealParameter("x")
     y = pdag.RealParameter("y")
-    z = pdag.CategoricalParameter("z", categories={"pos", "neg"})
+    z = pdag.CategoricalParameter("z", categories=("pos", "neg"))
 
     @pdag.relationship
     @staticmethod
@@ -26,7 +26,7 @@ square_root_core_model = pdag.CoreModel(
     parameters={
         "x": pdag.RealParameter("x"),
         "y": pdag.RealParameter("y"),
-        "z": pdag.CategoricalParameter("z", categories={"pos", "neg"}),
+        "z": pdag.CategoricalParameter("z", categories=("pos", "neg")),
     },
     collections={},
     relationships={

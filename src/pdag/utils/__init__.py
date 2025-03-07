@@ -1,7 +1,6 @@
 """Utility functions and classes for the pdag package."""
 
 __all__ = [
-    "ElementOrArrayType",
     "InitArgsRecorder",
     "MultiDef",
     "MultiDefMeta",

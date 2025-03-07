@@ -1,6 +1,6 @@
 from collections.abc import Iterable
-from dataclasses import dataclass
-from typing import Annotated, Any
+from dataclasses import dataclass, field
+from typing import Annotated, Any, cast
 
 from typing_extensions import Doc
 
@@ -29,6 +29,17 @@ class CoreModel:
         dict[str, CollectionABC[Any, Any]],
         Doc("Mapping of collection names to collections."),
     ]
+
+    _parameter_dict: dict[str, ParameterABC[Any]] = field(init=False)
+    _relationship_dict: dict[str, RelationshipABC] = field(init=False)
+
+    def __post_init__(self) -> None:
+        assert all(isinstance(param.name, str) for param in self.iter_all_parameters())
+        assert all(isinstance(relationship.name, str) for relationship in self.iter_all_relationships())
+        self._parameter_dict = {cast(str, param.name): param for param in self.iter_all_parameters()}
+        self._relationship_dict = {
+            cast(str, relationship.name): relationship for relationship in self.iter_all_relationships()
+        }
 
     def is_hydrated(self) -> bool:
         """Check if all parameters, collections, and relationships are hydrated."""
@@ -62,22 +73,28 @@ class CoreModel:
             if collection.item_type == "relationship":
                 yield from collection.values()
 
-    def get_object(
+    def get_relationship(self, name: str) -> RelationshipABC:
+        return self._relationship_dict[name]
+
+    def get_parameter(self, name: str) -> ParameterABC[Any]:
+        return self._parameter_dict[name]
+
+    def get_object_from_ref(
         self,
         ref: ReferenceABC,
     ) -> ParameterABC[Any] | CollectionABC[Any, Any]:
         if isinstance(ref, ParameterRef):
-            return self.get_parameter(ref)
+            return self.get_parameter_from_ref(ref)
         if isinstance(ref, CollectionRef):
-            return self.get_collection(ref)
+            return self.get_collection_from_ref(ref)
         msg = f"Reference type {type(ref)} is not supported."
         raise TypeError(msg)
 
-    def get_parameter(self, ref: ParameterRef) -> ParameterABC[Any]:
+    def get_parameter_from_ref(self, ref: ParameterRef) -> ParameterABC[Any]:
         assert isinstance(ref.name, str)
         return self.parameters[ref.name]
 
-    def get_collection(self, ref: CollectionRef[Any]) -> CollectionABC[Any, Any]:
+    def get_collection_from_ref(self, ref: CollectionRef[Any]) -> CollectionABC[Any, Any]:
         assert isinstance(ref.name, str)
         return self.collections[ref.name]
 

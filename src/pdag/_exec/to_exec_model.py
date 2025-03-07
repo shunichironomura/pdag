@@ -501,4 +501,5 @@ def create_exec_model_from_core_model(
         relationship_id_to_output_parameter_ids=relationship_id_to_output_parameter_ids,
         port_mapping=port_mapping,
         n_time_steps=n_time_steps,
+        _core_model=core_model,
     )
