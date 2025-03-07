@@ -13,8 +13,10 @@ from .reference import ArrayRef, MappingRef
 from .relationship import RelationshipABC
 
 
-def _key_to_str(key: Any) -> str:
+def key_to_str(key: Any, *, make_one_element_tuple_scalar: bool = False) -> str:
     if isinstance(key, tuple):
+        if len(key) == 1 and make_one_element_tuple_scalar:
+            return str(key[0])
         return ", ".join(str(k) for k in key)
     return str(key)
 
@@ -65,7 +67,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
             if isinstance(element.name, str):
                 # Already named
                 continue
-            element.name = f"{self.name}[{_key_to_str(key)}]"
+            element.name = f"{self.name}[{key_to_str(key)}]"
 
     def is_time_series(self) -> bool:
         if self.item_type == "parameter":
