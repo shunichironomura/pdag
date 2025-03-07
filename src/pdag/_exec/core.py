@@ -1,10 +1,8 @@
-from collections import defaultdict, deque
+from collections import deque
 from collections.abc import Mapping
-from typing import Any, cast
+from typing import Any
 
 import numpy as np
-
-from pdag.utils import topological_sort
 
 from .model import (
     ArrayConnector,
@@ -12,7 +10,6 @@ from .model import (
     ExecutionModel,
     MappingConnector,
     MappingListConnector,
-    NodeId,
     ParameterId,
     RelationshipId,
     ScalarConnector,
@@ -42,20 +39,8 @@ def execute_exec_model(  # noqa: C901, PLR0912, PLR0915
     exec_model: ExecutionModel,
     inputs: Mapping[ParameterId, Any],
 ) -> dict[ParameterId, Any]:
-    # TODO: Exec only part of the model
-    # Calculate dependencies
-    dependencies_dd: defaultdict[NodeId, set[NodeId]] = defaultdict(
-        set,
-        cast(dict[NodeId, set[NodeId]], exec_model.input_parameter_id_to_relationship_ids)
-        | cast(dict[NodeId, set[NodeId]], exec_model.relationship_id_to_output_parameter_ids),
-    )
-    for src, dest in exec_model.port_mapping.items():
-        dependencies_dd[src].add(dest)
-    dependencies = dict(dependencies_dd)
-    # Sort nodes topologically
-    sorted_nodes = topological_sort(dependencies)
-
-    sorted_nodes_queue = deque(sorted_nodes)
+    # TODO: Exec only part of the model (in which case you need to sort the nodes again?)
+    sorted_nodes_queue = deque(exec_model.topologically_sorted_node_ids)
     results: dict[ParameterId, Any] = {}
     while sorted_nodes_queue:
         node_id = sorted_nodes_queue.popleft()

@@ -3,7 +3,7 @@ from collections import defaultdict
 from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Annotated, Any, Self
+from typing import Annotated, Any, Self, cast
 
 import numpy.typing as npt
 from typing_extensions import Doc
@@ -11,6 +11,7 @@ from typing_extensions import Doc
 from pdag._core import ExecInfo, FunctionRelationship
 from pdag._core.model import CoreModel
 from pdag._core.parameter import ParameterABC
+from pdag.utils import topological_sort
 
 from .utils import parameter_id_to_parameter
 
@@ -181,6 +182,8 @@ class ExecutionModel:
     )
     port_mapping_inverse: dict[ParameterId, ParameterId] = field(init=False, repr=False, compare=False)
 
+    _topologically_sorted_node_ids: list[NodeId] = field(init=False, repr=False, compare=False)
+
     def __post_init__(self) -> None:
         relationship_id_to_input_parameter_ids_dd: defaultdict[RelationshipId, set[ParameterId]] = defaultdict(
             set,
@@ -200,6 +203,18 @@ class ExecutionModel:
 
         self.port_mapping_inverse = {value: key for key, value in self.port_mapping.items()}
 
+        # Calculate topological sort
+        dependencies_dd: defaultdict[NodeId, set[NodeId]] = defaultdict(
+            set,
+            cast(dict[NodeId, set[NodeId]], self.input_parameter_id_to_relationship_ids)
+            | cast(dict[NodeId, set[NodeId]], self.relationship_id_to_output_parameter_ids),
+        )
+        for src, dest in self.port_mapping.items():
+            dependencies_dd[src].add(dest)
+        dependencies = dict(dependencies_dd)
+        # Sort nodes topologically
+        self._topologically_sorted_node_ids = topological_sort(dependencies)
+
     def input_parameter_ids(self) -> set[ParameterId]:
         return {
             parameter_id
@@ -213,3 +228,7 @@ class ExecutionModel:
             parameter_id: parameter_id_to_parameter(parameter_id, root_model=self._core_model)
             for parameter_id in self.input_parameter_ids()
         }
+
+    @property
+    def topologically_sorted_node_ids(self) -> list[NodeId]:
+        return self._topologically_sorted_node_ids
