@@ -330,7 +330,9 @@ source = { editable = "." }
 dependencies = [
     { name = "asttokens" },
     { name = "numpy" },
+    { name = "polars" },
     { name = "rich" },
+    { name = "tqdm" },
     { name = "typing-extensions" },
 ]
 
@@ -369,37 +371,39 @@ typing = [
 requires-dist = [
     { name = "asttokens", specifier = ">=3.0.0" },
     { name = "numpy", specifier = ">=1.24" },
+    { name = "polars", specifier = ">=1.24.0" },
     { name = "rich", specifier = ">=13.9.4" },
+    { name = "tqdm", specifier = ">=4.67.1" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "coverage", specifier = "==7.6.12" },
+    { name = "coverage", specifier = ">=7.6.12" },
     { name = "deptry", specifier = ">=0.23.0" },
     { name = "import-linter", specifier = ">=2.2" },
-    { name = "mypy", specifier = "==1.15.0" },
-    { name = "pandas-stubs", specifier = "==2.2.3.241126" },
-    { name = "pre-commit", specifier = "==4.1.0" },
-    { name = "pytest", specifier = "==8.3.5" },
-    { name = "ruff", specifier = "==0.9.9" },
-    { name = "types-tqdm", specifier = "==4.67.0.20250301" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "pandas-stubs", specifier = ">=2.2.3.241126" },
+    { name = "pre-commit", specifier = ">=4.1.0" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "ruff", specifier = ">=0.9.9" },
+    { name = "types-tqdm", specifier = ">=4.67.0.20250301" },
 ]
 linting = [
     { name = "deptry", specifier = ">=0.23.0" },
     { name = "import-linter", specifier = ">=2.2" },
 ]
-ruff = [{ name = "ruff", specifier = "==0.9.9" }]
+ruff = [{ name = "ruff", specifier = ">=0.9.9" }]
 testing = [
-    { name = "coverage", specifier = "==7.6.12" },
-    { name = "pytest", specifier = "==8.3.5" },
+    { name = "coverage", specifier = ">=7.6.12" },
+    { name = "pytest", specifier = ">=8.3.5" },
 ]
 typing = [
-    { name = "coverage", specifier = "==7.6.12" },
-    { name = "mypy", specifier = "==1.15.0" },
-    { name = "pandas-stubs", specifier = "==2.2.3.241126" },
-    { name = "pytest", specifier = "==8.3.5" },
-    { name = "types-tqdm", specifier = "==4.67.0.20250301" },
+    { name = "coverage", specifier = ">=7.6.12" },
+    { name = "mypy", specifier = ">=1.15.0" },
+    { name = "pandas-stubs", specifier = ">=2.2.3.241126" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "types-tqdm", specifier = ">=4.67.0.20250301" },
 ]
 
 [[package]]
@@ -418,6 +422,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/96/2d/02d4312c973c6050a18b314a5ad0b3210edb65a906f868e31c111dede4a6/pluggy-1.5.0.tar.gz", hash = "sha256:2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1", size = 67955 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/88/5f/e351af9a41f866ac3f1fac4ca0613908d9a41741cfcf2228f4ad853b697d/pluggy-1.5.0-py3-none-any.whl", hash = "sha256:44e1ad92c8ca002de6377e165f3e0f1be63266ab4d554740532335b9d75ea669", size = 20556 },
+]
+
+[[package]]
+name = "polars"
+version = "1.24.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/d3/453bcecbe14a5aba6be47c99d81f4e1f941d3de729d5e0ce5c7d527c05ed/polars-1.24.0.tar.gz", hash = "sha256:6e7553789495081c998f5e4ad4ebc7e19e970a9cc83326d40461564e85ad226d", size = 4446066 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a9/3f/16f87d9ec4707d717a434bc54307506594522de99fdfe3d5d76233912c94/polars-1.24.0-cp39-abi3-macosx_10_12_x86_64.whl", hash = "sha256:563b99a6597fe77a3c89d478e4a6fb49c063f44ef84d4adefe490e14626e2f99", size = 33792674 },
+    { url = "https://files.pythonhosted.org/packages/35/cd/27353d0b9331d60a95f5708370441348d4a3af0f609961ceaaa3b583190f/polars-1.24.0-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:6ad64d938d60b7fda39b60892ef67bc6a9942e0c7170db593a65d019e8730b09", size = 30469541 },
+    { url = "https://files.pythonhosted.org/packages/a7/db/668d8328b1c3d8381023fc4ed905a88b93cca041c088f42a94dbd6822469/polars-1.24.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:331e737465b8d954bec51e6906bdc6e979a6ee52f97ffe5e8d0c10794a46bfd9", size = 34313540 },
+    { url = "https://files.pythonhosted.org/packages/12/16/f95207616b2e802c381459cf01f0d233daa98bdc4e394ec88044af9e927f/polars-1.24.0-cp39-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:3c6c774aebdd5cd601839594986648789352f72b8893f4b7e34224e75b060c8d", size = 31490266 },
+    { url = "https://files.pythonhosted.org/packages/8b/82/cb0512747ec5508a4f840a521feb27f28a81eac1aef6c92fc25643073579/polars-1.24.0-cp39-abi3-win_amd64.whl", hash = "sha256:a5a473ff44fe1b9e3e7a9013a9321efe841d858e89cf33d424e6f3fef3ea4d5e", size = 34678593 },
+    { url = "https://files.pythonhosted.org/packages/67/00/db3810803938467a215c1f161ff21ad6fef581d5ac1381ee2990d0180c19/polars-1.24.0-cp39-abi3-win_arm64.whl", hash = "sha256:5ea781ca8e0a39c3b677171dbd852e5fa2d5c53417b5fbd69d711b6044a49eaa", size = 30892251 },
 ]
 
 [[package]]
@@ -535,6 +553,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/42/55/e6c90f13880aeef327746052907e7e930681f26a164fe130ddac28b08269/ruff-0.9.9-py3-none-win32.whl", hash = "sha256:6b4c376d929c25ecd6d87e182a230fa4377b8e5125a4ff52d506ee8c087153c1", size = 10227912 },
     { url = "https://files.pythonhosted.org/packages/35/b2/da925693cb82a1208aa34966c0f36cb222baca94e729dd22a587bc22d0f3/ruff-0.9.9-py3-none-win_amd64.whl", hash = "sha256:837982ea24091d4c1700ddb2f63b7070e5baec508e43b01de013dc7eff974ff1", size = 11355632 },
     { url = "https://files.pythonhosted.org/packages/31/d8/de873d1c1b020d668d8ec9855d390764cb90cf8f6486c0983da52be8b7b7/ruff-0.9.9-py3-none-win_arm64.whl", hash = "sha256:3ac78f127517209fe6d96ab00f3ba97cafe38718b23b1db3e96d8b2d39e37ddf", size = 10435860 },
+]
+
+[[package]]
+name = "tqdm"
+version = "4.67.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz", hash = "sha256:f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2", size = 169737 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d0/30/dc54f88dd4a2b5dc8a0279bdd7270e735851848b762aeb1c1184ed1f6b14/tqdm-4.67.1-py3-none-any.whl", hash = "sha256:26445eca388f82e72884e0d580d5464cd801a3ea01e63e5601bdff9ba6a48de2", size = 78540 },
 ]
 
 [[package]]

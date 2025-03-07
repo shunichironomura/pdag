@@ -12,7 +12,9 @@ requires-python = ">=3.12"
 dependencies = [
     "asttokens>=3.0.0",
     "numpy>=1.24",
+    "polars>=1.24.0",
     "rich>=13.9.4",
+    "tqdm>=4.67.1",
     "typing-extensions>=4.12.2",
 ]
 classifiers = [
@@ -35,20 +37,20 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "pre-commit==4.1.0",
+    "pre-commit>=4.1.0",
     { include-group = "ruff" },
     { include-group = "linting" },
     { include-group = "typing" },
     { include-group = "testing" },
 ]
-ruff = ["ruff==0.9.9"]
+ruff = ["ruff>=0.9.9"]
 typing = [
-    "mypy==1.15.0",
+    "mypy>=1.15.0",
     { include-group = "testing" },
-    "pandas-stubs==2.2.3.241126",
-    "types-tqdm==4.67.0.20250301",
+    "pandas-stubs>=2.2.3.241126",
+    "types-tqdm>=4.67.0.20250301",
 ]
-testing = ["coverage==7.6.12", "pytest==8.3.5"]
+testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 
 [tool.pytest.ini_options]
