@@ -49,7 +49,7 @@ def resolve_ref(  # noqa: PLR0913
     n_time_steps: int | None = None,
     time_step: int | None = None,
 ) -> ConnectorABC:
-    obj = core_model.get_object(ref)
+    obj = core_model.get_object_from_ref(ref)
     if isinstance(obj, ParameterABC):
         assert isinstance(ref, ParameterRef)
         if time_series_relationship:
@@ -297,7 +297,9 @@ def _filter(connector: ConnectorABC, key: Hashable | None = None) -> ConnectorAB
         sample_key = next(iter(connector.parameter_ids[0]))
         if isinstance(sample_key, str):
             return ArrayConnector(
-                parameter_ids=np.array([mapping[key] for mapping in connector.parameter_ids]),
+                parameter_ids=np.array(
+                    [mapping[key] for mapping in connector.parameter_ids],
+                ),
             )
         if isinstance(sample_key, tuple):
             return MappingListConnector(
