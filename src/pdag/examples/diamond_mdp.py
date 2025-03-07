@@ -8,11 +8,11 @@ import pdag
 class DiamondMdpModel(pdag.Model):
     """Diamond MDP model."""
 
-    policy = pdag.CategoricalParameter("policy", categories={"left", "right"})
-    location = pdag.CategoricalParameter("location", categories={"start", "left", "right", "end"}, is_time_series=True)
+    policy = pdag.CategoricalParameter(..., categories=("left", "right"))
+    location = pdag.CategoricalParameter("location", categories=("start", "left", "right", "end"), is_time_series=True)
     action = pdag.CategoricalParameter(
         "action",
-        categories={"go_left", "go_right", "move_forward", "none"},
+        categories=("go_left", "go_right", "move_forward", "none"),
         is_time_series=True,
     )
     # Initial value of the reward is not calculated in the model
@@ -21,7 +21,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def action_selection(  # noqa: D102
+    def action_selection(  # noqa: D102, PLR0911
         *,
         policy: Annotated[Literal["left", "right"], pdag.ParameterRef("policy")],
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
@@ -33,17 +33,21 @@ class DiamondMdpModel(pdag.Model):
                 return "go_right"
             case "left", "left":
                 return "move_forward"
+            case "left", "right":
+                return "go_right"
             case "right", "right":
                 return "move_forward"
+            case "right", "left":
+                return "go_left"
             case "end", _:
                 return "none"
 
-        msg = "Invalid policy and location combination"
+        msg = f"Invalid policy and location combination: {policy=}, {location=}"
         raise ValueError(msg)
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def state_transition(  # noqa: D102
+    def state_transition(  # noqa: C901, D102, PLR0911
         *,
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
         action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")],
@@ -53,14 +57,26 @@ class DiamondMdpModel(pdag.Model):
                 return "left"
             case "start", "go_right":
                 return "right"
+            case "start", "move_forward":
+                return "start"
             case "left", "move_forward":
                 return "end"
+            case "left", "go_left":
+                return "left"
+            case "left", "go_right":
+                return "right"
             case "right", "move_forward":
                 return "end"
+            case "right", "go_left":
+                return "left"
+            case "right", "go_right":
+                return "right"
+            case _, "none":
+                return location
             case "end", _:
                 return "end"
 
-        msg = "Invalid location and action combination"
+        msg = f"Invalid location and action combination: {location=}, {action=}"
         raise ValueError(msg)
 
     @pdag.relationship
