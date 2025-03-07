@@ -1,3 +1,4 @@
+from collections.abc import Hashable
 from collections.abc import Mapping as MappingABC
 from types import EllipsisType
 from typing import Any, ClassVar, cast
@@ -25,6 +26,17 @@ def _function_relationship_multidef_storage_to_mapping(
     )
 
 
+def _hydrate_name[T: CollectionABC[Hashable, ParameterABC[Any]] | ParameterABC[Any]](
+    obj: T,
+    name: str,
+    *,
+    force: bool = False,
+) -> T:
+    if not isinstance(obj.name, str) or force:
+        obj.name = name
+    return obj
+
+
 class ModelMeta(MultiDefMeta):
     def __new__(
         metacls,  # noqa: N804
@@ -38,11 +50,15 @@ class ModelMeta(MultiDefMeta):
         cls = cast(type["Model"], cls)
 
         cls.name = name
+
+        # Add top-level collections
         cls.__pdag_collections__ = {
-            collection_name: collection
+            collection_name: _hydrate_name(collection, collection_name)
             for collection_name, collection in namespace.items()
             if isinstance(collection, CollectionABC)
         }
+
+        # Add MultiDefStorage instances (function relationships defined in loops) to __pdag_collections__
         cls.__pdag_collections__.update(
             {
                 storage_name: _function_relationship_multidef_storage_to_mapping(storage_name, storage)
@@ -50,12 +66,15 @@ class ModelMeta(MultiDefMeta):
                 if isinstance(storage, MultiDefStorage)
             },
         )
+
+        # Add top-level parameters
         cls.__pdag_parameters__ = {
-            parameter_name: parameter
+            parameter_name: _hydrate_name(parameter, parameter_name)
             for parameter_name, parameter in namespace.items()
             if isinstance(parameter, ParameterABC)
         }
 
+        # Add top-level relationships (function relationships at the top level)
         cls.__pdag_relationships__ = {}
         for relationship_name, relationship in namespace.items():
             if isinstance(relationship, RelationshipABC):
