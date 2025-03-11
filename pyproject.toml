@@ -26,7 +26,6 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
-    "License :: OSI Approved",
     "License :: OSI Approved :: MIT License",
     "Typing :: Typed",
 ]
