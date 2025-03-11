@@ -23,7 +23,7 @@ class DiamondMdpModel(pdag.Model):
     @staticmethod
     def action_selection(  # noqa: D102, PLR0911
         *,
-        policy: Annotated[Literal["left", "right"], pdag.ParameterRef("policy")],
+        policy: Annotated[Literal["left", "right"], policy.ref()],
         location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
     ) -> Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")]:
         match location, policy:
