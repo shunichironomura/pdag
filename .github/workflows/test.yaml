@@ -6,7 +6,6 @@ on:
   pull_request:
 
 env:
-  PYTHON_VERSION: "3.13"
   UV_VERSION: "0.6.x"
   UV_FROZEN: "1"
   UV_NO_SYNC: "1"
@@ -25,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version-file: .python-version
 
       - name: Install ruff
         run: uv sync --only-group ruff
@@ -70,7 +69,7 @@ jobs:
 
   #     - uses: actions/setup-python@v5
   #       with:
-  #         python-version: ${{ env.PYTHON_VERSION }}
+  #         python-version-file: .python-version
 
   #     - name: Install the project
   #       run: uv sync
@@ -135,7 +134,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version-file: .python-version
 
       - name: Install the project
         run: uv sync --no-dev --group linting
@@ -156,7 +155,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version-file: .python-version
 
       - name: Install the project
         run: uv sync --no-dev --group linting
@@ -177,7 +176,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version-file: .python-version
 
       - name: Install the project
         run: uv sync --no-dev --group license
