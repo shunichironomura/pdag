@@ -9,18 +9,18 @@ from pdag._core import (
     ExecInfo,
     ReferenceABC,
 )
-from pdag._core.builder import FunctionRelationshipBuilder, ReferenceBuilder
+from pdag._core.builder import FunctionRelationshipBuilder, RefBuilderABC
 from pdag.utils import MultiDefProtocol, get_function_body, multidef
 
 
 def _get_outputs_from_signature(
     sig: inspect.Signature,
-) -> tuple[list[ReferenceABC | ReferenceBuilder[Any]], bool]:
+) -> tuple[list[ReferenceABC | RefBuilderABC], bool]:
     def single_annotation_to_ref(
         annotations: _AnnotatedAlias,
-    ) -> ReferenceABC | ReferenceBuilder[Any]:
+    ) -> ReferenceABC | RefBuilderABC:
         args = get_args(annotations)
-        return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ReferenceBuilder)))
+        return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | RefBuilderABC)))
 
     if get_origin(sig.return_annotation) is not tuple:
         parameter_name = single_annotation_to_ref(sig.return_annotation)
@@ -31,7 +31,7 @@ def _get_outputs_from_signature(
 
 def _get_inputs_from_signature(
     sig: inspect.Signature,
-) -> dict[str, ReferenceABC | ReferenceBuilder[Any] | ExecInfo]:
+) -> dict[str, ReferenceABC | RefBuilderABC | ExecInfo]:
     """Get the input references from the signature of a function.
 
     The references are extracted from the annotations of the function's parameters.
@@ -56,10 +56,10 @@ def _get_inputs_from_signature(
 
     def _get_ref_from_annotation(
         annotations: _AnnotatedAlias,
-    ) -> ReferenceABC | ReferenceBuilder[Any] | ExecInfo | None:
+    ) -> ReferenceABC | RefBuilderABC | ExecInfo | None:
         args = get_args(annotations)
         try:
-            return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ReferenceBuilder | ExecInfo)))
+            return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | RefBuilderABC | ExecInfo)))
         except StopIteration:
             # No annotation of type ReferenceABC or ExecInfo found.
             return None

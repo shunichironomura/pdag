@@ -12,7 +12,7 @@ from .reference import ParameterRef
 if TYPE_CHECKING:
     from types import EllipsisType
 
-    from .builder import ReferenceBuilder
+    from .builder import ParameterRefBuilder
 
 
 @dataclass
@@ -40,7 +40,7 @@ class ParameterABC[T](InitArgsRecorder, ABC):
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> ParameterRef | ReferenceBuilder[T]:
+    ) -> ParameterRef | ParameterRefBuilder[T]:
         if isinstance(self.name, str):
             return ParameterRef(
                 name=self.name,
@@ -49,9 +49,9 @@ class ParameterABC[T](InitArgsRecorder, ABC):
                 initial=initial,
                 all_time_steps=all_time_steps,
             )
-        from .builder import ReferenceBuilder
+        from .builder import ParameterRefBuilder
 
-        return ReferenceBuilder(
+        return ParameterRefBuilder(
             parameter=self,
             previous=previous,
             next=next,

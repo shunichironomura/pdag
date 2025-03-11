@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
-from typing import Any, ClassVar, Literal, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -9,8 +11,13 @@ import numpy.typing as npt
 from pdag.utils import InitArgsRecorder
 
 from .parameter import ParameterABC
-from .reference import ArrayRef, MappingRef
+from .reference import ArrayRef, CollectionRef, MappingRef
 from .relationship import RelationshipABC
+
+if TYPE_CHECKING:
+    from types import EllipsisType
+
+    from pdag._core.builder import CollectionRefBuilder
 
 
 def key_to_str(key: Any, *, make_one_element_tuple_scalar: bool = False) -> str:
@@ -27,7 +34,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
     InitArgsRecorder,
 ):
     type: ClassVar[str] = "collection"
-    name: str
+    name: str | EllipsisType
     item_type: Literal["parameter", "relationship"] = field(init=False)
 
     def __post_init__(self) -> None:
@@ -40,8 +47,6 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
                 break
             msg = "Collection must contain only parameters or relationships."
             raise TypeError(msg)
-
-        self.name_elements()
 
     @abstractmethod
     def __getitem__(self, key: K) -> T:
@@ -78,13 +83,13 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
     @abstractmethod
     def ref(
         self,
-        key: K,
+        key: K | None = None,
         *,
         previous: bool = False,
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> Any:
+    ) -> CollectionRef[K] | CollectionRefBuilder[K]:
         raise NotImplementedError
 
 
@@ -93,7 +98,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     CollectionABC[K, T],
 ):
     type: ClassVar[str] = "mapping"
-    name: str
+    name: str | EllipsisType
     mapping: dict[K, T]
 
     def __getitem__(self, key: K) -> T:
@@ -108,19 +113,29 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     def keys(self) -> Iterable[K]:
         yield from self.mapping.keys()
 
-    def ref(
+    def ref(  # type: ignore[override]
         self,
-        key: K,
+        key: str | tuple[str | EllipsisType, ...] | None = None,
         *,
         previous: bool = False,
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> Any:
-        assert isinstance(self.name, str), "Mapping name must be hydrated to create a reference."
-        return MappingRef(
-            name=self.name,
-            key=key,
+    ) -> MappingRef | CollectionRefBuilder[str | tuple[str | EllipsisType, ...]]:
+        if isinstance(self.name, str):
+            return MappingRef(
+                name=self.name,
+                key=key,
+                previous=previous,
+                next=next,
+                initial=initial,
+                all_time_steps=all_time_steps,
+            )
+
+        from .builder import CollectionRefBuilder
+
+        return CollectionRefBuilder(
+            collection=self,  # type: ignore[arg-type]
             previous=previous,
             next=next,
             initial=initial,
@@ -131,7 +146,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 @dataclass
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
     type: ClassVar[str] = "array"
-    name: str
+    name: str | EllipsisType
     array: npt.NDArray[T]  # type: ignore[type-var]
 
     @property
@@ -149,17 +164,28 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
 
     def ref(
         self,
-        key: tuple[int, ...],
+        key: tuple[int, ...] | None = None,
         *,
         previous: bool = False,
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> Any:
-        assert isinstance(self.name, str), "Array name must be hydrated to create a reference."
-        return ArrayRef(
-            name=self.name,
-            key=key,
+    ) -> ArrayRef | CollectionRefBuilder[tuple[int, ...]]:
+        if isinstance(self.name, str):
+            return ArrayRef(
+                name=self.name,
+                key=key,
+                previous=previous,
+                next=next,
+                initial=initial,
+                all_time_steps=all_time_steps,
+            )
+
+        from .builder import CollectionRefBuilder
+
+        return CollectionRefBuilder(
+            collection=self,  # type: ignore[arg-type]
+            key=key,  # type: ignore[arg-type]
             previous=previous,
             next=next,
             initial=initial,
