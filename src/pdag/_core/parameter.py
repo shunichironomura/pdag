@@ -1,12 +1,18 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from types import EllipsisType
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from pdag.utils import InitArgsRecorder
 
 from .reference import ParameterRef
+
+if TYPE_CHECKING:
+    from types import EllipsisType
+
+    from .builder import ReferenceBuilder
 
 
 @dataclass
@@ -34,10 +40,19 @@ class ParameterABC[T](InitArgsRecorder, ABC):
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> ParameterRef:
-        assert isinstance(self.name, str), "Parameter name must be hydrated to create a reference."
-        return ParameterRef(
-            name=self.name,
+    ) -> ParameterRef | ReferenceBuilder[T]:
+        if isinstance(self.name, str):
+            return ParameterRef(
+                name=self.name,
+                previous=previous,
+                next=next,
+                initial=initial,
+                all_time_steps=all_time_steps,
+            )
+        from .builder import ReferenceBuilder
+
+        return ReferenceBuilder(
+            parameter=self,
             previous=previous,
             next=next,
             initial=initial,
