@@ -86,6 +86,9 @@ exclude = '^scripts/'
 module = ["pydot.*"]
 ignore_missing_imports = true
 
+[tool.deptry]
+extend_exclude = ["scripts"]
+
 [tool.deptry.per_rule_ignores]
 "DEP003" = ["pdag"] # Allow absolute imports in pdag package
 
