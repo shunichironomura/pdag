@@ -1,7 +1,6 @@
 # `pdag` — Parameter Directed Acyclic Graph
 
 [![PyPI](https://img.shields.io/pypi/v/pdag)](https://pypi.org/project/pdag/)
-<!-- [![conda-forge](https://img.shields.io/conda/vn/conda-forge/pdag.svg)](https://anaconda.org/conda-forge/pdag) -->
 ![PyPI - License](https://img.shields.io/pypi/l/pdag)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pdag)
 [![Test Status](https://github.com/shunichironomura/pdag/actions/workflows/test.yaml/badge.svg)](https://github.com/shunichironomura/pdag/actions)
