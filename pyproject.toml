@@ -80,10 +80,14 @@ exclude_also = [
 
 [tool.mypy]
 strict = true
+exclude = '^scripts/'
 
 [[tool.mypy.overrides]]
 module = ["pydot.*"]
 ignore_missing_imports = true
+
+[tool.deptry]
+extend_exclude = ["scripts"]
 
 [tool.deptry.per_rule_ignores]
 "DEP003" = ["pdag"] # Allow absolute imports in pdag package
@@ -148,4 +152,12 @@ ignore = [
     "D",      # Docstring
     "INP001",
     "S101",
+]
+"scripts/**.py" = [
+    "D",      # Docstring
+    "INP001",
+    "S101",
+    "UP036",
+    "EXE003",
+    "T201",
 ]
