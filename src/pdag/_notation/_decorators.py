@@ -7,20 +7,20 @@ from typing_extensions import _AnnotatedAlias
 
 from pdag._core import (
     ExecInfo,
-    FunctionRelationship,
     ReferenceABC,
 )
+from pdag._core.builder import FunctionRelationshipBuilder, ReferenceBuilder
 from pdag.utils import MultiDefProtocol, get_function_body, multidef
 
 
 def _get_outputs_from_signature(
     sig: inspect.Signature,
-) -> tuple[list[ReferenceABC], bool]:
+) -> tuple[list[ReferenceABC | ReferenceBuilder[Any]], bool]:
     def single_annotation_to_ref(
         annotations: _AnnotatedAlias,
-    ) -> ReferenceABC:
+    ) -> ReferenceABC | ReferenceBuilder[Any]:
         args = get_args(annotations)
-        return next(iter(arg for arg in args if isinstance(arg, ReferenceABC)))
+        return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ReferenceBuilder)))
 
     if get_origin(sig.return_annotation) is not tuple:
         parameter_name = single_annotation_to_ref(sig.return_annotation)
@@ -31,7 +31,7 @@ def _get_outputs_from_signature(
 
 def _get_inputs_from_signature(
     sig: inspect.Signature,
-) -> dict[str, ReferenceABC | ExecInfo]:
+) -> dict[str, ReferenceABC | ReferenceBuilder[Any] | ExecInfo]:
     """Get the input references from the signature of a function.
 
     The references are extracted from the annotations of the function's parameters.
@@ -56,10 +56,10 @@ def _get_inputs_from_signature(
 
     def _get_ref_from_annotation(
         annotations: _AnnotatedAlias,
-    ) -> ReferenceABC | ExecInfo | None:
+    ) -> ReferenceABC | ReferenceBuilder[Any] | ExecInfo | None:
         args = get_args(annotations)
         try:
-            return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ExecInfo)))
+            return next(iter(arg for arg in args if isinstance(arg, ReferenceABC | ReferenceBuilder | ExecInfo)))
         except StopIteration:
             # No annotation of type ReferenceABC or ExecInfo found.
             return None
@@ -77,7 +77,7 @@ def relationship[**P, T](
     *,
     identifier: None = None,
     at_each_time_step: Literal[False] = False,
-) -> FunctionRelationship[P, T]: ...
+) -> FunctionRelationshipBuilder[P, T]: ...
 
 
 @overload
@@ -86,7 +86,7 @@ def relationship[**P, T](
     *,
     identifier: Any = None,
     at_each_time_step: bool = False,
-) -> Callable[[Callable[P, T]], FunctionRelationship[P, T]]: ...
+) -> Callable[[Callable[P, T]], FunctionRelationshipBuilder[P, T]]: ...
 
 
 def relationship[**P, T](
@@ -95,9 +95,9 @@ def relationship[**P, T](
     identifier: Hashable = None,
     at_each_time_step: bool = False,
 ) -> (
-    FunctionRelationship[P, T]
-    | Callable[[Callable[P, T]], FunctionRelationship[P, T]]
-    | Callable[[Callable[P, T]], MultiDefProtocol[Hashable, FunctionRelationship[P, T]]]
+    FunctionRelationshipBuilder[P, T]
+    | Callable[[Callable[P, T]], FunctionRelationshipBuilder[P, T]]
+    | Callable[[Callable[P, T]], MultiDefProtocol[Hashable, FunctionRelationshipBuilder[P, T]]]
 ):
     """Decorate a function to mark it as a relationship."""
 
@@ -105,13 +105,13 @@ def relationship[**P, T](
         func: Callable[P, T],
         *,
         _relationship_name: str | EllipsisType | None = None,
-    ) -> FunctionRelationship[P, T]:
+    ) -> FunctionRelationshipBuilder[P, T]:
         # Get the function's signature
         sig = inspect.signature(func)
         inputs = _get_inputs_from_signature(sig)
         outputs, output_is_scalar = _get_outputs_from_signature(sig)
         function_body = get_function_body(func)
-        return FunctionRelationship(
+        return FunctionRelationshipBuilder(
             name=func.__name__ if _relationship_name is None else _relationship_name,
             inputs=inputs,
             outputs=outputs,
@@ -132,7 +132,7 @@ def relationship[**P, T](
 
     def decorator_for_multidef(
         func: Callable[P, T],
-    ) -> MultiDefProtocol[Hashable, FunctionRelationship[P, T]]:
+    ) -> MultiDefProtocol[Hashable, FunctionRelationshipBuilder[P, T]]:
         return multidef(identifier)(decorator(func, _relationship_name=...))
 
     return decorator_for_multidef
