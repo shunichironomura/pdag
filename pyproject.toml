@@ -80,6 +80,7 @@ exclude_also = [
 
 [tool.mypy]
 strict = true
+exclude = '^scripts/'
 
 [[tool.mypy.overrides]]
 module = ["pydot.*"]
@@ -148,4 +149,12 @@ ignore = [
     "D",      # Docstring
     "INP001",
     "S101",
+]
+"scripts/**.py" = [
+    "D",      # Docstring
+    "INP001",
+    "S101",
+    "UP036",
+    "EXE003",
+    "T201",
 ]
