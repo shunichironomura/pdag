@@ -163,3 +163,24 @@ jobs:
 
       - name: Run deptry
         run: uv run -- deptry .
+
+  pip-licenses:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install the project
+        run: uv sync --no-dev --group license
+
+      - name: Run pip-licenses
+        run: uv run -- pip-licenses

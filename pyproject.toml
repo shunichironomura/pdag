@@ -26,7 +26,6 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Scientific/Engineering",
-    "License :: OSI Approved",
     "License :: OSI Approved :: MIT License",
     "Typing :: Typed",
 ]
@@ -56,6 +55,10 @@ typing = [
 ]
 testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
+license = ["pip-licenses>=5.0.0"]
+
+[tool.pip-licenses]
+allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License'
 
 [tool.pytest.ini_options]
 addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
