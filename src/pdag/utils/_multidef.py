@@ -5,19 +5,19 @@ from typing import Any, Protocol
 type IdentifierType = Hashable
 
 
-class MultiDefStorage[T](dict[IdentifierType, T]):
+class MultiDefStorage[K: IdentifierType, V](dict[K, V]):
     pass
 
 
 # A custom dict that collects duplicate definitions in the class body.
-class MultiDict[K, V](dict[K, V | MultiDefStorage[V]]):
-    def __setitem__(self, key: K, value: V | MultiDefStorage[V]) -> None:
+class MultiDict[K, V, K2](dict[K, V | MultiDefStorage[K2, V]]):
+    def __setitem__(self, key: K, value: V | MultiDefStorage[K2, V]) -> None:
         if isinstance(value, MultiDefStorage):
             msg = "Cannot assign a MultiDefStorage directly to a MultiDict."
             raise TypeError(msg)
 
         if hasattr(value, "__multidef_identifier__"):
-            identifier: IdentifierType = value.__multidef_identifier__
+            identifier: K2 = value.__multidef_identifier__
             if key in self:
                 existing = super().__getitem__(key)
                 # Only aggregate if the new value have our decorator marker.
@@ -88,7 +88,7 @@ class MultiDefMeta(ABCMeta):
         bases: tuple[type[Any], ...],
         /,
         **kwargs: Any,
-    ) -> MultiDict[str, Any]:
+    ) -> MultiDict[str, Any, IdentifierType]:
         return MultiDict()
 
     def __new__(

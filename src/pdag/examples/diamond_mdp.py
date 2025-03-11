@@ -9,23 +9,23 @@ class DiamondMdpModel(pdag.Model):
     """Diamond MDP model."""
 
     policy = pdag.CategoricalParameter(..., categories=("left", "right"))
-    location = pdag.CategoricalParameter("location", categories=("start", "left", "right", "end"), is_time_series=True)
+    location = pdag.CategoricalParameter(..., categories=("start", "left", "right", "end"), is_time_series=True)
     action = pdag.CategoricalParameter(
-        "action",
+        ...,
         categories=("go_left", "go_right", "move_forward", "none"),
         is_time_series=True,
     )
     # Initial value of the reward is not calculated in the model
-    reward = pdag.RealParameter("reward", is_time_series=True)
-    cumulative_reward = pdag.RealParameter("cumulative_reward")
+    reward = pdag.RealParameter(..., is_time_series=True)
+    cumulative_reward = pdag.RealParameter(...)
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def action_selection(  # noqa: D102, PLR0911
         *,
-        policy: Annotated[Literal["left", "right"], pdag.ParameterRef("policy")],
-        location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
-    ) -> Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")]:
+        policy: Annotated[Literal["left", "right"], policy.ref()],
+        location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
+    ) -> Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()]:
         match location, policy:
             case "start", "left":
                 return "go_left"
@@ -49,9 +49,9 @@ class DiamondMdpModel(pdag.Model):
     @staticmethod
     def state_transition(  # noqa: C901, D102, PLR0911
         *,
-        location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
-        action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.ParameterRef("action")],
-    ) -> Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location", next=True)]:
+        location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
+        action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()],
+    ) -> Annotated[Literal["start", "left", "right", "end"], location.ref(next=True)]:
         match location, action:
             case "start", "go_left":
                 return "left"
@@ -81,7 +81,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def initial_reward() -> Annotated[float, pdag.ParameterRef("reward", initial=True)]:  # noqa: D102
+    def initial_reward() -> Annotated[float, reward.ref(initial=True)]:  # noqa: D102
         return 0.0
 
     @pdag.relationship(at_each_time_step=True)
@@ -90,14 +90,14 @@ class DiamondMdpModel(pdag.Model):
         *,
         previous_location: Annotated[
             Literal["start", "left", "right", "end"],
-            pdag.ParameterRef("location", previous=True),
+            location.ref(previous=True),
         ],
         action: Annotated[  # noqa: ARG004
             Literal["go_left", "go_right", "move_forward", "none"],
-            pdag.ParameterRef("action", previous=True),
+            action.ref(previous=True),
         ],
-        location: Annotated[Literal["start", "left", "right", "end"], pdag.ParameterRef("location")],
-    ) -> Annotated[float, pdag.ParameterRef("reward")]:
+        location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
+    ) -> Annotated[float, reward.ref()]:
         if previous_location != "end" and location == "end":
             return 1.0
         return 0.0
@@ -106,8 +106,8 @@ class DiamondMdpModel(pdag.Model):
     @staticmethod
     def cumulative_reward_calculation(  # noqa: D102
         *,
-        reward: Annotated[list[float], pdag.ParameterRef("reward", all_time_steps=True)],
-    ) -> Annotated[float, pdag.ParameterRef("cumulative_reward")]:
+        reward: Annotated[list[float], reward.ref(all_time_steps=True)],
+    ) -> Annotated[float, cumulative_reward.ref()]:
         return sum(reward)
 
 
