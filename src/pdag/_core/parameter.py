@@ -21,6 +21,9 @@ class ParameterABC[T](InitArgsRecorder, ABC):
     def is_hydrated(self) -> bool:
         return isinstance(self._name, str)
 
+    def name_is_set(self) -> bool:
+        return isinstance(self._name, str)
+
     @property
     def name(self) -> str:
         if isinstance(self._name, EllipsisType):

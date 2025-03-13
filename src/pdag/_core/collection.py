@@ -32,7 +32,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
     InitArgsRecorder,
 ):
     type: ClassVar[str] = "collection"
-    name: str | EllipsisType
+    name: str
     item_type: Literal["parameter", "relationship"] = field(init=False)
 
     def __post_init__(self) -> None:
@@ -45,6 +45,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
                 break
             msg = "Collection must contain only parameters or relationships."
             raise TypeError(msg)
+        self.name_elements()
 
     @abstractmethod
     def __getitem__(self, key: K) -> T:
@@ -67,7 +68,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
 
     def name_elements(self) -> None:
         for key, element in self.items():
-            if isinstance(element.name, str):
+            if element.name_is_set():
                 # Already named
                 continue
             element.name = f"{self.name}[{key_to_str(key)}]"
@@ -96,7 +97,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     CollectionABC[K, T],
 ):
     type: ClassVar[str] = "mapping"
-    name: str | EllipsisType
+    name: str
     mapping: dict[K, T]
 
     def __getitem__(self, key: K) -> T:
@@ -120,9 +121,6 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
         initial: bool = False,
         all_time_steps: bool = False,
     ) -> MappingRef:
-        if not isinstance(self.name, str):
-            msg = "Mapping name is not set."
-            raise ValueError(msg)  # noqa: TRY004
         return MappingRef(
             name=self.name,
             key=key,
@@ -136,7 +134,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 @dataclass
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
     type: ClassVar[str] = "array"
-    name: str | EllipsisType
+    name: str
     array: npt.NDArray[T]  # type: ignore[type-var]
 
     @property
@@ -161,9 +159,6 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
         initial: bool = False,
         all_time_steps: bool = False,
     ) -> ArrayRef:
-        if not isinstance(self.name, str):
-            msg = "Array name is not set."
-            raise ValueError(msg)  # noqa: TRY004
         return ArrayRef(
             name=self.name,
             key=key,

@@ -1,7 +1,7 @@
 import inspect
 from collections.abc import Callable, Hashable
 from types import EllipsisType
-from typing import Any, Literal, get_args, get_origin, overload
+from typing import Literal, get_args, get_origin, overload
 
 from typing_extensions import _AnnotatedAlias
 
@@ -84,7 +84,7 @@ def relationship[**P, T](
 def relationship[**P, T](
     func: None = None,
     *,
-    identifier: Any = None,
+    identifier: Hashable = None,
     at_each_time_step: bool = False,
 ) -> Callable[[Callable[P, T]], FunctionRelationship[P, T]]: ...
 
@@ -112,7 +112,7 @@ def relationship[**P, T](
         outputs, output_is_scalar = _get_outputs_from_signature(sig)
         function_body = get_function_body(func)
         return FunctionRelationship(
-            name=func.__name__ if _relationship_name is None else _relationship_name,
+            _name=func.__name__ if _relationship_name is None else _relationship_name,
             inputs=inputs,
             outputs=outputs,
             function_body=function_body,
