@@ -16,7 +16,9 @@ dependencies = [
     "pydot>=3.0.4",
     "rich>=13.9.4",
     "tqdm>=4.67.1",
+    "typer>=0.15.2",
     "typing-extensions>=4.12.2",
+    "watchfiles>=1.0.4",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -45,6 +47,7 @@ dev = [
     { include-group = "linting" },
     { include-group = "typing" },
     { include-group = "testing" },
+    { include-group = "license" },
 ]
 ruff = ["ruff>=0.9.9"]
 typing = [
@@ -58,8 +61,12 @@ testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 license = ["pip-licenses>=5.0.0"]
 
+
+[project.scripts]
+pdag = "pdag._cli:app"
+
 [tool.pip-licenses]
-allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License'
+allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT'
 
 [tool.pytest.ini_options]
 addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
