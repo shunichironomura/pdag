@@ -64,10 +64,12 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
                     added_exec_infos.add(input_ref.attribute)
                 graph.add_edge(pydot.Edge(input_ref.attribute, name))
             else:
-                graph.add_edge(pydot.Edge(input_ref.name, name))
+                style = "dashed" if input_ref.previous else "solid"
+                graph.add_edge(pydot.Edge(input_ref.name, name, style=style))
 
         for output_ref in relationship.iter_output_refs():
-            graph.add_edge(pydot.Edge(name, output_ref.name))
+            style = "dashed" if output_ref.next else "solid"
+            graph.add_edge(pydot.Edge(name, output_ref.name, style=style))
 
     for name, collection in core_model.collections.items():
         graph.add_node(_mapping_node(collection))
@@ -80,9 +82,11 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
                         added_exec_infos.add(input_ref.attribute)
                     graph.add_edge(pydot.Edge(input_ref.attribute, name))
                 else:
-                    graph.add_edge(pydot.Edge(input_ref.name, name))
+                    style = "dashed" if input_ref.previous else "solid"
+                    graph.add_edge(pydot.Edge(input_ref.name, name, style=style))
 
             for output_ref in first_item.iter_output_refs():
-                graph.add_edge(pydot.Edge(name, output_ref.name))
+                style = "dashed" if output_ref.next else "solid"
+                graph.add_edge(pydot.Edge(name, output_ref.name, style=style))
 
     graph.write(path, format="png")
