@@ -85,4 +85,4 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
             for output_ref in first_item.iter_output_refs():
                 graph.add_edge(pydot.Edge(name, output_ref.name))
 
-    graph.write_png(str(path))
+    graph.write(path, format="png")

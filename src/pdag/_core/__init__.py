@@ -11,7 +11,6 @@ __all__ = [
     "Mapping",
     "MappingRef",
     "Module",
-    "ParamArrayOrParam",
     "ParameterABC",
     "ParameterRef",
     "RealParameter",
