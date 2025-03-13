@@ -1,11 +1,29 @@
+import importlib.metadata
 from pathlib import Path
-from typing import Annotated, NoReturn
+from typing import Annotated, NoReturn, Optional
 
 import typer
 
 from pdag._export.watch import watch_model
 
 app = typer.Typer()
+
+
+def version_callback(value: bool) -> None:  # noqa: FBT001
+    if value:
+        version = importlib.metadata.version("pdag")
+        typer.echo(f"pdag {version}")
+        raise typer.Exit
+
+
+@app.callback()
+def main(
+    version: Annotated[
+        Optional[bool],  # noqa: UP007
+        typer.Option("--version", help="Show the version and exit", is_eager=True, callback=version_callback),
+    ] = None,
+) -> None:
+    """Pdag CLI."""
 
 
 @app.command()
