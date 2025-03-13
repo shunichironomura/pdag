@@ -10,14 +10,14 @@ class MultiDefStorage[K: IdentifierType, V](dict[K, V]):
 
 
 # A custom dict that collects duplicate definitions in the class body.
-class MultiDict[K, V, K2](dict[K, V | MultiDefStorage[K2, V]]):
-    def __setitem__(self, key: K, value: V | MultiDefStorage[K2, V]) -> None:
+class MultiDict[K, IT](dict[K, object]):
+    def __setitem__(self, key: K, value: object) -> None:
         if isinstance(value, MultiDefStorage):
             msg = "Cannot assign a MultiDefStorage directly to a MultiDict."
             raise TypeError(msg)
 
         if hasattr(value, "__multidef_identifier__"):
-            identifier: K2 = value.__multidef_identifier__
+            identifier: IT = value.__multidef_identifier__  # pyright: ignore[reportAttributeAccessIssue]
             if key in self:
                 existing = super().__getitem__(key)
                 # Only aggregate if the new value have our decorator marker.
@@ -66,9 +66,9 @@ def multidef[K: IdentifierType, T](
         msg = f"Invalid identifier: {identifier!r}. Attribute name could be {_unique_name!r}."
         raise ValueError(msg)
 
-    def decorator[_K: IdentifierType, _T](
+    def decorator[_T](
         obj: _T,
-    ) -> MultiDefProtocol[_K, _T]:
+    ) -> MultiDefProtocol[IdentifierType, _T]:
         try:
             obj.__multidef_identifier__ = identifier  # type: ignore[attr-defined]
         except AttributeError as e:
@@ -88,7 +88,7 @@ class MultiDefMeta(ABCMeta):
         bases: tuple[type[Any], ...],
         /,
         **kwargs: Any,
-    ) -> MultiDict[str, Any, IdentifierType]:
+    ) -> MultiDict[str, IdentifierType]:
         return MultiDict()
 
     def __new__(
