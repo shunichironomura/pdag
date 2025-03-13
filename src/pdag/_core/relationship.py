@@ -15,8 +15,22 @@ if TYPE_CHECKING:
 @dataclass
 class RelationshipABC(ABC, InitArgsRecorder):
     type: ClassVar[str] = "relationship"
-    name: str | EllipsisType
+    _name: str | EllipsisType
     at_each_time_step: bool = field(default=False, kw_only=True)
+
+    def name_is_set(self) -> bool:
+        return isinstance(self._name, str)
+
+    @property
+    def name(self) -> str:
+        if isinstance(self._name, EllipsisType):
+            msg = "Relationship name has not been set."
+            raise ValueError(msg)  # noqa: TRY004
+        return self._name
+
+    @name.setter
+    def name(self, value: str) -> None:
+        self._name = value
 
     @abstractmethod
     def is_hydrated(self) -> bool:
@@ -42,10 +56,9 @@ class RelationshipABC(ABC, InitArgsRecorder):
 @dataclass
 class FunctionRelationship[**P, T](RelationshipABC):
     type: ClassVar[str] = "function"
-    name: str | EllipsisType
-    inputs: dict[str, ReferenceABC | ExecInfo]
-    outputs: list[ReferenceABC]
-    function_body: str
+    inputs: dict[str, ReferenceABC | ExecInfo] = field(kw_only=True)
+    outputs: list[ReferenceABC] = field(kw_only=True)
+    function_body: str = field(kw_only=True)
     output_is_scalar: bool = field(kw_only=True)
     _function: Callable[P, T] | None = field(default=None, compare=False, kw_only=True)
 
@@ -68,7 +81,6 @@ class FunctionRelationship[**P, T](RelationshipABC):
 @dataclass
 class SubModelRelationship(RelationshipABC):
     type: ClassVar[str] = "submodel"
-    name: str | EllipsisType
     submodel_name: str
     inputs: dict[
         ReferenceABC,

@@ -8,16 +8,16 @@ import pdag
 class DiamondMdpModel(pdag.Model):
     """Diamond MDP model."""
 
-    policy = pdag.CategoricalParameter(..., categories=("left", "right"))
-    location = pdag.CategoricalParameter(..., categories=("start", "left", "right", "end"), is_time_series=True)
+    policy = pdag.CategoricalParameter("policy", categories=("left", "right"))
+    location = pdag.CategoricalParameter("location", categories=("start", "left", "right", "end"), is_time_series=True)
     action = pdag.CategoricalParameter(
-        ...,
+        "action",
         categories=("go_left", "go_right", "move_forward", "none"),
         is_time_series=True,
     )
     # Initial value of the reward is not calculated in the model
-    reward = pdag.RealParameter(..., is_time_series=True)
-    cumulative_reward = pdag.RealParameter(...)
+    reward = pdag.RealParameter("reward", is_time_series=True)
+    cumulative_reward = pdag.RealParameter("cumulative_reward")
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod

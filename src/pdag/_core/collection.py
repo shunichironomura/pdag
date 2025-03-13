@@ -17,8 +17,6 @@ from .relationship import RelationshipABC
 if TYPE_CHECKING:
     from types import EllipsisType
 
-    from pdag._core.builder import CollectionRefBuilder
-
 
 def key_to_str(key: Any, *, make_one_element_tuple_scalar: bool = False) -> str:
     if isinstance(key, tuple):
@@ -34,7 +32,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
     InitArgsRecorder,
 ):
     type: ClassVar[str] = "collection"
-    name: str | EllipsisType
+    name: str
     item_type: Literal["parameter", "relationship"] = field(init=False)
 
     def __post_init__(self) -> None:
@@ -47,6 +45,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
                 break
             msg = "Collection must contain only parameters or relationships."
             raise TypeError(msg)
+        self.name_elements()
 
     @abstractmethod
     def __getitem__(self, key: K) -> T:
@@ -69,7 +68,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
 
     def name_elements(self) -> None:
         for key, element in self.items():
-            if isinstance(element.name, str):
+            if element.name_is_set():
                 # Already named
                 continue
             element.name = f"{self.name}[{key_to_str(key)}]"
@@ -89,7 +88,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> CollectionRef[K] | CollectionRefBuilder[K]:
+    ) -> CollectionRef[Any]:
         raise NotImplementedError
 
 
@@ -98,7 +97,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     CollectionABC[K, T],
 ):
     type: ClassVar[str] = "mapping"
-    name: str | EllipsisType
+    name: str
     mapping: dict[K, T]
 
     def __getitem__(self, key: K) -> T:
@@ -113,7 +112,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     def keys(self) -> Iterable[K]:
         yield from self.mapping.keys()
 
-    def ref(  # type: ignore[override]
+    def ref(
         self,
         key: str | tuple[str | EllipsisType, ...] | None = None,
         *,
@@ -121,21 +120,10 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> MappingRef | CollectionRefBuilder[str | tuple[str | EllipsisType, ...]]:
-        if isinstance(self.name, str):
-            return MappingRef(
-                name=self.name,
-                key=key,
-                previous=previous,
-                next=next,
-                initial=initial,
-                all_time_steps=all_time_steps,
-            )
-
-        from .builder import CollectionRefBuilder
-
-        return CollectionRefBuilder(
-            collection=self,  # type: ignore[arg-type]
+    ) -> MappingRef:
+        return MappingRef(
+            name=self.name,
+            key=key,
             previous=previous,
             next=next,
             initial=initial,
@@ -146,7 +134,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 @dataclass
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
     type: ClassVar[str] = "array"
-    name: str | EllipsisType
+    name: str
     array: npt.NDArray[T]  # type: ignore[type-var]
 
     @property
@@ -170,22 +158,10 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> ArrayRef | CollectionRefBuilder[tuple[int, ...]]:
-        if isinstance(self.name, str):
-            return ArrayRef(
-                name=self.name,
-                key=key,
-                previous=previous,
-                next=next,
-                initial=initial,
-                all_time_steps=all_time_steps,
-            )
-
-        from .builder import CollectionRefBuilder
-
-        return CollectionRefBuilder(
-            collection=self,  # type: ignore[arg-type]
-            key=key,  # type: ignore[arg-type]
+    ) -> ArrayRef:
+        return ArrayRef(
+            name=self.name,
+            key=key,
             previous=previous,
             next=next,
             initial=initial,

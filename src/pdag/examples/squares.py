@@ -1,14 +1,15 @@
-"""Poliynomials example to demonstrate how to include a model in another model."""
+"""Squares example to demonstrate mapping containing submodels."""
 
 from typing import Annotated
-
-import numpy as np
 
 import pdag
 
 
 class SquareModel(pdag.Model):
-    """Square model."""
+    """Square model.
+
+    Calculates y = x^2
+    """
 
     x = pdag.RealParameter("x")
     y = pdag.RealParameter("y")
@@ -20,28 +21,37 @@ class SquareModel(pdag.Model):
 
 
 class PolynomialModel(pdag.Model):
-    """Polynomial model."""
+    """Polynomial model.
 
-    a = pdag.Array("a", np.array([pdag.RealParameter(...) for _ in range(3)]))
+    Calculates z = x^2 + y^2
+    """
+
     x = pdag.RealParameter("x")
     x_squared = pdag.RealParameter("x_squared")
     y = pdag.RealParameter("y")
+    y_squared = pdag.RealParameter("y_squared")
+    z = pdag.RealParameter("z")
 
-    calc_square_term = SquareModel.to_relationship(
+    calc_square_term = pdag.Mapping(
         "calc_square_term",
-        inputs={SquareModel.x.ref(): x.ref()},
-        outputs={SquareModel.y.ref(): x_squared.ref()},
+        {
+            input_param.name: SquareModel.to_relationship(
+                ...,
+                inputs={SquareModel.x.ref(): input_param.ref()},
+                outputs={SquareModel.y.ref(): output_param.ref()},
+            )
+            for (input_param, output_param) in [(x, x_squared), (y, y_squared)]
+        },
     )
 
     @pdag.relationship
     @staticmethod
-    def polynomial(  # noqa: D102
+    def squares(  # noqa: D102
         *,
-        a: Annotated[list[float], a.ref()],
-        x: Annotated[float, x.ref()],
         x_squared: Annotated[float, x_squared.ref()],
-    ) -> Annotated[float, y.ref()]:
-        return a[0] + a[1] * x + a[2] * x_squared
+        y_squared: Annotated[float, y_squared.ref()],
+    ) -> Annotated[float, z.ref()]:
+        return x_squared + y_squared
 
 
 if __name__ == "__main__":

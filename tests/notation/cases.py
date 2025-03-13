@@ -31,7 +31,7 @@ square_root_core_model = pdag.CoreModel(
     collections={},
     relationships={
         "sqrt": pdag.FunctionRelationship(
-            name="sqrt",
+            "sqrt",
             inputs={"x_arg": pdag.ParameterRef("x"), "z_arg": pdag.ParameterRef("z")},
             outputs=[pdag.ParameterRef("y")],
             output_is_scalar=True,
@@ -96,7 +96,7 @@ tech_dev_completion_core_model = pdag.CoreModel(
     },
     relationships={
         "dev_completion_time_model": pdag.FunctionRelationship(
-            name="dev_completion_time_model",
+            "dev_completion_time_model",
             inputs={
                 "dev_start_time": pdag.MappingRef("dev_start_time"),
                 "dev_time": pdag.MappingRef("dev_time"),

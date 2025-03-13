@@ -1,4 +1,3 @@
-from collections.abc import Hashable
 from collections.abc import Mapping as MappingABC
 from types import EllipsisType
 from typing import Any, ClassVar, cast
@@ -11,35 +10,19 @@ from pdag._core import (
     ParameterABC,
     ReferenceABC,
     RelationshipABC,
+    SubModelRelationship,
 )
-from pdag._core.builder import FunctionRelationshipBuilder, RefBuilderABC, SubModelRelationshipBuilder
 from pdag.utils._multidef import MultiDef, MultiDefMeta, MultiDefStorage
 
 
 def _function_relationship_multidef_storage_to_mapping(
     storage_name: str,
-    storage: MultiDefStorage[str | tuple[str, ...], FunctionRelationshipBuilder[Any, Any]],
+    storage: MultiDefStorage[str | tuple[str, ...], FunctionRelationship[Any, Any]],
 ) -> Mapping[str | tuple[str, ...], FunctionRelationship[Any, Any]]:
     return Mapping(
         name=storage_name,
-        mapping={key: builder.build() for key, builder in storage.items()},
+        mapping=dict(storage),
     )
-
-
-def _hydrate_name[
-    T: CollectionABC[Hashable, ParameterABC[Any]]
-    | CollectionABC[Hashable, RelationshipABC]
-    | ParameterABC[Any]
-    | RelationshipABC
-](
-    obj: T,
-    name: str,
-    *,
-    force: bool = False,
-) -> T:
-    if not isinstance(obj.name, str) or force:
-        obj.name = name
-    return obj
 
 
 class ModelMeta(MultiDefMeta):
@@ -58,17 +41,15 @@ class ModelMeta(MultiDefMeta):
 
         # Add top-level collections
         cls.__pdag_collections__ = {
-            collection_name: _hydrate_name(collection, collection_name)
+            collection_name: collection
             for collection_name, collection in namespace.items()
             if isinstance(collection, CollectionABC)
         }
-        for collection in cls.__pdag_collections__.values():
-            collection.name_elements()
 
         # Add top-level parameters
         # This should be called before adding relationships because relationships depend on parameters being hydrated
         cls.__pdag_parameters__ = {
-            parameter_name: _hydrate_name(parameter, parameter_name)
+            parameter_name: parameter
             for parameter_name, parameter in namespace.items()
             if isinstance(parameter, ParameterABC)
         }
@@ -84,17 +65,9 @@ class ModelMeta(MultiDefMeta):
 
         # Add top-level relationships (function/submodel relationships at the top level)
         cls.__pdag_relationships__ = {}
-        for relationship_name, relationship_or_builder in namespace.items():
-            if isinstance(relationship_or_builder, RelationshipABC):
-                cls.__pdag_relationships__[relationship_name] = _hydrate_name(
-                    relationship_or_builder,
-                    relationship_name,
-                )
-            elif isinstance(relationship_or_builder, FunctionRelationshipBuilder | SubModelRelationshipBuilder):
-                cls.__pdag_relationships__[relationship_name] = _hydrate_name(
-                    relationship_or_builder.build(),
-                    relationship_name,
-                )
+        for relationship_name, relationship in namespace.items():
+            if isinstance(relationship, RelationshipABC):
+                cls.__pdag_relationships__[relationship_name] = relationship
 
         return cls
 
@@ -132,12 +105,12 @@ class Model(MultiDef, metaclass=ModelMeta):
         /,
         name: str | EllipsisType,
         *,
-        inputs: MappingABC[ReferenceABC | RefBuilderABC, ReferenceABC | RefBuilderABC],
-        outputs: MappingABC[ReferenceABC | RefBuilderABC, ReferenceABC | RefBuilderABC],
+        inputs: MappingABC[ReferenceABC, ReferenceABC],
+        outputs: MappingABC[ReferenceABC, ReferenceABC],
         at_each_time_step: bool = False,
-    ) -> SubModelRelationshipBuilder:
-        return SubModelRelationshipBuilder(
-            name=name,
+    ) -> SubModelRelationship:
+        return SubModelRelationship(
+            _name=name,
             submodel_name=cls.name,
             inputs=dict(inputs),
             outputs=dict(outputs),

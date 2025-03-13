@@ -34,12 +34,8 @@ class CoreModel:
     _relationship_dict: dict[str, RelationshipABC] = field(init=False)
 
     def __post_init__(self) -> None:
-        assert all(isinstance(param.name, str) for param in self.iter_all_parameters())
-        assert all(isinstance(relationship.name, str) for relationship in self.iter_all_relationships())
-        self._parameter_dict = {cast(str, param.name): param for param in self.iter_all_parameters()}
-        self._relationship_dict = {
-            cast(str, relationship.name): relationship for relationship in self.iter_all_relationships()
-        }
+        self._parameter_dict = {param.name: param for param in self.iter_all_parameters()}
+        self._relationship_dict = {relationship.name: relationship for relationship in self.iter_all_relationships()}
 
     def is_hydrated(self) -> bool:
         """Check if all parameters, collections, and relationships are hydrated."""
@@ -91,11 +87,9 @@ class CoreModel:
         raise TypeError(msg)
 
     def get_parameter_from_ref(self, ref: ParameterRef) -> ParameterABC[Any]:
-        assert isinstance(ref.name, str)
         return self.parameters[ref.name]
 
     def get_collection_from_ref(self, ref: CollectionRef[Any]) -> CollectionABC[Any, Any]:
-        assert isinstance(ref.name, str)
         return self.collections[ref.name]
 
 

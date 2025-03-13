@@ -29,7 +29,7 @@ def test_capture_plain_relationship() -> None:
 
     assert Model.relationships() == {
         "f": pdag.FunctionRelationship(
-            name="f",
+            "f",
             inputs={"x_arg": pdag.ParameterRef("x")},
             outputs=[pdag.ParameterRef("y")],
             output_is_scalar=True,

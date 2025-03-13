@@ -8,7 +8,7 @@ from pdag.utils import InitArgsRecorder
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key
 class ReferenceABC(InitArgsRecorder):
-    name: str | EllipsisType
+    name: str
 
     # For time-series access
     previous: bool = field(default=False, kw_only=True)
@@ -23,7 +23,7 @@ class ReferenceABC(InitArgsRecorder):
         if sum([self.previous, self.next, self.initial, self.all_time_steps]) > 1:
             msg = "Reference cannot have more than one of previous, next, initial, or all_time_steps set."
             raise ValueError(msg)
-        if isinstance(self.name, str) and not self.name.isidentifier():
+        if not self.name.isidentifier():
             msg = "Reference name must be a valid identifier."
             raise ValueError(msg)
 
