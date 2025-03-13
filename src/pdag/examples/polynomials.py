@@ -10,8 +10,8 @@ import pdag
 class SquareModel(pdag.Model):
     """Square model."""
 
-    x = pdag.RealParameter(...)
-    y = pdag.RealParameter(...)
+    x = pdag.RealParameter("x")
+    y = pdag.RealParameter("y")
 
     @pdag.relationship
     @staticmethod
@@ -22,10 +22,10 @@ class SquareModel(pdag.Model):
 class PolynomialModel(pdag.Model):
     """Polynomial model."""
 
-    a = pdag.Array(..., np.array([pdag.RealParameter(...) for _ in range(3)]))
-    x = pdag.RealParameter(...)
-    x_squared = pdag.RealParameter(...)
-    y = pdag.RealParameter(...)
+    a = pdag.Array(..., np.array([pdag.RealParameter("a") for _ in range(3)]))
+    x = pdag.RealParameter("x")
+    x_squared = pdag.RealParameter("x_squared")
+    y = pdag.RealParameter("y")
 
     calc_square_term = SquareModel.to_relationship(
         ...,

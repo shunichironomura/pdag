@@ -10,15 +10,13 @@ from pdag.utils import InitArgsRecorder
 from .reference import ParameterRef
 
 if TYPE_CHECKING:
-    from types import EllipsisType
-
     from .builder import ParameterRefBuilder
 
 
 @dataclass
 class ParameterABC[T](InitArgsRecorder, ABC):
     type: ClassVar[str] = "base"
-    name: str | EllipsisType
+    name: str
     is_time_series: bool = field(default=False, kw_only=True)
     metadata: dict[str, Any] = field(default_factory=dict, kw_only=True)
 

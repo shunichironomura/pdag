@@ -11,8 +11,8 @@ class SquareModel(pdag.Model):
     Calculates y = x^2
     """
 
-    x = pdag.RealParameter(...)
-    y = pdag.RealParameter(...)
+    x = pdag.RealParameter(name="x")
+    y = pdag.RealParameter("y")
 
     @pdag.relationship
     @staticmethod
@@ -26,11 +26,11 @@ class PolynomialModel(pdag.Model):
     Calculates z = x^2 + y^2
     """
 
-    x = pdag.RealParameter(...)
-    x_squared = pdag.RealParameter(...)
-    y = pdag.RealParameter(...)
-    y_squared = pdag.RealParameter(...)
-    z = pdag.RealParameter(...)
+    x = pdag.RealParameter("x")
+    x_squared = pdag.RealParameter("x_squared")
+    y = pdag.RealParameter("y")
+    y_squared = pdag.RealParameter("y_squared")
+    z = pdag.RealParameter("z")
 
     calc_square_term = pdag.Mapping(
         ...,

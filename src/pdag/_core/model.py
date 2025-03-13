@@ -36,7 +36,7 @@ class CoreModel:
     def __post_init__(self) -> None:
         assert all(isinstance(param.name, str) for param in self.iter_all_parameters())
         assert all(isinstance(relationship.name, str) for relationship in self.iter_all_relationships())
-        self._parameter_dict = {cast(str, param.name): param for param in self.iter_all_parameters()}
+        self._parameter_dict = {param.name: param for param in self.iter_all_parameters()}
         self._relationship_dict = {
             cast(str, relationship.name): relationship for relationship in self.iter_all_relationships()
         }

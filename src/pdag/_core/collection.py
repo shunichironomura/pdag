@@ -10,6 +10,7 @@ import numpy.typing as npt
 
 from pdag.utils import InitArgsRecorder
 
+from .builder import SubModelRelationshipBuilder
 from .parameter import ParameterABC
 from .reference import ArrayRef, CollectionRef, MappingRef
 from .relationship import RelationshipABC
@@ -42,7 +43,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
             if isinstance(element, ParameterABC):
                 self.item_type = "parameter"
                 break
-            if isinstance(element, RelationshipABC):
+            if isinstance(element, RelationshipABC | SubModelRelationshipBuilder):
                 self.item_type = "relationship"
                 break
             msg = "Collection must contain only parameters or relationships."
