@@ -22,7 +22,7 @@ class SquareModel(pdag.Model):
 class PolynomialModel(pdag.Model):
     """Polynomial model."""
 
-    a = pdag.Array(..., np.array([pdag.RealParameter("a") for _ in range(3)]))
+    a = pdag.Array("a", np.array([pdag.RealParameter(...) for _ in range(3)]))
     x = pdag.RealParameter("x")
     x_squared = pdag.RealParameter("x_squared")
     y = pdag.RealParameter("y")

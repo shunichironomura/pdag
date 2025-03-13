@@ -91,11 +91,9 @@ class CoreModel:
         raise TypeError(msg)
 
     def get_parameter_from_ref(self, ref: ParameterRef) -> ParameterABC[Any]:
-        assert isinstance(ref.name, str)
         return self.parameters[ref.name]
 
     def get_collection_from_ref(self, ref: CollectionRef[Any]) -> CollectionABC[Any, Any]:
-        assert isinstance(ref.name, str)
         return self.collections[ref.name]
 
 

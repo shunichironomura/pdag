@@ -3,25 +3,34 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, ClassVar
+from types import EllipsisType
+from typing import Any, ClassVar
 
 from pdag.utils import InitArgsRecorder
 
 from .reference import ParameterRef
 
-if TYPE_CHECKING:
-    from .builder import ParameterRefBuilder
-
 
 @dataclass
 class ParameterABC[T](InitArgsRecorder, ABC):
     type: ClassVar[str] = "base"
-    name: str
+    _name: str | EllipsisType
     is_time_series: bool = field(default=False, kw_only=True)
     metadata: dict[str, Any] = field(default_factory=dict, kw_only=True)
 
     def is_hydrated(self) -> bool:
-        return isinstance(self.name, str)
+        return isinstance(self._name, str)
+
+    @property
+    def name(self) -> str:
+        if isinstance(self._name, EllipsisType):
+            msg = "Parameter name has not been set."
+            raise ValueError(msg)  # noqa: TRY004
+        return self._name
+
+    @name.setter
+    def name(self, value: str) -> None:
+        self._name = value
 
     @abstractmethod
     def get_type_hint(self) -> str:
@@ -38,19 +47,9 @@ class ParameterABC[T](InitArgsRecorder, ABC):
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> ParameterRef | ParameterRefBuilder[T]:
-        if isinstance(self.name, str):
-            return ParameterRef(
-                name=self.name,
-                previous=previous,
-                next=next,
-                initial=initial,
-                all_time_steps=all_time_steps,
-            )
-        from .builder import ParameterRefBuilder
-
-        return ParameterRefBuilder(
-            parameter=self,
+    ) -> ParameterRef:
+        return ParameterRef(
+            name=self.name,
             previous=previous,
             next=next,
             initial=initial,

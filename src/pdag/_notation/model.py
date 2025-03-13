@@ -11,18 +11,18 @@ from pdag._core import (
     ParameterABC,
     ReferenceABC,
     RelationshipABC,
+    SubModelRelationship,
 )
-from pdag._core.builder import FunctionRelationshipBuilder, RefBuilderABC, SubModelRelationshipBuilder
 from pdag.utils._multidef import MultiDef, MultiDefMeta, MultiDefStorage
 
 
 def _function_relationship_multidef_storage_to_mapping(
     storage_name: str,
-    storage: MultiDefStorage[str | tuple[str, ...], FunctionRelationshipBuilder[Any, Any]],
+    storage: MultiDefStorage[str | tuple[str, ...], FunctionRelationship[Any, Any]],
 ) -> Mapping[str | tuple[str, ...], FunctionRelationship[Any, Any]]:
     return Mapping(
         name=storage_name,
-        mapping={key: builder.build() for key, builder in storage.items()},
+        mapping=dict(storage),
     )
 
 
@@ -84,15 +84,10 @@ class ModelMeta(MultiDefMeta):
 
         # Add top-level relationships (function/submodel relationships at the top level)
         cls.__pdag_relationships__ = {}
-        for relationship_name, relationship_or_builder in namespace.items():
-            if isinstance(relationship_or_builder, RelationshipABC):
+        for relationship_name, relationship in namespace.items():
+            if isinstance(relationship, RelationshipABC):
                 cls.__pdag_relationships__[relationship_name] = _hydrate_name(
-                    relationship_or_builder,
-                    relationship_name,
-                )
-            elif isinstance(relationship_or_builder, FunctionRelationshipBuilder | SubModelRelationshipBuilder):
-                cls.__pdag_relationships__[relationship_name] = _hydrate_name(
-                    relationship_or_builder.build(),
+                    relationship,
                     relationship_name,
                 )
 
@@ -132,11 +127,11 @@ class Model(MultiDef, metaclass=ModelMeta):
         /,
         name: str | EllipsisType,
         *,
-        inputs: MappingABC[ReferenceABC | RefBuilderABC, ReferenceABC | RefBuilderABC],
-        outputs: MappingABC[ReferenceABC | RefBuilderABC, ReferenceABC | RefBuilderABC],
+        inputs: MappingABC[ReferenceABC, ReferenceABC],
+        outputs: MappingABC[ReferenceABC, ReferenceABC],
         at_each_time_step: bool = False,
-    ) -> SubModelRelationshipBuilder:
-        return SubModelRelationshipBuilder(
+    ) -> SubModelRelationship:
+        return SubModelRelationship(
             name=name,
             submodel_name=cls.name,
             inputs=dict(inputs),

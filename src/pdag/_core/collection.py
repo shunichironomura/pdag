@@ -10,15 +10,12 @@ import numpy.typing as npt
 
 from pdag.utils import InitArgsRecorder
 
-from .builder import SubModelRelationshipBuilder
 from .parameter import ParameterABC
 from .reference import ArrayRef, CollectionRef, MappingRef
 from .relationship import RelationshipABC
 
 if TYPE_CHECKING:
     from types import EllipsisType
-
-    from pdag._core.builder import CollectionRefBuilder
 
 
 def key_to_str(key: Any, *, make_one_element_tuple_scalar: bool = False) -> str:
@@ -43,7 +40,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
             if isinstance(element, ParameterABC):
                 self.item_type = "parameter"
                 break
-            if isinstance(element, RelationshipABC | SubModelRelationshipBuilder):
+            if isinstance(element, RelationshipABC):
                 self.item_type = "relationship"
                 break
             msg = "Collection must contain only parameters or relationships."
@@ -90,7 +87,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> CollectionRef[K] | CollectionRefBuilder[K]:
+    ) -> CollectionRef[Any]:
         raise NotImplementedError
 
 
@@ -114,7 +111,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     def keys(self) -> Iterable[K]:
         yield from self.mapping.keys()
 
-    def ref(  # type: ignore[override]
+    def ref(
         self,
         key: str | tuple[str | EllipsisType, ...] | None = None,
         *,
@@ -122,21 +119,13 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> MappingRef | CollectionRefBuilder[str | tuple[str | EllipsisType, ...]]:
-        if isinstance(self.name, str):
-            return MappingRef(
-                name=self.name,
-                key=key,
-                previous=previous,
-                next=next,
-                initial=initial,
-                all_time_steps=all_time_steps,
-            )
-
-        from .builder import CollectionRefBuilder
-
-        return CollectionRefBuilder(
-            collection=self,  # type: ignore[arg-type]
+    ) -> MappingRef:
+        if not isinstance(self.name, str):
+            msg = "Mapping name is not set."
+            raise ValueError(msg)  # noqa: TRY004
+        return MappingRef(
+            name=self.name,
+            key=key,
             previous=previous,
             next=next,
             initial=initial,
@@ -171,22 +160,13 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
         next: bool = False,  # noqa: A002
         initial: bool = False,
         all_time_steps: bool = False,
-    ) -> ArrayRef | CollectionRefBuilder[tuple[int, ...]]:
-        if isinstance(self.name, str):
-            return ArrayRef(
-                name=self.name,
-                key=key,
-                previous=previous,
-                next=next,
-                initial=initial,
-                all_time_steps=all_time_steps,
-            )
-
-        from .builder import CollectionRefBuilder
-
-        return CollectionRefBuilder(
-            collection=self,  # type: ignore[arg-type]
-            key=key,  # type: ignore[arg-type]
+    ) -> ArrayRef:
+        if not isinstance(self.name, str):
+            msg = "Array name is not set."
+            raise ValueError(msg)  # noqa: TRY004
+        return ArrayRef(
+            name=self.name,
+            key=key,
             previous=previous,
             next=next,
             initial=initial,

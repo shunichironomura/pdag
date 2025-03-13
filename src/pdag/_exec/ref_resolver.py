@@ -142,15 +142,14 @@ def _resolve_collection_ref_in_time_series_relationship(
         parameter_ids: dict[Hashable, ParameterId] = {
             key: TimeSeriesParameterId(
                 model_path=model_path,
-                name=parameter.name,  # type: ignore[arg-type]
+                name=parameter.name,
                 time_step=param_time_step,
             )
             for key, parameter in collection.items()
         }
     else:
         parameter_ids = {
-            key: StaticParameterId(model_path=model_path, name=parameter.name)  # type: ignore[arg-type]
-            for key, parameter in collection.items()
+            key: StaticParameterId(model_path=model_path, name=parameter.name) for key, parameter in collection.items()
         }
 
     if isinstance(collection, Mapping):
@@ -217,7 +216,7 @@ def _resolve_collection_ref_in_static_relationship(
                 {
                     key: TimeSeriesParameterId(
                         model_path=model_path,
-                        name=parameter.name,  # type: ignore[arg-type]
+                        name=parameter.name,
                         time_step=time_step,
                     )
                     for key, parameter in collection.items()
@@ -231,7 +230,7 @@ def _resolve_collection_ref_in_static_relationship(
             parameter_ids: dict[Hashable, ParameterId] = {
                 key: TimeSeriesParameterId(
                     model_path=model_path,
-                    name=parameter.name,  # type: ignore[arg-type]
+                    name=parameter.name,
                     time_step=0,
                 )
                 for key, parameter in collection.items()
@@ -244,8 +243,7 @@ def _resolve_collection_ref_in_static_relationship(
             raise ValueError(msg)
     else:
         parameter_ids = {
-            key: StaticParameterId(model_path=model_path, name=parameter.name)  # type: ignore[arg-type]
-            for key, parameter in collection.items()
+            key: StaticParameterId(model_path=model_path, name=parameter.name) for key, parameter in collection.items()
         }
         connector = MappingConnector(parameter_ids=parameter_ids)
 

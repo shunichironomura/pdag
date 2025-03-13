@@ -11,7 +11,7 @@ class SquareModel(pdag.Model):
     Calculates y = x^2
     """
 
-    x = pdag.RealParameter(name="x")
+    x = pdag.RealParameter("x")
     y = pdag.RealParameter("y")
 
     @pdag.relationship
