@@ -87,6 +87,14 @@ exclude = '^scripts/'
 module = ["pydot.*"]
 ignore_missing_imports = true
 
+[tool.pyright]
+exclude = [
+    "**/__pycache__",
+    "**/.*",
+    "scripts/*",
+    "src/pdag/_notation/construct.py",
+]
+
 [tool.deptry]
 extend_exclude = ["scripts"]
 
