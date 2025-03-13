@@ -47,6 +47,7 @@ dev = [
     { include-group = "linting" },
     { include-group = "typing" },
     { include-group = "testing" },
+    { include-group = "license" },
 ]
 ruff = ["ruff>=0.9.9"]
 typing = [

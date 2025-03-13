@@ -17,5 +17,7 @@ test:
 lint:
   -uv run -- ruff check
   -uv run -- mypy .
+  -uv run -- pyright .
   -uv run -- lint-imports
   -uv run -- deptry .
+  -uv run -- pip-licenses
