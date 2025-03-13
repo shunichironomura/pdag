@@ -28,7 +28,7 @@ class PolynomialModel(pdag.Model):
     y = pdag.RealParameter("y")
 
     calc_square_term = SquareModel.to_relationship(
-        ...,
+        "calc_square_term",
         inputs={SquareModel.x.ref(): x.ref()},
         outputs={SquareModel.y.ref(): x_squared.ref()},
     )

@@ -56,9 +56,9 @@ class RelationshipABC(ABC, InitArgsRecorder):
 @dataclass
 class FunctionRelationship[**P, T](RelationshipABC):
     type: ClassVar[str] = "function"
-    inputs: dict[str, ReferenceABC | ExecInfo]
-    outputs: list[ReferenceABC]
-    function_body: str
+    inputs: dict[str, ReferenceABC | ExecInfo] = field(kw_only=True)
+    outputs: list[ReferenceABC] = field(kw_only=True)
+    function_body: str = field(kw_only=True)
     output_is_scalar: bool = field(kw_only=True)
     _function: Callable[P, T] | None = field(default=None, compare=False, kw_only=True)
 
