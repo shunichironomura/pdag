@@ -116,6 +116,3 @@ tech_dev_completion_core_model = pdag.CoreModel(
 CASES_DC_NOTATION_TO_CORE_MODEL = [
     (SquareRootModel, square_root_core_model),
 ]
-CASES_CORE_MODEL_TO_DC_NOTATION = [
-    (SquareRootModel, square_root_core_model),
-]
