@@ -8,7 +8,6 @@ __all__ = [
     "get_function_body",
     "merge_two_set_dicts",
     "multidef",
-    "nested_list_from_mapping",
     "topological_sort",
 ]
 
