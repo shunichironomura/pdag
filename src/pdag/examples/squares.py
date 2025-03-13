@@ -33,7 +33,7 @@ class PolynomialModel(pdag.Model):
     z = pdag.RealParameter("z")
 
     calc_square_term = pdag.Mapping(
-        ...,
+        "calc_square_term",
         {
             input_param.name: SquareModel.to_relationship(
                 ...,
