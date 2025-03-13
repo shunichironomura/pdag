@@ -1,4 +1,3 @@
-# pyright: ignore
 # mypy: ignore-errors
 import ast
 from collections.abc import Mapping
