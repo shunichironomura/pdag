@@ -75,7 +75,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
 
     def is_time_series(self) -> bool:
         if self.item_type == "parameter":
-            return any(cast(ParameterABC[Any], parameter).is_time_series for parameter in self.values())
+            return any(cast("ParameterABC[Any]", parameter).is_time_series for parameter in self.values())
         msg = "Only collections of parameters can be time series."
         raise TypeError(msg)
 

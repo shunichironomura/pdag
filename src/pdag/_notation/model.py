@@ -27,7 +27,7 @@ def _function_relationship_multidef_storage_to_mapping(
 
 class ModelMeta(MultiDefMeta):
     def __new__(
-        metacls,  # noqa: N804
+        metacls,
         name: str,
         bases: tuple[type[Any], ...],
         namespace: dict[str, Any],
@@ -35,7 +35,7 @@ class ModelMeta(MultiDefMeta):
         cls = super().__new__(metacls, name, bases, namespace)
 
         # Tell type checker that cls is essentially of type Model
-        cls = cast(type["Model"], cls)
+        cls = cast("type[Model]", cls)
 
         cls.name = name
 
