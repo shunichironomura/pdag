@@ -206,8 +206,8 @@ class ExecutionModel:
         # Calculate topological sort
         dependencies_dd: defaultdict[NodeId, set[NodeId]] = defaultdict(
             set,
-            cast(dict[NodeId, set[NodeId]], self.input_parameter_id_to_relationship_ids)
-            | cast(dict[NodeId, set[NodeId]], self.relationship_id_to_output_parameter_ids),
+            cast("dict[NodeId, set[NodeId]]", self.input_parameter_id_to_relationship_ids)
+            | cast("dict[NodeId, set[NodeId]]", self.relationship_id_to_output_parameter_ids),
         )
         for src, dest in self.port_mapping.items():
             dependencies_dd[src].add(dest)

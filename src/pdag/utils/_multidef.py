@@ -92,7 +92,7 @@ class MultiDefMeta(ABCMeta):
         return MultiDict()
 
     def __new__(
-        metacls,  # noqa: N804
+        metacls,
         name: str,
         bases: tuple[type[Any], ...],
         namespace: dict[str, Any],
