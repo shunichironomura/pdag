@@ -1,6 +1,6 @@
 [project]
 name = "pdag"
-version = "0.0.8"
+version = "0.0.9"
 description = "Directed Acyclic Graph (DAG) of Parameters"
 readme = "README.md"
 authors = [
