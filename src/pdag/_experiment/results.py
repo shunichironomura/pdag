@@ -15,7 +15,7 @@ def generate_random_string(length: int = 6) -> str:
 
 
 def results_to_df(
-    results: Iterable[Mapping[pdag.StaticParameterId | pdag.TimeSeriesParameterId, Any]],
+    results: Iterable[Mapping[pdag.StaticParameterId | pdag.TimeSeriesParameterId | str, Any]],
     case_id_factory: Callable[[], str] = generate_random_string,
 ) -> pl.DataFrame:
     rows: list[dict[str, Any]] = []
@@ -36,8 +36,9 @@ def results_to_df(
         timeseries_data = dict(timeseries_data_dd)
 
         # For each time step, create a row that merges static and time-series parameters.
+        metadata: dict[str, Any] = res.get("metadata", {})
         for ts, ts_params in sorted(timeseries_data.items()):
-            row = {"case_id": case_id, "time_step": ts}
+            row = {"case_id": case_id, "time_step": ts} | metadata
             # Include static parameters (repeated for each time step)
             row.update(static_data)
             # Include time-series parameters for the current time step
