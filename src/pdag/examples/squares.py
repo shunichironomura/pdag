@@ -20,8 +20,8 @@ class SquareModel(pdag.Model):
         return x**2
 
 
-class PolynomialModel(pdag.Model):
-    """Polynomial model.
+class TwoSquares(pdag.Model):
+    """TwoSquares model.
 
     Calculates z = x^2 + y^2
     """
@@ -57,7 +57,7 @@ class PolynomialModel(pdag.Model):
 if __name__ == "__main__":
     from rich import print  # noqa: A004
 
-    core_model = PolynomialModel.to_core_model()
+    core_model = TwoSquares.to_core_model()
     print(core_model)
     exec_model = pdag.create_exec_model_from_core_model(core_model)
     print(exec_model)
