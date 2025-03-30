@@ -20,7 +20,7 @@ pip install pdag
 
 ## Usage
 
-See the [`examples`](examples/) directory for usage examples.
+See the [`examples`](src/pdag/examples/) directory for usage examples.
 
 ## Tests
 
