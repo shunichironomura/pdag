@@ -12,6 +12,16 @@
 > [!WARNING]
 > This package is under development.
 
+## Installation
+
+```bash
+pip install pdag
+```
+
+## Usage
+
+See the [`examples`](src/pdag/examples/) directory for usage examples.
+
 ## Tests
 
 Run test with:
