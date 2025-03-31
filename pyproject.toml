@@ -59,14 +59,18 @@ typing = [
 ]
 testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
-license = ["pip-licenses>=5.0.0"]
+license = ["pip-licenses"]
 
 
 [project.scripts]
 pdag = "pdag._cli:app"
 
+[tool.uv.sources]
+# Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
+pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "f97f6924531d306d12231b1e93128a82b3448132" }
+
 [tool.pip-licenses]
-allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT'
+allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT'
 
 [tool.pytest.ini_options]
 addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
