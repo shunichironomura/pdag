@@ -16,6 +16,7 @@ repos:
         exclude_types: [html, svg]
       - id: check-toml
       - id: check-yaml
+        args: ["--allow-multiple-documents", "--unsafe"]
       - id: check-json
       - id: check-added-large-files
         args: ["--enforce-all"]
