@@ -60,6 +60,15 @@ class SquareModel(pdag.Model):
 ```
 
 This `SquareModel` is a static model with input `x` and output `y`.
+Here is the graph representation of the model:
+
+![SquareModel graph](docs/assets/square.png)
+
+You can test it by running the following command in the virtual environment where you installed `pdag`:
+
+```bash
+pdag watch pdag.examples.square:SquareModel square.png
+```
 
 To execute the model for a specific value of `x`, execute the following code:
 
