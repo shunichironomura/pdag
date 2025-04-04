@@ -15,7 +15,6 @@ class DiamondMdpModel(pdag.Model):
         categories=("go_left", "go_right", "move_forward", "none"),
         is_time_series=True,
     )
-    # Initial value of the reward is not calculated in the model
     reward = pdag.RealParameter("reward", is_time_series=True)
     cumulative_reward = pdag.RealParameter("cumulative_reward")
 
