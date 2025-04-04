@@ -84,6 +84,8 @@ markdown_extensions:
 nav:
   - Getting Started:
       - Welcome!: index.md
+  - For Developers:
+      - Testing: development/testing.md
 extra:
   version:
     provider: mike
