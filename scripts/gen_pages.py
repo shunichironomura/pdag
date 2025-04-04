@@ -8,11 +8,11 @@ from pathlib import Path
 
 import mkdocs_gen_files
 
-root = Path(__file__).parents[1]
+PROJECT_ROOT = Path(__file__).parents[1]
 
 
 def gen_index_page() -> None:
-    readme_path = root / "README.md"
+    readme_path = PROJECT_ROOT / "README.md"
     index_path = Path("index.md")
 
     readme_content = readme_path.read_text()
@@ -80,22 +80,25 @@ def convert_to_mkdocs_admonition(content: str) -> str:
 def gen_ref_pages() -> None:
     nav = mkdocs_gen_files.Nav()  # type: ignore[attr-defined, no-untyped-call]
 
-    package_root = root / "src" / "pdag"
+    src_dir = PROJECT_ROOT / "src"
+    package_root = src_dir / "pdag"
 
     for path in sorted(package_root.rglob("*.py")):
-        module_path = path.relative_to(root).with_suffix("")
-        doc_path = path.relative_to(root).with_suffix(".md")
+        module_path = path.relative_to(src_dir).with_suffix("")
+        doc_path = path.relative_to(src_dir).with_suffix(".md")
         full_doc_path = Path("reference", doc_path)
 
         parts = tuple(module_path.parts)
 
         if parts[-1] == "__init__":
             parts = parts[:-1]
-            if parts[-1].startswith("_"):
+            if any(part.startswith("_") for part in parts):
+                # Skip private modules
                 continue
             doc_path = doc_path.with_name("index.md")
             full_doc_path = full_doc_path.with_name("index.md")
-        elif parts[-1] == "__main__" or parts[-1].startswith("_"):
+        elif parts[-1] == "__main__" or any(part.startswith("_") for part in parts):
+            # Skip main modules and private modules
             continue
 
         nav[parts] = doc_path.as_posix()
@@ -114,4 +117,4 @@ gen_index_page()
 
 # Reference for the type parameter is not yet supported.
 # See https://github.com/mkdocstrings/griffe/issues/342
-# gen_ref_pages()  # noqa: ERA001
+gen_ref_pages()
