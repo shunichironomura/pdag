@@ -3,7 +3,7 @@ site_url: https://shunichironomura.github.io/pdag/
 theme:
   name: material
   icon:
-    logo: material/package-variant-closed
+    logo: material/graph
     repo: fontawesome/brands/github
   palette:
     # Palette toggle for automatic mode
