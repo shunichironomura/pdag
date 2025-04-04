@@ -33,6 +33,7 @@ classifiers = [
 ]
 
 [project.urls]
+Documentation = "https://shunichironomura.github.io/pdag/"
 Repository = "https://github.com/shunichironomura/pdag"
 Issues = "https://github.com/shunichironomura/pdag/issues"
 
