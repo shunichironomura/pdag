@@ -6,17 +6,7 @@ import numpy as np
 
 import pdag
 
-
-class SquareModel(pdag.Model):
-    """Square model."""
-
-    x = pdag.RealParameter("x")
-    y = pdag.RealParameter("y")
-
-    @pdag.relationship
-    @staticmethod
-    def square(*, x: Annotated[float, x.ref()]) -> Annotated[float, y.ref()]:  # noqa: D102
-        return x**2
+from .square import SquareModel
 
 
 class PolynomialModel(pdag.Model):

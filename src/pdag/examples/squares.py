@@ -4,20 +4,7 @@ from typing import Annotated
 
 import pdag
 
-
-class SquareModel(pdag.Model):
-    """Square model.
-
-    Calculates y = x^2
-    """
-
-    x = pdag.RealParameter("x")
-    y = pdag.RealParameter("y")
-
-    @pdag.relationship
-    @staticmethod
-    def square(*, x: Annotated[float, x.ref()]) -> Annotated[float, y.ref()]:  # noqa: D102
-        return x**2
+from .square import SquareModel
 
 
 class TwoSquares(pdag.Model):
