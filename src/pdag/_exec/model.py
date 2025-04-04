@@ -3,7 +3,7 @@ from collections import defaultdict
 from collections.abc import Hashable, Iterable
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Annotated, Any, Self, cast
+from typing import Annotated, Any, Self, TypeAlias, cast
 
 import numpy.typing as npt
 from typing_extensions import Doc
@@ -102,10 +102,10 @@ class ExecInfoType(StrEnum):
 
 
 # Type aliases
-type ParameterId = StaticParameterId | TimeSeriesParameterId
-type FunctionRelationshipInputId = ExecInfoType | ParameterId | dict[Hashable, ParameterId]
-type RelationshipId = StaticRelationshipId | TimeSeriesRelationshipId
-type NodeId = ParameterId | RelationshipId
+ParameterId: TypeAlias = StaticParameterId | TimeSeriesParameterId
+FunctionRelationshipInputId: TypeAlias = ExecInfoType | ParameterId | dict[Hashable, ParameterId]
+RelationshipId: TypeAlias = StaticRelationshipId | TimeSeriesRelationshipId
+NodeId: TypeAlias = ParameterId | RelationshipId
 
 
 @dataclass(slots=True)
