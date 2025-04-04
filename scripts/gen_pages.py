@@ -1,4 +1,8 @@
-"""Generate the code reference pages."""
+"""Generate pages for the MkDocs documentation.
+
+This script is called by the `gen-pages` MkDocs plugin to generate the index page and the API reference pages.
+The index page is generated from the `README.md` file, and the API reference pages are generated from the source code.
+"""
 
 from pathlib import Path
 
