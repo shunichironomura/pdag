@@ -47,6 +47,7 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths: [src]
           options:
             show_if_no_docstring: true
             unwrap_annotated: true
