@@ -207,3 +207,11 @@ jobs:
 
       - name: Run pip-licenses
         run: uv run -- pip-licenses
+
+  collect:
+    if: github.event.pull_request.draft == false
+    needs: [ruff, mypy, pyright, lint-imports, build-docs, pytest, deptry, pip-licenses]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Collect results
+      run: echo "All checks passed!"
