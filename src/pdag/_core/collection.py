@@ -36,6 +36,7 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
     item_type: Literal["parameter", "relationship"] = field(init=False)
 
     def __post_init__(self) -> None:
+        """Set the item type based on the first element in the collection and name the elements."""
         for element in self.values():
             if isinstance(element, ParameterABC):
                 self.item_type = "parameter"
@@ -96,6 +97,8 @@ class CollectionABC[K: Hashable, T: ParameterABC[Any] | RelationshipABC](
 class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
     CollectionABC[K, T],
 ):
+    """A collection of parameters or relationships that can be indexed by a string or tuple of strings."""
+
     type: ClassVar[str] = "mapping"
     name: str
     mapping: dict[K, T]
@@ -121,6 +124,7 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
         initial: bool = False,
         all_time_steps: bool = False,
     ) -> MappingRef:
+        """Create a reference to the mapping."""
         return MappingRef(
             name=self.name,
             key=key,
@@ -133,6 +137,8 @@ class Mapping[K: str | tuple[str, ...], T: ParameterABC[Any] | RelationshipABC](
 
 @dataclass
 class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...], T]):
+    """A collection of parameters or relationships that can be indexed by a tuple of integers."""
+
     type: ClassVar[str] = "array"
     name: str
     array: npt.NDArray[T]  # type: ignore[type-var]
@@ -159,6 +165,7 @@ class Array[T: ParameterABC[Any] | RelationshipABC](CollectionABC[tuple[int, ...
         initial: bool = False,
         all_time_steps: bool = False,
     ) -> ArrayRef:
+        """Create a reference to the array."""
         return ArrayRef(
             name=self.name,
             key=key,

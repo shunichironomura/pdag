@@ -4,7 +4,9 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from types import EllipsisType
-from typing import Any, ClassVar
+from typing import Annotated, Any, ClassVar
+
+from typing_extensions import Doc
 
 from pdag._utils import InitArgsRecorder
 
@@ -13,19 +15,41 @@ from .reference import ParameterRef
 
 @dataclass
 class ParameterABC[T](InitArgsRecorder, ABC):
-    type: ClassVar[str] = "base"
-    _name: str | EllipsisType
-    is_time_series: bool = field(default=False, kw_only=True)
-    metadata: dict[str, Any] = field(default_factory=dict, kw_only=True)
+    """Abstract base class for all parameters."""
+
+    type: ClassVar[
+        Annotated[
+            str,
+            Doc(
+                "A string to represent the parameter type. "
+                "It is not used now, but may be used in the future for model export.",
+            ),
+        ]
+    ] = "base"
+    _name: Annotated[str | EllipsisType, Doc("Name of the parameter.")]
+    is_time_series: Annotated[bool, Doc("Whether it is a time-series parameter.")] = field(default=False, kw_only=True)
+    metadata: Annotated[
+        dict[str, Any],
+        Doc("A dictionary where you can store any parameter metadata. It is not used by pdag."),
+    ] = field(
+        default_factory=dict,
+        kw_only=True,
+    )
 
     def is_hydrated(self) -> bool:
-        return isinstance(self._name, str)
+        """Check if all required attributes are set."""
+        return self.name_is_set()
 
     def name_is_set(self) -> bool:
+        """Check if the name is set."""
         return isinstance(self._name, str)
 
     @property
     def name(self) -> str:
+        """Property to get the name of the parameter.
+
+        If you try to access it before it is set, it will raise a ValueError.
+        """
         if isinstance(self._name, EllipsisType):
             msg = "Parameter name has not been set."
             raise ValueError(msg)  # noqa: TRY004
@@ -41,6 +65,17 @@ class ParameterABC[T](InitArgsRecorder, ABC):
 
     @abstractmethod
     def from_unit_interval(self, value: float) -> T:
+        """Map a value from a unit interval `[0, 1]` to the parameter value space.
+
+        This method should be implemented so that the uniform distribution in the unit interval
+        corresponds to the "uniform" distribution in the parameter value space.
+
+        !!! note
+            We use the term "uniform" in a loose sense.
+            We don't treat the resulting distribution as a probability distribution and
+            the reason that the distribution should be as "uniform" as possible
+            is to sample the parameter value space efficiently.
+        """
         raise NotImplementedError
 
     def ref(
@@ -51,6 +86,7 @@ class ParameterABC[T](InitArgsRecorder, ABC):
         initial: bool = False,
         all_time_steps: bool = False,
     ) -> ParameterRef:
+        """Create a reference to this parameter in the model definition."""
         return ParameterRef(
             name=self.name,
             previous=previous,
@@ -71,6 +107,10 @@ class RealParameter(ParameterABC[float]):
         return "float"
 
     def from_unit_interval(self, value: float) -> float:
+        """Linearly map a value from a unit interval `[0, 1]` to the parameter value space.
+
+        0 corresponds to the lower bound and 1 corresponds to the upper bound.
+        """
         if self.lower_bound is None or self.upper_bound is None:
             msg = f"Lower and upper bounds must be set to convert from unit interval. Parameter: {self.name}"
             raise ValueError(msg)
