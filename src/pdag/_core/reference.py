@@ -1,14 +1,18 @@
 from collections.abc import Hashable
 from dataclasses import dataclass, field
 from types import EllipsisType
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
+
+from typing_extensions import Doc
 
 from pdag._utils import InitArgsRecorder
 
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key
 class ReferenceABC(InitArgsRecorder):
-    name: str
+    """Represents a reference to a parameter or collection in a model."""
+
+    name: Annotated[str, Doc("Name of the parameter or collection.")]
 
     # For time-series access
     previous: bool = field(default=False, kw_only=True)
@@ -34,24 +38,30 @@ class ReferenceABC(InitArgsRecorder):
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key
 class ParameterRef(ReferenceABC):
-    pass
+    """Represents a reference to a parameter in a model."""
 
 
 @dataclass(frozen=True)
 class CollectionRef[K: Hashable](ReferenceABC):
-    key: K | None = field(default=None)
+    """Represents a reference to a collection in a model."""
+
+    key: Annotated[K | None, Doc("Key to the collection. If None, it is a reference to the whole collection.")] = field(
+        default=None,
+    )
 
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key
 class MappingRef(CollectionRef[str | tuple[str | EllipsisType, ...]]):
-    pass
+    """Represents a reference to a mapping in a model."""
 
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key
 class ArrayRef(CollectionRef[tuple[int, ...]]):
-    pass
+    """Represents a reference to an array in a model."""
 
 
 @dataclass(frozen=True)
 class ExecInfo:
+    """Represents the information available during the execution of a model."""
+
     attribute: Literal["n_time_steps", "time"]
