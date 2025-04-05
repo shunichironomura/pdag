@@ -95,3 +95,7 @@ nav:
 extra:
   version:
     provider: mike
+watch:
+  - docs
+  - README.md
+  - src
