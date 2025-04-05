@@ -1,7 +1,7 @@
 [project]
 name = "pdag"
 version = "0.0.11"
-description = "Directed Acyclic Graph (DAG) of Parameters"
+description = "A Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships."
 readme = "README.md"
 authors = [
     { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },

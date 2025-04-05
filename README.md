@@ -20,7 +20,7 @@ Source code: <https://github.com/shunichironomura/pdag>
 
 ---
 
-`pdag` helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships.
+`pdag` is a Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships.
 Its features include:
 
 - You can define parameters and their dependencies with a Python's class-based syntax and annotations.
