@@ -1,4 +1,4 @@
-from pdag.utils import merge_two_set_dicts
+from pdag._utils import merge_two_set_dicts
 
 
 def test_merge_two_set_dicts() -> None:

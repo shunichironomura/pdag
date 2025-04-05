@@ -1,6 +1,6 @@
 import pytest
 
-from pdag.utils import get_function_body
+from pdag._utils import get_function_body
 
 
 def test_get_function_body() -> None:
