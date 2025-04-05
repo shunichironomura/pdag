@@ -32,11 +32,8 @@ __all__ = [
     "run_experiments",
     "sample_parameter_values",
     "sample_parameter_values",
-    "utils",
 ]
 
-
-from . import utils  # expose utils module
 from ._core import (
     Array,
     ArrayRef,
