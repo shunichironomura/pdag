@@ -11,8 +11,8 @@ __all__ = [
     "topological_sort",
 ]
 
-from ._ast_utils import get_function_body
-from ._dict_utils import merge_two_set_dicts
-from ._init_args_recorder import InitArgsRecorder
-from ._multidef import MultiDef, MultiDefMeta, MultiDefProtocol, multidef
-from ._topological_sort import topological_sort
+from .ast_utils import get_function_body
+from .dict_utils import merge_two_set_dicts
+from .init_args_recorder import InitArgsRecorder
+from .multidef import MultiDef, MultiDefMeta, MultiDefProtocol, multidef
+from .topological_sort import topological_sort
