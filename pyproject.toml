@@ -132,7 +132,7 @@ layers = [
     "pdag.examples",
     "pdag._exec | pdag._notation",
     "pdag._core",
-    "pdag.utils",
+    "pdag._utils",
 ]
 
 [tool.ruff]
