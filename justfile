@@ -10,7 +10,7 @@ typecheck:
   uv run -- mypy .
 
 test:
-  PYTHONHASHSEED=0 uv run -- coverage run --source=./src/pdag -m pytest --import-mode importlib
+  uv run -- coverage run --source=./src/pdag -m pytest --import-mode importlib
   uv run -- coverage report -m
   uv run -- coverage xml -o ./coverage.xml
 
