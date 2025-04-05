@@ -77,7 +77,7 @@ Here is the graph representation of the model:
 You can test it by running the following command in the virtual environment where you installed `pdag`:
 
 ```bash
-pdag watch pdag.examples.square:SquareModel square.png
+pdag watch pdag.examples:SquareModel square.png
 ```
 
 To execute the model for a specific value of `x`, execute the following code:
