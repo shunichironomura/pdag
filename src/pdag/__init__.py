@@ -1,4 +1,4 @@
-"""pdag: A package for defining and working with directed acyclic graphs (DAGs) of parameters and relationships."""
+"""A Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships."""  # noqa: E501
 
 __all__ = [
     "Array",
@@ -32,11 +32,8 @@ __all__ = [
     "run_experiments",
     "sample_parameter_values",
     "sample_parameter_values",
-    "utils",
 ]
 
-
-from . import utils  # expose utils module
 from ._core import (
     Array,
     ArrayRef,

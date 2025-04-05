@@ -20,7 +20,7 @@ Source code: <https://github.com/shunichironomura/pdag>
 
 ---
 
-`pdag` helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships.
+`pdag` is a Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships.
 Its features include:
 
 - You can define parameters and their dependencies with a Python's class-based syntax and annotations.
@@ -77,7 +77,7 @@ Here is the graph representation of the model:
 You can test it by running the following command in the virtual environment where you installed `pdag`:
 
 ```bash
-pdag watch pdag.examples.square:SquareModel square.png
+pdag watch pdag.examples:SquareModel square.png
 ```
 
 To execute the model for a specific value of `x`, execute the following code:

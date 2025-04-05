@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from types import EllipsisType
 from typing import Any, Literal
 
-from pdag.utils import InitArgsRecorder
+from pdag._utils import InitArgsRecorder
 
 
 @dataclass(frozen=True)  # Frozen to be valid as a dictionary key

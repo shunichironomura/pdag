@@ -47,6 +47,7 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths: [src]
           options:
             show_if_no_docstring: true
             unwrap_annotated: true
@@ -61,11 +62,9 @@ plugins:
             show_signature_annotations: true
             members_order: source
             docstring_section_style: spacy
-            filters:
-              - "!^_[^_]"
-              - "!__init_subclass__"
             extensions:
               - griffe_typingdoc
+            summary: true
 repo_url: https://github.com/shunichironomura/pdag
 repo_name: shunichironomura/pdag
 markdown_extensions:

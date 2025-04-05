@@ -1,5 +1,3 @@
-"""Diamond MDP model example."""
-
 from typing import Annotated, Literal
 
 import pdag
@@ -20,7 +18,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def action_selection(  # noqa: D102, PLR0911
+    def action_selection(  # noqa: PLR0911
         *,
         policy: Annotated[Literal["left", "right"], policy.ref()],
         location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
@@ -46,7 +44,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def state_transition(  # noqa: C901, D102, PLR0911
+    def state_transition(  # noqa: C901, PLR0911
         *,
         location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
         action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()],
@@ -80,12 +78,12 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def initial_reward() -> Annotated[float, reward.ref(initial=True)]:  # noqa: D102
+    def initial_reward() -> Annotated[float, reward.ref(initial=True)]:
         return 0.0
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def reward_function(  # noqa: D102
+    def reward_function(
         *,
         previous_location: Annotated[
             Literal["start", "left", "right", "end"],
@@ -103,7 +101,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def cumulative_reward_calculation(  # noqa: D102
+    def cumulative_reward_calculation(
         *,
         reward: Annotated[list[float], reward.ref(all_time_steps=True)],
     ) -> Annotated[float, cumulative_reward.ref()]:

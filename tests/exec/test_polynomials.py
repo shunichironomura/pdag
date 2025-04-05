@@ -1,7 +1,7 @@
 """Poliynomials example to demonstrate how to include a model in another model."""
 
 import pdag
-from pdag.examples.polynomials import PolynomialModel
+from pdag.examples import PolynomialModel
 
 
 def test_model_name() -> None:

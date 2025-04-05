@@ -10,7 +10,7 @@ from pdag._core import (
     FunctionRelationship,
     ReferenceABC,
 )
-from pdag.utils import MultiDefProtocol, get_function_body, multidef
+from pdag._utils import MultiDefProtocol, get_function_body, multidef
 
 
 def _get_outputs_from_signature(

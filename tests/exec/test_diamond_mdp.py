@@ -1,7 +1,7 @@
 """Diamond MDP model example."""
 
 import pdag
-from pdag.examples.diamond_mdp import DiamondMdpModel
+from pdag.examples import DiamondMdpModel
 
 
 def test_model_name() -> None:

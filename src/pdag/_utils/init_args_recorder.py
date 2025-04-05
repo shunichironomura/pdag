@@ -1,13 +1,18 @@
-from typing import Any, Self
+from typing import Annotated, Any, Self
+
+from typing_extensions import Doc
 
 
 class InitArgsRecorder:
-    """A mixin class that records the arguments used to initialize the instance."""
+    """A mixin class that records the arguments used to initialize the instance.
+
+    The arguments can be retrieved later using the `get_init_args` and `get_init_kwargs` methods.
+    """
 
     # These are not class variables, but instance variables
     # They are declared here to inform type checkers.
-    __init_args__: tuple[Any, ...]
-    __init_kwargs__: dict[str, Any]
+    __init_args__: Annotated[tuple[Any, ...], Doc("Arguments used to initialize the instance.")]
+    __init_kwargs__: Annotated[dict[str, Any], Doc("Keyword arguments used to initialize the instance.")]
 
     def __new__(cls, *args: Any, **kwargs: Any) -> Self:
         """Record the arguments used to initialize the instance."""
