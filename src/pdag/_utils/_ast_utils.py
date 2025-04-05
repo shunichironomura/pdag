@@ -87,8 +87,8 @@ def get_function_body(func: Callable[..., Any]) -> str:
         raise ValueError(msg)
 
     # Extract the source for each statement in the function body.
-    start = atok.get_text_range(function_node.body[0], padded=True)[0]
-    end = atok.get_text_range(function_node.body[-1], padded=True)[1]
+    start = atok.get_text_range(function_node.body[0], padded=False)[0]
+    end = atok.get_text_range(function_node.body[-1], padded=False)[1]
     body = dedent(_guess_indentation(source) + source[start:end])
     if not body.endswith("\n"):
         body += "\n"
