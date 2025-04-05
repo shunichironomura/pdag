@@ -87,10 +87,10 @@ markdown_extensions:
   - md_in_html
   - pymdownx.blocks.caption
 nav:
-  - Getting Started:
-      - Welcome!: index.md
-  - Reference: reference/
-  - For Developers:
+  - Home:
+      - pdag: index.md
+  - API reference: reference/
+  - Development:
       - Testing: development/testing.md
 extra:
   version:
