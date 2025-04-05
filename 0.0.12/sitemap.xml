@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://shunichironomura.github.io/pdag/0.0.12/</loc>
+         <lastmod>2025-04-05</lastmod>
+    </url>
+    <url>
+         <loc>https://shunichironomura.github.io/pdag/0.0.12/development/testing/</loc>
+         <lastmod>2025-04-05</lastmod>
+    </url>
+    <url>
+         <loc>https://shunichironomura.github.io/pdag/0.0.12/reference/SUMMARY/</loc>
+         <lastmod>2025-04-05</lastmod>
+    </url>
+    <url>
+         <loc>https://shunichironomura.github.io/pdag/0.0.12/reference/pdag/</loc>
+         <lastmod>2025-04-05</lastmod>
+    </url>
+    <url>
+         <loc>https://shunichironomura.github.io/pdag/0.0.12/reference/pdag/examples/</loc>
+         <lastmod>2025-04-05</lastmod>
+    </url>
+</urlset>
