@@ -504,154 +504,13 @@
   
   
   
-    
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
+    <li class="md-nav__item">
+      <a href="examples/" class="md-nav__link">
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_1" id="__nav_2_1_1_label" tabindex="0">
-            
   
   
   <span class="md-ellipsis">
     examples
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_1_1">
-            <span class="md-nav__icon md-icon"></span>
-            examples
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="examples/diamond_mdp/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    diamond_mdp
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="examples/polynomials/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    polynomials
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="examples/square/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    square
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="examples/squares/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    squares
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="utils/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    utils
     
   </span>
   
@@ -2191,13 +2050,441 @@
 
     <div class="doc doc-contents first">
 
-        <p>pdag: A package for defining and working with directed acyclic graphs (DAGs) of parameters and relationships.</p>
+        <p>A Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships.</p>
 
 
 
 
 
 
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">MODULE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            pdag.examples" href="examples/#pdag.examples">examples</a></code></td>
+            <td class="doc-module-details">
+              <div class="doc-md-description">
+                <p>Examples module that contains example models.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">CLASS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            Array
+
+
+  
+      dataclass
+   (pdag.Array)" href="#pdag.Array">Array</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ArrayRef
+
+
+  
+      dataclass
+   (pdag.ArrayRef)" href="#pdag.ArrayRef">ArrayRef</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            BooleanParameter
+
+
+  
+      dataclass
+   (pdag.BooleanParameter)" href="#pdag.BooleanParameter">BooleanParameter</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            CategoricalParameter
+
+
+  
+      dataclass
+   (pdag.CategoricalParameter)" href="#pdag.CategoricalParameter">CategoricalParameter</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            CoreModel
+
+
+  
+      dataclass
+   (pdag.CoreModel)" href="#pdag.CoreModel">CoreModel</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ExecInfo
+
+
+  
+      dataclass
+   (pdag.ExecInfo)" href="#pdag.ExecInfo">ExecInfo</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            FunctionRelationship
+
+
+  
+      dataclass
+   (pdag.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            Mapping
+
+
+  
+      dataclass
+   (pdag.Mapping)" href="#pdag.Mapping">Mapping</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            MappingRef
+
+
+  
+      dataclass
+   (pdag.MappingRef)" href="#pdag.MappingRef">MappingRef</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ParameterABC
+
+
+  
+      dataclass
+   (pdag.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ParameterRef
+
+
+  
+      dataclass
+   (pdag.ParameterRef)" href="#pdag.ParameterRef">ParameterRef</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            RealParameter
+
+
+  
+      dataclass
+   (pdag.RealParameter)" href="#pdag.RealParameter">RealParameter</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            RelationshipABC
+
+
+  
+      dataclass
+   (pdag.RelationshipABC)" href="#pdag.RelationshipABC">RelationshipABC</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            SubModelRelationship
+
+
+  
+      dataclass
+   (pdag.SubModelRelationship)" href="#pdag.SubModelRelationship">SubModelRelationship</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ExecutionModel
+
+
+  
+      dataclass
+   (pdag.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            StaticParameterId
+
+
+  
+      dataclass
+   (pdag.StaticParameterId)" href="#pdag.StaticParameterId">StaticParameterId</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            StaticRelationshipId
+
+
+  
+      dataclass
+   (pdag.StaticRelationshipId)" href="#pdag.StaticRelationshipId">StaticRelationshipId</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            TimeSeriesParameterId
+
+
+  
+      dataclass
+   (pdag.TimeSeriesParameterId)" href="#pdag.TimeSeriesParameterId">TimeSeriesParameterId</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            TimeSeriesRelationshipId
+
+
+  
+      dataclass
+   (pdag.TimeSeriesRelationshipId)" href="#pdag.TimeSeriesRelationshipId">TimeSeriesRelationshipId</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            Model (pdag.Model)" href="#pdag.Model">Model</a></code></td>
+            <td class="doc-class-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">FUNCTION</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            create_exec_model_from_core_model (pdag.create_exec_model_from_core_model)" href="#pdag.create_exec_model_from_core_model">create_exec_model_from_core_model</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            execute_exec_model (pdag.execute_exec_model)" href="#pdag.execute_exec_model">execute_exec_model</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            results_to_df (pdag.results_to_df)" href="#pdag.results_to_df">results_to_df</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            run_experiments (pdag.run_experiments)" href="#pdag.run_experiments">run_experiments</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            sample_parameter_values (pdag.sample_parameter_values)" href="#pdag.sample_parameter_values">sample_parameter_values</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            export_dot (pdag.export_dot)" href="#pdag.export_dot">export_dot</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            relationship (pdag.relationship)" href="#pdag.relationship">relationship</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  <p>Decorate a function to mark it as a relationship.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            NodeId
+
+
+  
+      module-attribute
+   (pdag.NodeId)" href="#pdag.NodeId">NodeId</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="typing.TypeAlias">TypeAlias</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag.ParameterId)" href="#pdag.ParameterId">ParameterId</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="typing.TypeAlias">TypeAlias</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="typing.TypeAlias">TypeAlias</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -2239,6 +2526,142 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __post_init__ (pdag.Array.__post_init__)" href="#pdag.Array.__post_init__">__post_init__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __getitem__ (pdag.Array.__getitem__)" href="#pdag.Array.__getitem__">__getitem__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            items (pdag.Array.items)" href="#pdag.Array.items">items</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            ref (pdag.Array.ref)" href="#pdag.Array.ref">ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.Array.type)" href="#pdag.Array.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.Array.name)" href="#pdag.Array.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            array
+
+
+  
+      instance-attribute
+   (pdag.Array.array)" href="#pdag.Array.array">array</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="numpy.typing.NDArray">NDArray</span>[<span title="T">T</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            shape
+
+
+  
+      property
+   (pdag.Array.shape)" href="#pdag.Array.shape">shape</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="tuple">tuple</span>[<span title="int">int</span>, ...]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -2570,6 +2993,10 @@
 
 
 
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -2625,6 +3052,69 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_type_hint (pdag.BooleanParameter.get_type_hint)" href="#pdag.BooleanParameter.get_type_hint">get_type_hint</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            from_unit_interval (pdag.BooleanParameter.from_unit_interval)" href="#pdag.BooleanParameter.from_unit_interval">from_unit_interval</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.BooleanParameter.type)" href="#pdag.BooleanParameter.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -2772,6 +3262,88 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_type_hint (pdag.CategoricalParameter.get_type_hint)" href="#pdag.CategoricalParameter.get_type_hint">get_type_hint</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            from_unit_interval (pdag.CategoricalParameter.from_unit_interval)" href="#pdag.CategoricalParameter.from_unit_interval">from_unit_interval</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.CategoricalParameter.type)" href="#pdag.CategoricalParameter.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            categories
+
+
+  
+      instance-attribute
+   (pdag.CategoricalParameter.categories)" href="#pdag.CategoricalParameter.categories">categories</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="tuple">tuple</span>[<span title="T">T</span>, ...]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -2963,6 +3535,210 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __post_init__ (pdag.CoreModel.__post_init__)" href="#pdag.CoreModel.__post_init__">__post_init__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_hydrated (pdag.CoreModel.is_hydrated)" href="#pdag.CoreModel.is_hydrated">is_hydrated</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  <p>Check if all parameters, collections, and relationships are hydrated.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_dynamic (pdag.CoreModel.is_dynamic)" href="#pdag.CoreModel.is_dynamic">is_dynamic</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  <p>Check if any parameter is dynamic.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_all_parameters (pdag.CoreModel.iter_all_parameters)" href="#pdag.CoreModel.iter_all_parameters">iter_all_parameters</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  <p>Yield all parameters contained in the model, including those in collections.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_all_relationships (pdag.CoreModel.iter_all_relationships)" href="#pdag.CoreModel.iter_all_relationships">iter_all_relationships</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  <p>Yield all relationships contained in the model, including those in collections.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_relationship (pdag.CoreModel.get_relationship)" href="#pdag.CoreModel.get_relationship">get_relationship</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_parameter (pdag.CoreModel.get_parameter)" href="#pdag.CoreModel.get_parameter">get_parameter</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_object_from_ref (pdag.CoreModel.get_object_from_ref)" href="#pdag.CoreModel.get_object_from_ref">get_object_from_ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_parameter_from_ref (pdag.CoreModel.get_parameter_from_ref)" href="#pdag.CoreModel.get_parameter_from_ref">get_parameter_from_ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_collection_from_ref (pdag.CoreModel.get_collection_from_ref)" href="#pdag.CoreModel.get_collection_from_ref">get_collection_from_ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.CoreModel.name)" href="#pdag.CoreModel.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                <p>Name of the model.</p>
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            parameters
+
+
+  
+      instance-attribute
+   (pdag.CoreModel.parameters)" href="#pdag.CoreModel.parameters">parameters</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                <p>Mapping of parameter names to parameters. Parameters contained in collections are not included.</p>
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="            ParameterABC
+
+
+  
+      dataclass
+   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="typing.Any">Any</span>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            relationships
+
+
+  
+      instance-attribute
+   (pdag.CoreModel.relationships)" href="#pdag.CoreModel.relationships">relationships</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                <p>Mapping of relationship names to relationships. Relationships contained in collections are not included.</p>
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="            RelationshipABC
+
+
+  
+      dataclass
+   (pdag._core.relationship.RelationshipABC)" href="#pdag.RelationshipABC">RelationshipABC</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            collections
+
+
+  
+      instance-attribute
+   (pdag.CoreModel.collections)" href="#pdag.CoreModel.collections">collections</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                <p>Mapping of collection names to collections.</p>
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pdag._core.collection.CollectionABC">CollectionABC</span>[<span title="collections.abc.Hashable">Hashable</span>, <a class="autorefs autorefs-internal" title="            ParameterABC
+
+
+  
+      dataclass
+   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="typing.Any">Any</span>] | <a class="autorefs autorefs-internal" title="            RelationshipABC
+
+
+  
+      dataclass
+   (pdag._core.relationship.RelationshipABC)" href="#pdag.RelationshipABC">RelationshipABC</a>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -3564,6 +4340,41 @@
 
 
 
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            attribute
+
+
+  
+      instance-attribute
+   (pdag.ExecInfo.attribute)" href="#pdag.ExecInfo.attribute">attribute</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="typing.Literal">Literal</span>[&#39;n_time_steps&#39;, &#39;time&#39;]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -3655,6 +4466,170 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_hydrated (pdag.FunctionRelationship.is_hydrated)" href="#pdag.FunctionRelationship.is_hydrated">is_hydrated</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __call__ (pdag.FunctionRelationship.__call__)" href="#pdag.FunctionRelationship.__call__">__call__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_input_refs (pdag.FunctionRelationship.iter_input_refs)" href="#pdag.FunctionRelationship.iter_input_refs">iter_input_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_output_refs (pdag.FunctionRelationship.iter_output_refs)" href="#pdag.FunctionRelationship.iter_output_refs">iter_output_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.FunctionRelationship.type)" href="#pdag.FunctionRelationship.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            inputs
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.FunctionRelationship.inputs)" href="#pdag.FunctionRelationship.inputs">inputs</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pdag._core.reference.ReferenceABC">ReferenceABC</span> | <a class="autorefs autorefs-internal" title="            ExecInfo
+
+
+  
+      dataclass
+   (pdag._core.reference.ExecInfo)" href="#pdag.ExecInfo">ExecInfo</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            outputs
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.FunctionRelationship.outputs)" href="#pdag.FunctionRelationship.outputs">outputs</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="list">list</span>[<span title="pdag._core.reference.ReferenceABC">ReferenceABC</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            function_body
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.FunctionRelationship.function_body)" href="#pdag.FunctionRelationship.function_body">function_body</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            output_is_scalar
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.FunctionRelationship.output_is_scalar)" href="#pdag.FunctionRelationship.output_is_scalar">output_is_scalar</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -3981,6 +4956,131 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __getitem__ (pdag.Mapping.__getitem__)" href="#pdag.Mapping.__getitem__">__getitem__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            values (pdag.Mapping.values)" href="#pdag.Mapping.values">values</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            items (pdag.Mapping.items)" href="#pdag.Mapping.items">items</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            keys (pdag.Mapping.keys)" href="#pdag.Mapping.keys">keys</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            ref (pdag.Mapping.ref)" href="#pdag.Mapping.ref">ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.Mapping.type)" href="#pdag.Mapping.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.Mapping.name)" href="#pdag.Mapping.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            mapping
+
+
+  
+      instance-attribute
+   (pdag.Mapping.mapping)" href="#pdag.Mapping.mapping">mapping</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="K">K</span>, <span title="T">T</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -4315,6 +5415,10 @@
 
 
 
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -4357,7 +5461,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="            InitArgsRecorder (pdag.utils.InitArgsRecorder)" href="utils/#pdag.utils.InitArgsRecorder">InitArgsRecorder</a></code>, <code><span title="abc.ABC">ABC</span></code></p>
+              Bases: <code><span title="pdag._utils.InitArgsRecorder">InitArgsRecorder</span></code>, <code><span title="abc.ABC">ABC</span></code></p>
 
 
 
@@ -4365,6 +5469,163 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_hydrated (pdag.ParameterABC.is_hydrated)" href="#pdag.ParameterABC.is_hydrated">is_hydrated</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            name_is_set (pdag.ParameterABC.name_is_set)" href="#pdag.ParameterABC.name_is_set">name_is_set</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_type_hint
+
+
+  
+      abstractmethod
+   (pdag.ParameterABC.get_type_hint)" href="#pdag.ParameterABC.get_type_hint">get_type_hint</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            from_unit_interval
+
+
+  
+      abstractmethod
+   (pdag.ParameterABC.from_unit_interval)" href="#pdag.ParameterABC.from_unit_interval">from_unit_interval</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            ref (pdag.ParameterABC.ref)" href="#pdag.ParameterABC.ref">ref</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.ParameterABC.type)" href="#pdag.ParameterABC.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            is_time_series
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ParameterABC.is_time_series)" href="#pdag.ParameterABC.is_time_series">is_time_series</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            metadata
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ParameterABC.metadata)" href="#pdag.ParameterABC.metadata">metadata</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      property
+      writable
+   (pdag.ParameterABC.name)" href="#pdag.ParameterABC.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -4737,6 +5998,10 @@
 
 
 
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -4795,6 +6060,129 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            get_type_hint (pdag.RealParameter.get_type_hint)" href="#pdag.RealParameter.get_type_hint">get_type_hint</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            from_unit_interval (pdag.RealParameter.from_unit_interval)" href="#pdag.RealParameter.from_unit_interval">from_unit_interval</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.RealParameter.type)" href="#pdag.RealParameter.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            unit
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.RealParameter.unit)" href="#pdag.RealParameter.unit">unit</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span> | None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            lower_bound
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.RealParameter.lower_bound)" href="#pdag.RealParameter.lower_bound">lower_bound</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="float">float</span> | None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            upper_bound
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.RealParameter.upper_bound)" href="#pdag.RealParameter.upper_bound">upper_bound</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="float">float</span> | None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -5017,7 +6405,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="abc.ABC">ABC</span></code>, <code><a class="autorefs autorefs-internal" title="            InitArgsRecorder (pdag.utils.InitArgsRecorder)" href="utils/#pdag.utils.InitArgsRecorder">InitArgsRecorder</a></code></p>
+              Bases: <code><span title="abc.ABC">ABC</span></code>, <code><span title="pdag._utils.InitArgsRecorder">InitArgsRecorder</span></code></p>
 
 
 
@@ -5025,6 +6413,178 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            name_is_set (pdag.RelationshipABC.name_is_set)" href="#pdag.RelationshipABC.name_is_set">name_is_set</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_hydrated
+
+
+  
+      abstractmethod
+   (pdag.RelationshipABC.is_hydrated)" href="#pdag.RelationshipABC.is_hydrated">is_hydrated</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_input_refs
+
+
+  
+      abstractmethod
+   (pdag.RelationshipABC.iter_input_refs)" href="#pdag.RelationshipABC.iter_input_refs">iter_input_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_output_refs
+
+
+  
+      abstractmethod
+   (pdag.RelationshipABC.iter_output_refs)" href="#pdag.RelationshipABC.iter_output_refs">iter_output_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.RelationshipABC.type)" href="#pdag.RelationshipABC.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            at_each_time_step
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.RelationshipABC.at_each_time_step)" href="#pdag.RelationshipABC.at_each_time_step">at_each_time_step</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      property
+      writable
+   (pdag.RelationshipABC.name)" href="#pdag.RelationshipABC.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            includes_past
+
+
+  
+      property
+   (pdag.RelationshipABC.includes_past)" href="#pdag.RelationshipABC.includes_past">includes_past</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            includes_future
+
+
+  
+      property
+   (pdag.RelationshipABC.includes_future)" href="#pdag.RelationshipABC.includes_future">includes_future</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="bool">bool</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -5376,6 +6936,158 @@
 
 
 
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            is_hydrated (pdag.SubModelRelationship.is_hydrated)" href="#pdag.SubModelRelationship.is_hydrated">is_hydrated</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_input_refs (pdag.SubModelRelationship.iter_input_refs)" href="#pdag.SubModelRelationship.iter_input_refs">iter_input_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            iter_output_refs (pdag.SubModelRelationship.iter_output_refs)" href="#pdag.SubModelRelationship.iter_output_refs">iter_output_refs</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            type
+
+
+  
+      class-attribute
+   (pdag.SubModelRelationship.type)" href="#pdag.SubModelRelationship.type">type</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            submodel_name
+
+
+  
+      instance-attribute
+   (pdag.SubModelRelationship.submodel_name)" href="#pdag.SubModelRelationship.submodel_name">submodel_name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            inputs
+
+
+  
+      instance-attribute
+   (pdag.SubModelRelationship.inputs)" href="#pdag.SubModelRelationship.inputs">inputs</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="pdag._core.reference.ReferenceABC">ReferenceABC</span>, <span title="pdag._core.reference.ReferenceABC">ReferenceABC</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            outputs
+
+
+  
+      instance-attribute
+   (pdag.SubModelRelationship.outputs)" href="#pdag.SubModelRelationship.outputs">outputs</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="pdag._core.reference.ReferenceABC">ReferenceABC</span>, <span title="pdag._core.reference.ReferenceABC">ReferenceABC</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            submodel
+
+
+  
+      property
+   (pdag.SubModelRelationship.submodel)" href="#pdag.SubModelRelationship.submodel">submodel</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><a class="autorefs autorefs-internal" title="            CoreModel
+
+
+  
+      dataclass
+   (pdag._core.model.CoreModel)" href="#pdag.CoreModel">CoreModel</a></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -5709,6 +7421,327 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            __post_init__ (pdag.ExecutionModel.__post_init__)" href="#pdag.ExecutionModel.__post_init__">__post_init__</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            input_parameter_ids (pdag.ExecutionModel.input_parameter_ids)" href="#pdag.ExecutionModel.input_parameter_ids">input_parameter_ids</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            input_parameters (pdag.ExecutionModel.input_parameters)" href="#pdag.ExecutionModel.input_parameters">input_parameters</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            parameter_ids
+
+
+  
+      instance-attribute
+   (pdag.ExecutionModel.parameter_ids)" href="#pdag.ExecutionModel.parameter_ids">parameter_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            relationship_infos
+
+
+  
+      instance-attribute
+   (pdag.ExecutionModel.relationship_infos)" href="#pdag.ExecutionModel.relationship_infos">relationship_infos</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            input_parameter_id_to_relationship_ids
+
+
+  
+      instance-attribute
+   (pdag.ExecutionModel.input_parameter_id_to_relationship_ids)" href="#pdag.ExecutionModel.input_parameter_id_to_relationship_ids">input_parameter_id_to_relationship_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            relationship_id_to_output_parameter_ids
+
+
+  
+      instance-attribute
+   (pdag.ExecutionModel.relationship_id_to_output_parameter_ids)" href="#pdag.ExecutionModel.relationship_id_to_output_parameter_ids">relationship_id_to_output_parameter_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            port_mapping
+
+
+  
+      instance-attribute
+   (pdag.ExecutionModel.port_mapping)" href="#pdag.ExecutionModel.port_mapping">port_mapping</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            n_time_steps
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ExecutionModel.n_time_steps)" href="#pdag.ExecutionModel.n_time_steps">n_time_steps</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="int">int</span> | None</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            relationship_id_to_input_parameter_ids
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ExecutionModel.relationship_id_to_input_parameter_ids)" href="#pdag.ExecutionModel.relationship_id_to_input_parameter_ids">relationship_id_to_input_parameter_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            output_parameter_id_to_relationship_ids
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ExecutionModel.output_parameter_id_to_relationship_ids)" href="#pdag.ExecutionModel.output_parameter_id_to_relationship_ids">output_parameter_id_to_relationship_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            RelationshipId
+
+
+  
+      module-attribute
+   (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            port_mapping_inverse
+
+
+  
+      class-attribute
+      instance-attribute
+   (pdag.ExecutionModel.port_mapping_inverse)" href="#pdag.ExecutionModel.port_mapping_inverse">port_mapping_inverse</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <a class="autorefs autorefs-internal" title="            ParameterId
+
+
+  
+      module-attribute
+   (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            topologically_sorted_node_ids
+
+
+  
+      property
+   (pdag.ExecutionModel.topologically_sorted_node_ids)" href="#pdag.ExecutionModel.topologically_sorted_node_ids">topologically_sorted_node_ids</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            NodeId
+
+
+  
+      module-attribute
+   (pdag._exec.model.NodeId)" href="#pdag.NodeId">NodeId</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -6415,6 +8448,60 @@
 
 
 
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            model_path
+
+
+  
+      instance-attribute
+   (pdag.StaticParameterId.model_path)" href="#pdag.StaticParameterId.model_path">model_path</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="ModelPathType">ModelPathType</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.StaticParameterId.name)" href="#pdag.StaticParameterId.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
   <div class="doc doc-children">
 
 
@@ -6514,6 +8601,60 @@
 
 
 
+
+
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            model_path
+
+
+  
+      instance-attribute
+   (pdag.StaticRelationshipId.model_path)" href="#pdag.StaticRelationshipId.model_path">model_path</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="ModelPathType">ModelPathType</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.StaticRelationshipId.name)" href="#pdag.StaticRelationshipId.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -6619,6 +8760,79 @@
 
 
 
+
+
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            model_path
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesParameterId.model_path)" href="#pdag.TimeSeriesParameterId.model_path">model_path</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="ModelPathType">ModelPathType</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesParameterId.name)" href="#pdag.TimeSeriesParameterId.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            time_step
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesParameterId.time_step)" href="#pdag.TimeSeriesParameterId.time_step">time_step</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="int">int</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -6751,6 +8965,79 @@
 
 
 
+
+
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            model_path
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesRelationshipId.model_path)" href="#pdag.TimeSeriesRelationshipId.model_path">model_path</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="ModelPathType">ModelPathType</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesRelationshipId.name)" href="#pdag.TimeSeriesRelationshipId.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            time_step
+
+
+  
+      instance-attribute
+   (pdag.TimeSeriesRelationshipId.time_step)" href="#pdag.TimeSeriesRelationshipId.time_step">time_step</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="int">int</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -7818,7 +10105,7 @@
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><a class="autorefs autorefs-internal" title="            MultiDef (pdag.utils._multidef.MultiDef)" href="utils/#pdag.utils.MultiDef">MultiDef</a></code></p>
+              Bases: <code><span title="pdag._utils.multidef.MultiDef">MultiDef</span></code></p>
 
 
 
@@ -7826,6 +10113,185 @@
 
 
 
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">METHOD</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            parameters
+
+
+  
+      classmethod
+   (pdag.Model.parameters)" href="#pdag.Model.parameters">parameters</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            collections
+
+
+  
+      classmethod
+   (pdag.Model.collections)" href="#pdag.Model.collections">collections</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            relationships
+
+
+  
+      classmethod
+   (pdag.Model.relationships)" href="#pdag.Model.relationships">relationships</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            to_core_model
+
+
+  
+      classmethod
+   (pdag.Model.to_core_model)" href="#pdag.Model.to_core_model">to_core_model</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            to_relationship
+
+
+  
+      classmethod
+   (pdag.Model.to_relationship)" href="#pdag.Model.to_relationship">to_relationship</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">ATTRIBUTE</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            name
+
+
+  
+      class-attribute
+   (pdag.Model.name)" href="#pdag.Model.name">name</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="str">str</span></code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            __pdag_parameters__
+
+
+  
+      instance-attribute
+   (pdag.Model.__pdag_parameters__)" href="#pdag.Model.__pdag_parameters__">__pdag_parameters__</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="            ParameterABC
+
+
+  
+      dataclass
+   (pdag._core.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="typing.Any">Any</span>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            __pdag_relationships__
+
+
+  
+      instance-attribute
+   (pdag.Model.__pdag_relationships__)" href="#pdag.Model.__pdag_relationships__">__pdag_relationships__</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <a class="autorefs autorefs-internal" title="            RelationshipABC
+
+
+  
+      dataclass
+   (pdag._core.RelationshipABC)" href="#pdag.RelationshipABC">RelationshipABC</a>]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            __pdag_collections__
+
+
+  
+      instance-attribute
+   (pdag.Model.__pdag_collections__)" href="#pdag.Model.__pdag_collections__">__pdag_collections__</a></code></td>
+            <td class="doc-attribute-details">
+              <div class="doc-md-description">
+                
+              </div>
+              <p>
+                  <span class="doc-attribute-annotation">
+                    <b>TYPE:</b>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="pdag._core.CollectionABC">CollectionABC</span>[<span title="typing.Any">Any</span>, <span title="typing.Any">Any</span>]]</code>
+                  </span>
+              </p>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -8267,7 +10733,7 @@
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="p">]</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="P">P</span></span><span class="p">,</span> <span class="n"><span title="T">T</span></span><span class="p">]],</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n"><a class="autorefs autorefs-internal" title="            MultiDefProtocol (pdag.utils.MultiDefProtocol)" href="utils/#pdag.utils.MultiDefProtocol">MultiDefProtocol</a></span><span class="p">[</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n"><span title="pdag._utils.MultiDefProtocol">MultiDefProtocol</span></span><span class="p">[</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>            <span class="n"><span title="collections.abc.Hashable">Hashable</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
 
 
@@ -8384,10 +10850,6 @@
     </div>
 
 </div>
-
-
-
-
 
 
 
