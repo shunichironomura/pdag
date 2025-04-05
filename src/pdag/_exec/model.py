@@ -11,7 +11,7 @@ from typing_extensions import Doc
 from pdag._core import ExecInfo, FunctionRelationship
 from pdag._core.model import CoreModel
 from pdag._core.parameter import ParameterABC
-from pdag.utils import topological_sort
+from pdag._utils import topological_sort
 
 from .utils import parameter_id_to_parameter
 

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast
 import numpy as np
 import numpy.typing as npt
 
-from pdag.utils import InitArgsRecorder
+from pdag._utils import InitArgsRecorder
 
 from .parameter import ParameterABC
 from .reference import ArrayRef, CollectionRef, MappingRef

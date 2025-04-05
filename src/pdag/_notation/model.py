@@ -12,7 +12,7 @@ from pdag._core import (
     RelationshipABC,
     SubModelRelationship,
 )
-from pdag.utils._multidef import MultiDef, MultiDefMeta, MultiDefStorage
+from pdag._utils._multidef import MultiDef, MultiDefMeta, MultiDefStorage
 
 
 def _function_relationship_multidef_storage_to_mapping(

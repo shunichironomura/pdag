@@ -9,7 +9,7 @@ from pdag._core import (
     SubModelRelationship,
 )
 from pdag._core.reference import ExecInfo
-from pdag.utils import merge_two_set_dicts
+from pdag._utils import merge_two_set_dicts
 
 from .model import (
     ConnectorABC,

@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from types import EllipsisType
 from typing import TYPE_CHECKING, ClassVar
 
-from pdag.utils import InitArgsRecorder
+from pdag._utils import InitArgsRecorder
 
 from .reference import ExecInfo, ReferenceABC
 

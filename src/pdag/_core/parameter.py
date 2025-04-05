@@ -6,7 +6,7 @@ from enum import Enum
 from types import EllipsisType
 from typing import Any, ClassVar
 
-from pdag.utils import InitArgsRecorder
+from pdag._utils import InitArgsRecorder
 
 from .reference import ParameterRef
 

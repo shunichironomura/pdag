@@ -1,9 +1,9 @@
 from typing import ClassVar
 
-import pdag.utils
+from pdag._utils import MultiDef, multidef
 
 
-class C(pdag.utils.MultiDef):
+class C(MultiDef):
     a: ClassVar[list[int]] = [1, 2]
 
     def f(self) -> list[int]:
@@ -12,7 +12,7 @@ class C(pdag.utils.MultiDef):
     # In a loop, define multiple versions of 'g'.
     for i in range(3):
 
-        @pdag.utils.multidef(i)
+        @multidef(i)
         @staticmethod
         def g(i: int = i) -> int:
             return i
