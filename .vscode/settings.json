@@ -24,5 +24,8 @@
     ],
     "mypy-type-checker.args": [
         "--enable-incomplete-feature=NewGenericSyntax"
-    ]
+    ],
+    "[markdown]": {
+        "editor.tabSize": 4
+    }
 }
