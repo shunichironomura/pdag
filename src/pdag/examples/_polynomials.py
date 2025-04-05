@@ -1,16 +1,18 @@
-"""Poliynomials example to demonstrate how to include a model in another model."""
-
 from typing import Annotated
 
 import numpy as np
 
 import pdag
 
-from .square import SquareModel
+from ._square import SquareModel
 
 
 class PolynomialModel(pdag.Model):
-    """Polynomial model."""
+    """Polynomial model to demonstrate how to include a model in another model.
+
+    This model calculates a polynomial `y = a[0] + a[1] * x + a[2] * x^2`
+    where a[0], a[1], and a[2] are coefficients of the polynomial.
+    """
 
     a = pdag.Array("a", np.array([pdag.RealParameter(...) for _ in range(3)]))
     x = pdag.RealParameter("x")
@@ -25,7 +27,7 @@ class PolynomialModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def polynomial(  # noqa: D102
+    def polynomial(
         *,
         a: Annotated[list[float], a.ref()],
         x: Annotated[float, x.ref()],

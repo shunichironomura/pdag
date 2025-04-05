@@ -1,16 +1,14 @@
-"""Squares example to demonstrate mapping containing submodels."""
-
 from typing import Annotated
 
 import pdag
 
-from .square import SquareModel
+from ._square import SquareModel
 
 
 class TwoSquares(pdag.Model):
-    """TwoSquares model.
+    """TwoSquares model to demonstrate mapping containing submodels.
 
-    Calculates z = x^2 + y^2
+    This model calculates `z = x^2 + y^2`.
     """
 
     x = pdag.RealParameter("x")
@@ -33,7 +31,7 @@ class TwoSquares(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def squares(  # noqa: D102
+    def squares(
         *,
         x_squared: Annotated[float, x_squared.ref()],
         y_squared: Annotated[float, y_squared.ref()],

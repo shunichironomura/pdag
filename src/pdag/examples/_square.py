@@ -1,5 +1,3 @@
-"""Minimal example of a pdag model that squares a number."""
-
 from typing import Annotated
 
 import pdag
