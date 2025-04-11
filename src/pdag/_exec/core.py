@@ -19,6 +19,16 @@ from .model import (
     TimeSeriesRelationshipId,
 )
 
+type _DeepList[T] = list[_DeepList[T] | T]
+type _DeepTuple[T] = tuple[_DeepTuple[T] | T, ...]
+
+
+def deep_list_to_tuple[T](value: _DeepList[T]) -> _DeepTuple[T]:
+    """Convert a list to a tuple recursively."""
+    if isinstance(value[0], list):
+        return tuple(deep_list_to_tuple(item) for item in value)
+    return tuple(value)
+
 
 def _get_exec_info_value(
     exec_model: ExecutionModel,
@@ -86,16 +96,16 @@ def execute_exec_model(  # noqa: C901, PLR0912, PLR0915
                     }
                     continue
                 if isinstance(connector_or_exec_info, MappingListConnector):
-                    input_values[input_arg_name] = [
+                    input_values[input_arg_name] = tuple(
                         {key: results[param_id] for key, param_id in mapping.items()}
                         for mapping in connector_or_exec_info.parameter_ids
-                    ]
+                    )
                     continue
                 if isinstance(connector_or_exec_info, ArrayConnector):
                     value_array = np.empty(connector_or_exec_info.parameter_ids.shape, dtype=object)
                     for index, param_id in np.ndenumerate(connector_or_exec_info.parameter_ids):
                         value_array[index] = results[param_id]
-                    input_values[input_arg_name] = value_array.tolist()
+                    input_values[input_arg_name] = deep_list_to_tuple(value_array.tolist())
                     continue
                 msg = f"Connector type {type(connector_or_exec_info)} is not supported."
                 raise TypeError(msg)
