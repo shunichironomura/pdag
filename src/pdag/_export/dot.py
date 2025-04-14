@@ -73,20 +73,20 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
 
     for name, collection in core_model.collections.items():
         graph.add_node(_mapping_node(collection))
-        key, first_item = next(iter(collection.items()))
-        if isinstance(first_item, RelationshipABC):
-            for input_ref in first_item.iter_input_refs():
-                if isinstance(input_ref, ExecInfo):
-                    if input_ref.attribute not in added_exec_infos:
-                        graph.add_node(pydot.Node(input_ref.attribute, shape="diamond"))
-                        added_exec_infos.add(input_ref.attribute)
-                    graph.add_edge(pydot.Edge(input_ref.attribute, name))
-                else:
-                    style = "dashed" if input_ref.previous else "solid"
-                    graph.add_edge(pydot.Edge(input_ref.name, name, style=style))
+        for item in collection.values():
+            if isinstance(item, RelationshipABC):
+                for input_ref in item.iter_input_refs():
+                    if isinstance(input_ref, ExecInfo):
+                        if input_ref.attribute not in added_exec_infos:
+                            graph.add_node(pydot.Node(input_ref.attribute, shape="diamond"))
+                            added_exec_infos.add(input_ref.attribute)
+                        graph.add_edge(pydot.Edge(input_ref.attribute, name))
+                    else:
+                        style = "dashed" if input_ref.previous else "solid"
+                        graph.add_edge(pydot.Edge(input_ref.name, name, style=style))
 
-            for output_ref in first_item.iter_output_refs():
-                style = "dashed" if output_ref.next else "solid"
-                graph.add_edge(pydot.Edge(name, output_ref.name, style=style))
+                for output_ref in item.iter_output_refs():
+                    style = "dashed" if output_ref.next else "solid"
+                    graph.add_edge(pydot.Edge(name, output_ref.name, style=style))
 
     graph.write(path, format="png")
