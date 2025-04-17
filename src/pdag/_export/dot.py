@@ -74,14 +74,14 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
     for name, collection in core_model.collections.items():
         graph.add_node(_mapping_node(collection))
 
-        input_params = set()
-        output_params = set()
+        input_params: set[tuple[str, str, bool]] = set()
+        output_params: set[tuple[str, str, bool]] = set()
 
         for item in collection.values():
             if isinstance(item, RelationshipABC):
                 for input_ref in item.iter_input_refs():
                     if isinstance(input_ref, ExecInfo):
-                        input_params.add(("execinfo", input_ref.attribute))
+                        input_params.add(("execinfo", input_ref.attribute, False))
                     else:
                         input_params.add(("param", input_ref.name, input_ref.previous))
 
