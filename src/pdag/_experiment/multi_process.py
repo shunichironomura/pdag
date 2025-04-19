@@ -20,7 +20,7 @@ console = Console()
 err_console = Console(stderr=True)
 
 
-def result_to_df_rows(
+def _result_to_df_rows(
     result: Mapping[pdag.StaticParameterId | pdag.TimeSeriesParameterId, Any],
     metadata: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
@@ -45,16 +45,16 @@ def result_to_df_rows(
     return [metadata | static_data]
 
 
-def task(
+def _task(
     exec_model: pdag.ExecutionModel,
     case: Mapping[pdag.ParameterId, Any],
     metadata: Mapping[str, Any],
 ) -> list[dict[str, Any]]:
     result = pdag.execute_exec_model(exec_model, inputs=case)
-    return result_to_df_rows(result, metadata)
+    return _result_to_df_rows(result, metadata)
 
 
-def write_batch(batch: list[dict[str, Any]], writer: ipc.RecordBatchFileWriter, schema: pa.Schema) -> None:
+def _write_batch(batch: list[dict[str, Any]], writer: ipc.RecordBatchFileWriter, schema: pa.Schema) -> None:
     table = pa.Table.from_pylist(batch, schema=schema)
     writer.write_table(table)
 
@@ -72,7 +72,7 @@ def run_experiments(  # noqa: PLR0913
     metadata_warmup, metadata = tee(metadata if metadata is not None else _infinite_empty_dict_generator())
 
     # Create a sample result to get the schema
-    sample_result = task(exec_model, case=next(iter(cases_warmup)), metadata=next(iter(metadata_warmup)))
+    sample_result = _task(exec_model, case=next(iter(cases_warmup)), metadata=next(iter(metadata_warmup)))
     schema = pa.Table.from_pylist(sample_result).schema
 
     # Write the results to an Arrow file
@@ -85,18 +85,18 @@ def run_experiments(  # noqa: PLR0913
             with WorkerPool(shared_objects=exec_model) as pool:
                 console.log(f"Running experiments and writing to {arrow_file_path}...")
                 for result in pool.imap_unordered(
-                    task,
+                    _task,
                     ({"case": case, "metadata": meta} for case, meta in zip(cases, metadata, strict=False)),
                     iterable_len=n_cases,
                     progress_bar=True,
                 ):
                     buffer.extend(result)
                     if len(buffer) >= batch_size:
-                        write_batch(buffer, writer, schema)
+                        _write_batch(buffer, writer, schema)
                         buffer.clear()
 
             if buffer:
-                write_batch(buffer, writer, schema)
+                _write_batch(buffer, writer, schema)
 
             console.log(f"Finished running experiments. Arrow file written to {arrow_file_path}.")
 
