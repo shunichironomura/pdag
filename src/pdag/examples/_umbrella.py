@@ -65,3 +65,27 @@ class UmbrellaModel(pdag.Model):
             case _:
                 msg = f"Unknown policy: {policy}"
                 raise ValueError(msg)
+
+
+if __name__ == "__main__":
+    from rich import print  # noqa: A004
+
+    core_model = UmbrellaModel.to_core_model()
+    print("Core model:")
+    print(core_model)
+
+    exec_model = pdag.create_exec_model_from_core_model(core_model)
+    print("Execution model:")
+    print(exec_model)
+    print("Input parameters:")
+    print(exec_model.input_parameter_ids())
+
+    results = pdag.execute_exec_model(
+        exec_model,
+        inputs={
+            pdag.StaticParameterId((), "policy"): "take_umbrella",
+            pdag.StaticParameterId((), "rain_intensity"): 0.5,
+        },
+    )
+    print("Results:")
+    print(results)
