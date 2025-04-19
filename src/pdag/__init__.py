@@ -27,6 +27,7 @@ __all__ = [
     "TimeSeriesParameterId",
     "TimeSeriesRelationshipId",
     "create_exec_model_from_core_model",
+    "distance_constrained_sampling",
     "execute_exec_model",
     "export_dot",
     "relationship",
@@ -66,7 +67,7 @@ from ._exec import (
     create_exec_model_from_core_model,
     execute_exec_model,
 )
-from ._experiment import results_to_df, run_experiments, sample_parameter_values
+from ._experiment import distance_constrained_sampling, results_to_df, run_experiments, sample_parameter_values
 from ._export import export_dot
 from ._notation import (
     Model,
