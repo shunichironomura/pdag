@@ -7,7 +7,6 @@ from typing import Any
 
 import polars as pl
 import pyarrow as pa
-import pyarrow.parquet as pq
 from mpire import WorkerPool  # type: ignore[attr-defined]
 from pyarrow import ipc
 from rich.console import Console
@@ -62,7 +61,7 @@ def task(
     return result_to_df_row(result, metadata)
 
 
-def write_batch(batch: list[dict[str, Any]], writer: pq.ParquetWriter, schema: pa.Schema) -> None:
+def write_batch(batch: list[dict[str, Any]], writer: ipc.RecordBatchFileWriter, schema: pa.Schema) -> None:
     table = pa.Table.from_pylist(batch, schema=schema)
     writer.write_table(table)
 
