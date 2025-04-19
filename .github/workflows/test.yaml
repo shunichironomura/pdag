@@ -12,7 +12,6 @@ env:
 
 jobs:
   ruff:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +32,6 @@ jobs:
         run: uv run -- ruff check
 
   mypy:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -57,7 +55,6 @@ jobs:
         run: uv run -- mypy .
 
   pyright:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -81,7 +78,6 @@ jobs:
         run: uv run -- pyright ./src # TODO: Add other directories
 
   build-docs:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -102,7 +98,6 @@ jobs:
         run: uv run -- mkdocs build
 
   pytest:
-    if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -146,7 +141,6 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
 
   lint-imports:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -167,7 +161,6 @@ jobs:
         run: uv run -- lint-imports
 
   deptry:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -188,7 +181,6 @@ jobs:
         run: uv run -- deptry .
 
   pip-licenses:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -209,7 +201,6 @@ jobs:
         run: uv run -- pip-licenses
 
   collect:
-    if: github.event.pull_request.draft == false
     needs: [ruff, mypy, pyright, lint-imports, build-docs, pytest, deptry, pip-licenses]
     runs-on: ubuntu-latest
     steps:
