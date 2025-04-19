@@ -9,8 +9,10 @@ __all__ = [
     "PolynomialModel",
     "SquareModel",
     "TwoSquares",
+    "UmbrellaModel",
 ]
 from ._diamond_mdp import DiamondMdpModel
 from ._polynomials import PolynomialModel
 from ._square import SquareModel
 from ._squares import TwoSquares
+from ._umbrella import UmbrellaModel
