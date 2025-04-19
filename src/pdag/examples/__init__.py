@@ -6,12 +6,14 @@
 
 __all__ = [
     "DiamondMdpModel",
+    "EachSquaredModel",
     "PolynomialModel",
     "SquareModel",
     "TwoSquares",
     "UmbrellaModel",
 ]
 from ._diamond_mdp import DiamondMdpModel
+from ._each_squared import EachSquaredModel
 from ._polynomials import PolynomialModel
 from ._square import SquareModel
 from ._squares import TwoSquares
