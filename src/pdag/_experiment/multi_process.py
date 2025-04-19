@@ -87,7 +87,7 @@ def run_experiments(  # noqa: PLR0913
     batch_size = 1_000
     with (
         TemporaryDirectory(delete=delete_arrow_file) as temp_dir,
-        ipc.RecordBatchFileWriter((arrow_file_path := Path(temp_dir) / "results.arrow"), schema=schema) as writer,
+        ipc.RecordBatchFileWriter(str(arrow_file_path := Path(temp_dir) / "results.arrow"), schema=schema) as writer,
         WorkerPool(shared_objects=exec_model) as pool,
     ):
         console.log(f"Running experiments and writing to {arrow_file_path}...")
