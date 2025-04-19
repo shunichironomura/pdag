@@ -20,7 +20,7 @@ console = Console()
 err_console = Console(stderr=True)
 
 
-def result_to_df_row(
+def result_to_df_rows(
     result: Mapping[pdag.StaticParameterId | pdag.TimeSeriesParameterId, Any],
     metadata: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
@@ -37,19 +37,12 @@ def result_to_df_row(
             timeseries_data_dd[ts][parameter_id.parameter_path_str] = value
     timeseries_data = dict(timeseries_data_dd)
 
-    rows: list[dict[str, Any]] = []
-
     # For each time step, create a row that merges static and time-series parameters.
     metadata = dict(metadata) if metadata is not None else {}
-    for ts, ts_params in sorted(timeseries_data.items()):
-        row = {"time_step": ts} | metadata
-        # Include static parameters (repeated for each time step)
-        row.update(static_data)
-        # Include time-series parameters for the current time step
-        row.update(ts_params)
-        rows.append(row)
-
-    return rows
+    if timeseries_data:
+        return [{"time_step": ts} | metadata | static_data | ts_params for ts, ts_params in timeseries_data.items()]
+    # If there are no time-series parameters, just return the static data.
+    return [metadata | static_data]
 
 
 def task(
@@ -58,7 +51,7 @@ def task(
     metadata: Mapping[str, Any],
 ) -> list[dict[str, Any]]:
     result = pdag.execute_exec_model(exec_model, inputs=case)
-    return result_to_df_row(result, metadata)
+    return result_to_df_rows(result, metadata)
 
 
 def write_batch(batch: list[dict[str, Any]], writer: ipc.RecordBatchFileWriter, schema: pa.Schema) -> None:
@@ -85,34 +78,34 @@ def run_experiments(  # noqa: PLR0913
     # Write the results to an Arrow file
     buffer = []
     batch_size = 1_000
-    with (
-        TemporaryDirectory(delete=delete_arrow_file) as temp_dir,
-        ipc.RecordBatchFileWriter(str(arrow_file_path := Path(temp_dir) / "results.arrow"), schema=schema) as writer,
-        WorkerPool(shared_objects=exec_model) as pool,
-    ):
-        console.log(f"Running experiments and writing to {arrow_file_path}...")
-        for result in pool.imap_unordered(
-            task,
-            ({"case": case, "metadata": meta} for case, meta in zip(cases, metadata, strict=True)),
-            iterable_len=n_cases,
-            progress_bar=True,
-        ):
-            buffer.extend(result)
-            if len(buffer) >= batch_size:
+    with TemporaryDirectory(delete=delete_arrow_file) as temp_dir:
+        arrow_file_path = Path(temp_dir) / "results.arrow"
+
+        with ipc.RecordBatchFileWriter(str(arrow_file_path), schema=schema) as writer:
+            with WorkerPool(shared_objects=exec_model) as pool:
+                console.log(f"Running experiments and writing to {arrow_file_path}...")
+                for result in pool.imap_unordered(
+                    task,
+                    ({"case": case, "metadata": meta} for case, meta in zip(cases, metadata, strict=False)),
+                    iterable_len=n_cases,
+                    progress_bar=True,
+                ):
+                    buffer.extend(result)
+                    if len(buffer) >= batch_size:
+                        write_batch(buffer, writer, schema)
+                        buffer.clear()
+
+            if buffer:
                 write_batch(buffer, writer, schema)
-                buffer.clear()
 
-        if buffer:
-            write_batch(buffer, writer, schema)
-
-        console.log(f"Finished running experiments. Arrow file written to {arrow_file_path}.")
+            console.log(f"Finished running experiments. Arrow file written to {arrow_file_path}.")
 
         # Convert the generated Arrow file to Parquet
         # Experiences have shown that this is faster than writing directly to Parquet.
         with err_console.status("Converting Arrow to Parquet..."):
             lf = pl.scan_ipc(arrow_file_path)
             lf.sink_parquet(parquet_file_path)
-        console.log("Converted arrow file to parquet")
+        console.log(f"Converted arrow file to parquet file: {parquet_file_path}")
 
     if delete_arrow_file:
         console.log(f"Arrow file deleted: {arrow_file_path}")
