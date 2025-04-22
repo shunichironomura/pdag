@@ -74,8 +74,9 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
     for name, collection in core_model.collections.items():
         graph.add_node(_mapping_node(collection))
 
-        input_params: set[tuple[str, str, bool]] = set()
-        output_params: set[tuple[str, str, bool]] = set()
+        # The elements of the set are tuples of the form: (execinfo_or_param, name, is_delayed)
+        input_params: set[tuple[Literal["execinfo", "param"], str, bool]] = set()
+        output_params: set[tuple[Literal["execinfo", "param"], str, bool]] = set()
 
         for item in collection.values():
             if isinstance(item, RelationshipABC):
