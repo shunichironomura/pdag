@@ -1,6 +1,6 @@
 from collections.abc import Hashable
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import pydot
 
