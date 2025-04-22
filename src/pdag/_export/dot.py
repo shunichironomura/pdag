@@ -96,10 +96,13 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
                     graph.add_node(pydot.Node(attr, shape="diamond"))
                     added_exec_infos.add(attr)
                 graph.add_edge(pydot.Edge(attr, name))
-            else:
+            elif i[0] == "param":
                 param = i[1]
                 style = "dashed" if i[2] else "solid"
                 graph.add_edge(pydot.Edge(param, name, style=style))
+            else:
+                msg = f"Unknown type: {i[0]}"
+                raise ValueError(msg)
 
         for o in output_params:
             param = o[1]
