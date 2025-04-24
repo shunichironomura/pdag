@@ -121,6 +121,7 @@ jobs:
       run: >-
         gh release create
         v${{ needs.create-tag.outputs.version }}
+        --draft
         --verify-tag
         --generate-notes
         --repo ${{ github.repository }}
