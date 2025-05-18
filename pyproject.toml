@@ -179,8 +179,9 @@ ignore = [
     # TODO: Enable this rule when the `type` keyword is supported in griffe
     # See https://github.com/mkdocstrings/griffe/issues/342
     "UP040", # uses `TypeAlias` annotation instead of the `type` keyword. This is to be compatible with griffe.
-
 ]
+
+unfixable = ["F401"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**.py" = [

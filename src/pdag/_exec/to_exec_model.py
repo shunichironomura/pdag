@@ -27,6 +27,7 @@ from .model import (
 from .ref_resolver import resolve_ref
 
 
+# TODO: Move this to a different module
 def _iter_submodels_recursively(
     core_model: CoreModel,
     *,

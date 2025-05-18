@@ -1,5 +1,3 @@
-import random
-import string
 from collections import defaultdict
 from collections.abc import Callable, Iterable, Mapping
 from typing import Any
@@ -7,11 +5,7 @@ from typing import Any
 import polars as pl
 
 import pdag
-
-
-def generate_random_string(length: int = 6) -> str:
-    # Return random string
-    return "".join(random.choices(string.ascii_letters + string.digits, k=length))  # noqa: S311
+from pdag._utils.random_string import generate_random_string
 
 
 def results_to_df(

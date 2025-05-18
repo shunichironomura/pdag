@@ -74,7 +74,7 @@ if __name__ == "__main__":
     from rich import print  # noqa: A004
 
     from pdag._experiment.multi_process import run_experiments
-    from pdag._experiment.results import generate_random_string
+    from pdag._utils.random_string import generate_random_string
 
     core_model = UmbrellaModel.to_core_model()
     print("Core model:")
