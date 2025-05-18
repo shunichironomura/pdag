@@ -13,12 +13,8 @@ from pdag._utils.random_string import generate_random_string
 
 
 def sanitize_for_html_id(part: str) -> str:
-    # Lowercase
-    # part = part.lower()
     # Replace non-alphanumeric with dash
     part = re.sub(r"[^a-zA-Z0-9_-]", "-", part)
-    # Collapse multiple dashes/underscores
-    # part = re.sub(r"[-_]+", "-", part)
     # Remove leading/trailing dashes
     part = part.strip("-")
     # Ensure starts with a letter or underscore
