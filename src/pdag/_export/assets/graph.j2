@@ -1,4 +1,3 @@
-<!-- template.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +15,11 @@
 
   {% for graph in graphs %}
   <div class="graph-container{% if loop.first %} active{% endif %}" id="{{ graph.id }}">
+    {% if graph.parent_id %}
+    <p>
+      <a href="#" class="back-link" data-target="{{ graph.parent_id }}">← Back to parent</a>
+    </p>
+    {% endif %}
     {{ graph.svg | safe }}
   </div>
   {% endfor %}
@@ -31,6 +35,16 @@
         });
       {% endfor %}
     {% endfor %}
+
+    // Back link logic
+    document.querySelectorAll(".back-link").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const target = link.getAttribute("data-target");
+        document.querySelectorAll(".graph-container").forEach(div => div.classList.remove("active"));
+        document.getElementById(target).classList.add("active");
+      });
+    });
   </script>
 </body>
 </html>

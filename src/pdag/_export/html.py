@@ -49,11 +49,14 @@ def export_html(core_model: CoreModel, path: Path) -> None:
                     "target_graph_id": model_container_id,
                 },
             )
+        else:
+            parent_model_container_id = None
 
         assert model_container_id not in graph_data
         graph_data[model_container_id] = {
             "id": model_container_id,
             "svg": svg_string,
+            "parent_id": parent_model_container_id,
         }
 
     click_events: dict[str, list[dict[str, Any]]] = dict(click_events_dd)
