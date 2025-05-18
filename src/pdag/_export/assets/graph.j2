@@ -15,9 +15,10 @@
 
   {% for graph in graphs %}
   <div class="graph-container{% if loop.first %} active{% endif %}" id="{{ graph.id }}">
+    <h3>{{ graph.path_label }}</h3>
     {% if graph.parent_id %}
     <p>
-      <a href="#" class="back-link" data-target="{{ graph.parent_id }}">← Back to parent</a>
+      <a href="#" class="back-link" data-target="{{ graph.parent_id }}">↑ Back to parent</a>
     </p>
     {% endif %}
     {{ graph.svg | safe }}

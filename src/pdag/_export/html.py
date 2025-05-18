@@ -57,6 +57,7 @@ def export_html(core_model: CoreModel, path: Path) -> None:
             "id": model_container_id,
             "svg": svg_string,
             "parent_id": parent_model_container_id,
+            "path_label": " > ".join(("(root)", *model_path)),
         }
 
     click_events: dict[str, list[dict[str, Any]]] = dict(click_events_dd)
