@@ -33,7 +33,7 @@ def export_html(core_model: CoreModel, path: Path) -> None:
     for model_path, submodel in _iter_submodels_recursively(core_model, include_self=True):
         model_id = _model_path_to_model_id(model_path)
         graph = to_dot_graph(submodel, model_element_id=model_id)
-        svg_data: bytes = graph.create_svg()
+        svg_data: bytes = graph.create_svg()  # pyright: ignore[reportAttributeAccessIssue]
         svg_string = svg_data.decode("utf-8")
         model_container_id = _model_id_to_model_container_id(model_id)
 
