@@ -1,3 +1,4 @@
+import re
 from collections.abc import Hashable
 from pathlib import Path
 from typing import Any, Literal
@@ -8,6 +9,27 @@ from pdag._core import CollectionABC, CoreModel, ExecInfo
 from pdag._core.collection import key_to_str
 from pdag._core.parameter import ParameterABC
 from pdag._core.relationship import RelationshipABC
+from pdag._utils.random_string import generate_random_string
+
+
+def sanitize_for_html_id(part: str) -> str:
+    # Lowercase
+    # part = part.lower()
+    # Replace non-alphanumeric with dash
+    part = re.sub(r"[^a-zA-Z0-9_-]", "-", part)
+    # Collapse multiple dashes/underscores
+    # part = re.sub(r"[-_]+", "-", part)
+    # Remove leading/trailing dashes
+    part = part.strip("-")
+    # Ensure starts with a letter or underscore
+    if not re.match(r"^[a-zA-Z_]", part):
+        part = "_" + part
+    return part
+
+
+def tuple_to_html_id(parts: tuple[str, ...]) -> str:
+    sanitized = [sanitize_for_html_id(p) for p in parts]
+    return "__".join(sanitized)
 
 
 def _mapping_node(
@@ -41,26 +63,31 @@ def _mapping_node(
     )
 
 
-def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR0912
-    graph = pydot.Dot(core_model.name, graph_type="digraph")
+def to_dot_graph(core_model: CoreModel, *, model_element_id: str | None = None) -> pydot.Dot:  # noqa: C901, PLR0912
+    model_element_id = core_model.name if model_element_id is None else model_element_id
+
+    graph = pydot.Dot(core_model.name, graph_type="digraph", id=model_element_id)
     added_exec_infos: set[str] = set()
 
     for name, parameter in core_model.parameters.items():
+        element_id = tuple_to_html_id((model_element_id, name))
         if parameter.is_time_series:
-            graph.add_node(pydot.Node(name, shape="oval", peripheries=2))
+            graph.add_node(pydot.Node(name, shape="oval", peripheries=2, id=element_id))
         else:
-            graph.add_node(pydot.Node(name, shape="oval"))
+            graph.add_node(pydot.Node(name, shape="oval", id=element_id))
 
     for name, relationship in core_model.relationships.items():
+        element_id = tuple_to_html_id((model_element_id, name))
         if relationship.at_each_time_step:
-            graph.add_node(pydot.Node(name, shape="box", peripheries=2))
+            graph.add_node(pydot.Node(name, shape="box", peripheries=2, id=element_id))
         else:
-            graph.add_node(pydot.Node(name, shape="box"))
+            graph.add_node(pydot.Node(name, shape="box", id=element_id))
 
         for input_ref in relationship.iter_input_refs():
             if isinstance(input_ref, ExecInfo):
+                element_id = tuple_to_html_id((model_element_id, name, input_ref.attribute, generate_random_string()))
                 if input_ref.attribute not in added_exec_infos:
-                    graph.add_node(pydot.Node(input_ref.attribute, shape="diamond"))
+                    graph.add_node(pydot.Node(input_ref.attribute, shape="diamond", id=element_id))
                     added_exec_infos.add(input_ref.attribute)
                 graph.add_edge(pydot.Edge(input_ref.attribute, name))
             else:
@@ -109,4 +136,9 @@ def export_dot(core_model: CoreModel, path: Path) -> None:  # noqa: C901, PLR091
             style = "dashed" if o[2] else "solid"
             graph.add_edge(pydot.Edge(name, param, style=style))
 
+    return graph
+
+
+def export_dot(core_model: CoreModel, path: Path) -> None:
+    graph = to_dot_graph(core_model)
     graph.write(path, format="png")
