@@ -1,6 +1,6 @@
 [project]
 name = "pdag"
-version = "0.0.13"
+version = "0.0.14"
 description = "A Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships."
 readme = "README.md"
 authors = [
