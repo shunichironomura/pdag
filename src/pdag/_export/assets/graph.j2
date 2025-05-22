@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <style>
+    .graph-container { display: none; }
+    .graph-container.active { display: block; }
+    .clickable { cursor: pointer; stroke: red; stroke-width: 2; }
+    svg { border: 1px solid #ccc; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h2>{{ title }}</h2>
+
+  {% for graph in graphs %}
+  <div class="graph-container{% if loop.first %} active{% endif %}" id="{{ graph.id }}">
+    <h3>{{ graph.path_label }}</h3>
+    {% if graph.parent_id %}
+    <p>
+      <a href="#" class="back-link" data-target="{{ graph.parent_id }}">↑ Back to parent</a>
+    </p>
+    {% endif %}
+    {{ graph.svg | safe }}
+  </div>
+  {% endfor %}
+
+  <script>
+    {% for graph in graphs %}
+      {% for event in graph.click_events %}
+        document.getElementById("{{ event.source_id }}").addEventListener("click", () => {
+          {% for g in graphs %}
+            document.getElementById("{{ g.id }}").classList.remove("active");
+          {% endfor %}
+          document.getElementById("{{ event.target_graph_id }}").classList.add("active");
+        });
+      {% endfor %}
+    {% endfor %}
+
+    // Back link logic
+    document.querySelectorAll(".back-link").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const target = link.getAttribute("data-target");
+        document.querySelectorAll(".graph-container").forEach(div => div.classList.remove("active"));
+        document.getElementById(target).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
