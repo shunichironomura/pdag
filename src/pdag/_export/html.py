@@ -26,7 +26,7 @@ def _model_id_to_model_container_id(model_id: str) -> str:
     return f"model-container-{model_id}"
 
 
-def to_html(core_model: CoreModel) -> str:
+def _prepare_graph_data(core_model: CoreModel) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]]]:
     graph_data: dict[str, Any] = {}
     click_events_dd: defaultdict[str, list[dict[str, Any]]] = defaultdict(list)
 
@@ -61,7 +61,11 @@ def to_html(core_model: CoreModel) -> str:
         }
 
     click_events: dict[str, list[dict[str, Any]]] = dict(click_events_dd)
+    return graph_data, click_events
 
+
+def to_html(core_model: CoreModel) -> str:
+    graph_data, click_events = _prepare_graph_data(core_model)
     template = template_factory()
     return template.render(
         title=core_model.name,
