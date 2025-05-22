@@ -26,7 +26,7 @@ def _model_id_to_model_container_id(model_id: str) -> str:
     return f"model-container-{model_id}"
 
 
-def export_html(core_model: CoreModel, path: Path) -> None:
+def to_html(core_model: CoreModel) -> str:
     graph_data: dict[str, Any] = {}
     click_events_dd: defaultdict[str, list[dict[str, Any]]] = defaultdict(list)
 
@@ -63,10 +63,13 @@ def export_html(core_model: CoreModel, path: Path) -> None:
     click_events: dict[str, list[dict[str, Any]]] = dict(click_events_dd)
 
     template = template_factory()
-    rendered_html = template.render(
+    return template.render(
         title=core_model.name,
         graphs=[{"id": k, "click_events": click_events.get(k, []), **v} for k, v in graph_data.items()],
     )
 
+
+def export_html(core_model: CoreModel, path: Path) -> None:
+    rendered_html = to_html(core_model)
     with path.open("w", encoding="utf-8") as f:
         f.write(rendered_html)
