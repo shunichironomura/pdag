@@ -859,7 +859,7 @@ dev = [
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.29.1" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pandas-stubs", specifier = ">=2.2.3.241126" },
-    { name = "pip-licenses", git = "https://github.com/ansys/pip-licenses.git?rev=f97f6924531d306d12231b1e93128a82b3448132" },
+    { name = "pip-licenses", git = "https://github.com/ansys/pip-licenses.git?rev=5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" },
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "pyarrow-stubs", specifier = ">=19.1" },
     { name = "pyright", specifier = ">=1.1.396" },
@@ -877,7 +877,7 @@ docs = [
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.29.1" },
     { name = "ruff", specifier = ">=0.9.9" },
 ]
-license = [{ name = "pip-licenses", git = "https://github.com/ansys/pip-licenses.git?rev=f97f6924531d306d12231b1e93128a82b3448132" }]
+license = [{ name = "pip-licenses", git = "https://github.com/ansys/pip-licenses.git?rev=5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }]
 linting = [
     { name = "deptry", specifier = ">=0.23.0" },
     { name = "import-linter", specifier = ">=2.2" },
@@ -899,8 +899,8 @@ typing = [
 
 [[package]]
 name = "pip-licenses"
-version = "5.0.0"
-source = { git = "https://github.com/ansys/pip-licenses.git?rev=f97f6924531d306d12231b1e93128a82b3448132#f97f6924531d306d12231b1e93128a82b3448132" }
+version = "6.0.dev0"
+source = { git = "https://github.com/ansys/pip-licenses.git?rev=5e094b575b18e9a020bb9dcba4c5cea45c2e8d03#5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
 dependencies = [
     { name = "prettytable" },
     { name = "tomli" },
