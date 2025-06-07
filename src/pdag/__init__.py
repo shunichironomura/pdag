@@ -19,6 +19,7 @@ __all__ = [
     "ParameterId",
     "ParameterRef",
     "RealParameter",
+    "ReferenceABC",
     "RelationshipABC",
     "RelationshipId",
     "StaticParameterId",
@@ -52,6 +53,7 @@ from ._core import (
     ParameterABC,
     ParameterRef,
     RealParameter,
+    ReferenceABC,
     RelationshipABC,
     SubModelRelationship,
 )
