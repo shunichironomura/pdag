@@ -2,7 +2,7 @@ import importlib
 import importlib.metadata
 from itertools import chain
 from pathlib import Path
-from typing import TYPE_CHECKING, Annotated, NoReturn, Optional
+from typing import TYPE_CHECKING, Annotated, NoReturn
 
 import typer
 from rich.console import Console
@@ -31,7 +31,7 @@ def version_callback(value: bool) -> None:  # noqa: FBT001
 @app.callback()
 def main(
     version: Annotated[
-        Optional[bool],  # noqa: UP007
+        bool | None,
         typer.Option("--version", help="Show the version and exit", is_eager=True, callback=version_callback),
     ] = None,
 ) -> None:

@@ -66,9 +66,9 @@ def multidef[K: IdentifierType, T](
         msg = f"Invalid identifier: {identifier!r}. Attribute name could be {_unique_name!r}."
         raise ValueError(msg)
 
-    def decorator[_T](
-        obj: _T,
-    ) -> MultiDefProtocol[IdentifierType, _T]:
+    def decorator[T2](
+        obj: T2,
+    ) -> MultiDefProtocol[IdentifierType, T2]:
         try:
             obj.__multidef_identifier__ = identifier  # type: ignore[attr-defined]
         except AttributeError as e:
