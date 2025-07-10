@@ -137,4 +137,4 @@ def to_dot_graph(core_model: CoreModel, *, model_element_id: str | None = None) 
 
 def export_dot(core_model: CoreModel, path: Path) -> None:
     graph = to_dot_graph(core_model)
-    graph.write(path, format="png")
+    graph.write(str(path), format="png")

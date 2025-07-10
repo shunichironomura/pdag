@@ -257,7 +257,7 @@ def _resolve_collection_ref_in_static_relationship(
                     [
                         _mapping_to_array(
                             mapping,  # type: ignore[arg-type]
-                            shape=collection.shape,  # type: ignore[attr-defined]
+                            shape=collection.shape,
                             error_on_missing=True,
                         )
                         for mapping in connector.parameter_ids
@@ -267,7 +267,7 @@ def _resolve_collection_ref_in_static_relationship(
         return ArrayConnector(
             parameter_ids=_mapping_to_array(
                 parameter_ids,  # type: ignore[arg-type]
-                shape=collection.shape,  # type: ignore[attr-defined]
+                shape=collection.shape,
                 error_on_missing=True,
             ),
         )

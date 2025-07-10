@@ -87,7 +87,7 @@ pdag = "pdag._cli:app"
 pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
 
 [tool.pip-licenses]
-allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT'
+allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT;BSD-3-Clause'
 
 [tool.pytest.ini_options]
 addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
