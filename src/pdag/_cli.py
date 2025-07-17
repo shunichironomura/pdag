@@ -1,5 +1,6 @@
 import importlib
 import importlib.metadata
+import logging
 from itertools import chain
 from pathlib import Path
 from typing import TYPE_CHECKING, Annotated, NoReturn
@@ -14,6 +15,7 @@ from pdag._export.dot import export_dot
 if TYPE_CHECKING:
     from pdag._notation import Model
 
+logger = logging.getLogger(__name__)
 
 console = Console()
 err_console = Console(stderr=True)
@@ -70,6 +72,9 @@ def watch(
     for _ in chain((None,), _watch(module.__file__)):
         console.clear()
         err_console.clear()
+
+        err_console.print(f":eyes: Watching changes in {module.__file__} for {module_str}:{attr_str}...")
+
         with err_console.status(f"Loading {module_str}:{attr_str}..."):
             try:
                 module = importlib.reload(module)
