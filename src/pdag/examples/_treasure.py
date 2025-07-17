@@ -71,6 +71,12 @@ class TreasureModel(pdag.Model):
                 msg = f"Unknown agent policy type: {agent_policy.type}"
                 raise ValueError(msg)
 
+    @pdag.relationship()
+    @staticmethod
+    def initial_agent_location() -> Annotated[Cell, agent_location.ref(initial=True)]:
+        """Initial agent location."""  # noqa: D401
+        return INITIAL_LOCATION
+
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def update_agent_location(  # noqa: C901
@@ -130,3 +136,22 @@ class TreasureModel(pdag.Model):
     ) -> Annotated[bool, time_limit_reached.ref()]:
         """Check if the time limit has been reached."""
         return time >= time_limit
+
+
+if __name__ == "__main__":
+    from rich import print  # noqa: A004
+
+    core_model = TreasureModel.to_core_model()
+    print(core_model)
+    exec_model = pdag.create_exec_model_from_core_model(core_model, n_time_steps=10)
+    print(exec_model)
+    print(list(exec_model.input_parameter_ids()))
+    results = pdag.execute_exec_model(
+        exec_model,
+        inputs={
+            pdag.StaticParameterId((), "treasure_location"): Cell(col=1, row=1),
+            pdag.StaticParameterId((), "time_limit"): 10.0,
+            pdag.StaticParameterId((), "agent_policy"): AgentPolicy(type="sweep"),
+        },
+    )
+    print(results)
