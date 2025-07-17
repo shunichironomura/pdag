@@ -78,7 +78,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def initial_reward() -> Annotated[float, reward.ref()]:
+    def initial_reward() -> Annotated[float, reward.ref(initial=True)]:
         return 0.0
 
     @pdag.relationship(at_each_time_step=True)
