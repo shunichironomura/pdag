@@ -4,13 +4,17 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from types import EllipsisType
-from typing import Annotated, Any, ClassVar
+from typing import TYPE_CHECKING, Annotated, Any, ClassVar
 
+from pydantic import BaseModel
 from typing_extensions import Doc
 
 from pdag._utils import InitArgsRecorder
 
 from .reference import ParameterRef
+
+if TYPE_CHECKING:
+    import builtins
 
 
 @dataclass
@@ -147,3 +151,23 @@ class CategoricalParameter[T: LiteralValueType](ParameterABC[T]):
 
     def from_unit_interval(self, value: float) -> T:
         return self.categories[int(value * len(self.categories))]
+
+
+@dataclass
+class PydanticParameter[M: BaseModel](ParameterABC[M]):
+    """Parameter whose value is a Pydantic model."""
+
+    type: ClassVar[str] = "pydantic"
+    model: builtins.type[M]
+
+    def get_type_hint(self) -> str:
+        """Return the type hint for the Pydantic model."""
+        return self.model.__name__
+
+    def from_unit_interval(self, value: float) -> M:
+        """Map a value from a unit interval `[0, 1]` to the Pydantic model.
+
+        This method is not implemented because it depends on the specific model.
+        """
+        msg = "from_unit_interval is not implemented for PydanticParameter."
+        raise NotImplementedError(msg)
