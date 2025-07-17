@@ -42,12 +42,12 @@ class TreasureModel(pdag.Model):
     )
 
     treasure_found = pdag.BooleanParameter("treasure_found", is_time_series=True)
-    exit_reached = pdag.BooleanParameter("exit_reached", is_time_series=True)
+    exited = pdag.BooleanParameter("exited", is_time_series=True)
     time_limit_reached = pdag.BooleanParameter("time_limit_reached", is_time_series=True)
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
-    def determine_action(
+    def determine_action(  # noqa: C901, PLR0911
         agent_location: Annotated[Cell, agent_location.ref()],
         agent_policy: Annotated[AgentPolicy, agent_policy.ref()],
     ) -> Annotated[str, agent_action.ref()]:
@@ -55,11 +55,23 @@ class TreasureModel(pdag.Model):
         match agent_policy.type:
             case "sweep":
                 # Simple sweeping strategy
-                if agent_location.col < COLS - 1:
-                    return "move_right"
-                if agent_location.row < ROWS - 1:
-                    return "move_down"
-                return "exit"
+                match agent_location.row % 2:
+                    case 0:  # Even row
+                        if agent_location.col < COLS - 1:
+                            return "move_right"
+                        if agent_location.row < ROWS - 1:
+                            return "move_down"
+                        return "exit"
+                    case 1:  # Odd row
+                        if agent_location.col > 0:
+                            return "move_left"
+                        if agent_location.row < ROWS - 1:
+                            return "move_down"
+                        msg = f"Invalid location for sweeping strategy: {agent_location}"
+                        raise ValueError(msg)
+                    case _:
+                        msg = f"Invalid location for sweeping strategy: {agent_location}"
+                        raise ValueError(msg)
             case "shortest":
                 # Shortest path strategy (placeholder logic)
                 if agent_location.col < EXIT.col:
@@ -82,11 +94,11 @@ class TreasureModel(pdag.Model):
     def update_agent_location(  # noqa: C901
         agent_location: Annotated[Cell, agent_location.ref()],
         agent_action: Annotated[str, agent_action.ref()],
-        exit_reached: Annotated[bool, exit_reached.ref()],
+        exited: Annotated[bool, exited.ref()],
         time_limit_reached: Annotated[bool, time_limit_reached.ref()],
     ) -> Annotated[Cell, agent_location.ref(next=True)]:
         """Update the agent's location based on the action."""
-        if exit_reached or time_limit_reached:
+        if exited or time_limit_reached:
             return agent_location
         new_location = Cell(col=agent_location.col, row=agent_location.row)
         match agent_action:
@@ -109,24 +121,38 @@ class TreasureModel(pdag.Model):
                 raise ValueError(msg)
         return new_location
 
+    @pdag.relationship()
+    @staticmethod
+    def initial_exited() -> Annotated[bool, exited.ref(initial=True)]:
+        """Initial exited state."""  # noqa: D401
+        return False
+
+    @pdag.relationship(at_each_time_step=True)
+    @staticmethod
+    def update_exited(
+        agent_location: Annotated[Cell, agent_location.ref()],
+        agent_action: Annotated[str, agent_action.ref()],
+        time_limit_reached: Annotated[bool, time_limit_reached.ref()],
+    ) -> Annotated[bool, exited.ref(next=True)]:
+        """Check if the agent has exited."""
+        return agent_location == EXIT and not time_limit_reached and agent_action == "exit"
+
+    @pdag.relationship()
+    @staticmethod
+    def initial_treasure_found() -> Annotated[bool, treasure_found.ref(initial=True)]:
+        """Initial treasure found state."""  # noqa: D401
+        return False
+
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
     def check_treasure_found(
         agent_location: Annotated[Cell, agent_location.ref()],
         treasure_location: Annotated[Cell, treasure_location.ref()],
         time_limit_reached: Annotated[bool, time_limit_reached.ref()],
+        treasure_found: Annotated[bool, treasure_found.ref(previous=True)],
     ) -> Annotated[bool, treasure_found.ref()]:
         """Check if the agent has found the treasure."""
-        return agent_location == treasure_location and not time_limit_reached
-
-    @pdag.relationship(at_each_time_step=True)
-    @staticmethod
-    def check_exit_reached(
-        agent_location: Annotated[Cell, agent_location.ref()],
-        time_limit_reached: Annotated[bool, time_limit_reached.ref()],
-    ) -> Annotated[bool, exit_reached.ref()]:
-        """Check if the agent has reached the exit."""
-        return agent_location == EXIT and not time_limit_reached
+        return treasure_found or (agent_location == treasure_location and not time_limit_reached)
 
     @pdag.relationship(at_each_time_step=True)
     @staticmethod
