@@ -9,6 +9,7 @@ __all__ = [
     "EachSquaredModel",
     "PolynomialModel",
     "SquareModel",
+    "TreasureModel",
     "TwoSquares",
     "UmbrellaModel",
 ]
@@ -17,4 +18,5 @@ from ._each_squared import EachSquaredModel
 from ._polynomials import PolynomialModel
 from ._square import SquareModel
 from ._squares import TwoSquares
+from ._treasure import TreasureModel
 from ._umbrella import UmbrellaModel

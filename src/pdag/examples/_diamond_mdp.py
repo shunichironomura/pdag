@@ -46,9 +46,9 @@ class DiamondMdpModel(pdag.Model):
     @staticmethod
     def state_transition(  # noqa: C901, PLR0911
         *,
-        location: Annotated[Literal["start", "left", "right", "end"], pdag.Depends(location)],
-        action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], pdag.Depends(action)],
-    ) -> Annotated[Literal["start", "left", "right", "end"], pdag.Provides(location, next=True)]:
+        location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
+        action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()],
+    ) -> Annotated[Literal["start", "left", "right", "end"], location.ref(next=True)]:
         match location, action:
             case "start", "go_left":
                 return "left"
@@ -78,7 +78,7 @@ class DiamondMdpModel(pdag.Model):
 
     @pdag.relationship
     @staticmethod
-    def initial_reward() -> Annotated[float, pdag.Provides(reward)]:
+    def initial_reward() -> Annotated[float, reward.ref()]:
         return 0.0
 
     @pdag.relationship(at_each_time_step=True)
@@ -94,7 +94,7 @@ class DiamondMdpModel(pdag.Model):
             action.ref(previous=True),
         ],
         location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
-    ) -> Annotated[float, pdag.Provides(reward)]:
+    ) -> Annotated[float, reward.ref()]:
         if previous_location != "end" and location == "end":
             return 1.0
         return 0.0
@@ -104,7 +104,7 @@ class DiamondMdpModel(pdag.Model):
     def cumulative_reward_calculation(
         *,
         reward: Annotated[list[float], reward.ref(all_time_steps=True)],
-    ) -> Annotated[float, pdag.Provides(cumulative_reward)]:
+    ) -> Annotated[float, cumulative_reward.ref()]:
         return sum(reward)
 
 

@@ -16,6 +16,7 @@ dependencies = [
     "numpy>=1.24",
     "polars>=1.24.0",
     "pyarrow>=19.0.1",
+    "pydantic>=2.11.7",
     "pydot>=3.0.4",
     "rich>=13.9.4",
     "tqdm>=4.67.1",
