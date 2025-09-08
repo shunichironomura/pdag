@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
     
     
       
@@ -1978,6 +1978,33 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pdag.NodeId" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-type_alias"></code>&nbsp;NodeId
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdag.ParameterId" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-type_alias"></code>&nbsp;ParameterId
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdag.RelationshipId" class="md-nav__link">
+    <span class="md-ellipsis">
+      <code class="doc-symbol doc-symbol-toc doc-symbol-type_alias"></code>&nbsp;RelationshipId
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pdag.StaticParameterId" class="md-nav__link">
     <span class="md-ellipsis">
       <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;StaticParameterId
@@ -2353,6 +2380,44 @@
             <td class="doc-module-details">
               <div class="doc-md-description">
                 <p>Examples module that contains example models.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+<table>
+      <thead>
+        <tr>
+          <th><span class="doc-section-title">TYPE ALIAS</span></th>
+          <th><span>DESCRIPTION</span></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            NodeId (pdag.NodeId)" href="#pdag.NodeId">NodeId</a></code></td>
+            <td class="doc-type_alias-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            ParameterId (pdag.ParameterId)" href="#pdag.ParameterId">ParameterId</a></code></td>
+            <td class="doc-type_alias-details">
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            RelationshipId (pdag.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></code></td>
+            <td class="doc-type_alias-details">
+              <div class="doc-md-description">
+                
               </div>
             </td>
           </tr>
@@ -2787,7 +2852,7 @@
   </span>
 
 </h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Array</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.typing.NDArray">NDArray</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Array[T]">Array[T]</span></span><span class="p">])</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Array</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.typing.NDArray">NDArray</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Array[T]">T</span></span><span class="p">])</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2797,10 +2862,12 @@
 
   
       dataclass
-   (pdag._core.collection.CollectionABC)" href="#pdag.CollectionABC">CollectionABC</a>[<span title="tuple">tuple</span>[<span title="int">int</span>, ...], <span title="pdag._core.collection.Array[T]">Array[T]</span>]</code></p>
+   (pdag._core.collection.CollectionABC)" href="#pdag.CollectionABC">CollectionABC</a>[<span title="tuple">tuple</span>[<span title="int">int</span>, ...], <span title="pdag._core.collection.Array[T]">T</span>]</code></p>
 
 
         <p>A collection of parameters or relationships that can be indexed by a tuple of integers.</p>
+
+
 
 
 
@@ -2917,7 +2984,7 @@
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="numpy.typing.NDArray">NDArray</span>[<span title="pdag._core.collection.Array[T]">Array[T]</span>]</code>
+                      <code><span title="numpy.typing.NDArray">NDArray</span>[<span title="pdag._core.collection.Array[T]">T</span>]</code>
                   </span>
               </p>
             </td>
@@ -3022,7 +3089,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.typing.NDArray">NDArray</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Array[T]">Array[T]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.typing.NDArray">NDArray</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Array[T]">T</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3101,7 +3168,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.Array[T]">Array[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.Array[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3131,7 +3198,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n"><span title="pdag._core.collection.Array[T]">Array[T]</span></span><span class="p">]]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="int">int</span></span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n"><span title="pdag._core.collection.Array[T]">T</span></span><span class="p">]]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3255,7 +3322,7 @@
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ArrayRef</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">CollectionRef[K]</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">K</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">previous</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="nb">next</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -3275,6 +3342,8 @@
 
 
         <p>Represents a reference to an array in a model.</p>
+
+
 
 
 
@@ -3337,6 +3406,8 @@
   
       dataclass
    (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="bool">bool</span>]</code></p>
+
+
 
 
 
@@ -3532,7 +3603,7 @@
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">CategoricalParameter</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="types.EllipsisType">EllipsisType</span></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">categories</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">CategoricalParameter[T]</span></span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">categories</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">T</span></span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">is_time_series</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="dict">dict</span></span><span class="p">(),</span>
@@ -3546,7 +3617,9 @@
 
   
       dataclass
-   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="pdag._core.parameter.CategoricalParameter[T]">CategoricalParameter[T]</span>]</code></p>
+   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="pdag._core.parameter.CategoricalParameter[T]">T</span>]</code></p>
+
+
 
 
 
@@ -3629,7 +3702,7 @@
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="tuple">tuple</span>[<span title="pdag._core.parameter.CategoricalParameter[T]">CategoricalParameter[T]</span>, ...]</code>
+                      <code><span title="tuple">tuple</span>[<span title="pdag._core.parameter.CategoricalParameter[T]">T</span>, ...]</code>
                   </span>
               </p>
             </td>
@@ -3688,7 +3761,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">categories</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">CategoricalParameter[T]</span></span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">categories</span><span class="p">:</span> <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">T</span></span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3740,7 +3813,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">CategoricalParameter[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.CategoricalParameter[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3792,6 +3865,8 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="abc.ABC">ABC</span></code>, <code><span title="pdag._utils.InitArgsRecorder">InitArgsRecorder</span></code></p>
+
+
 
 
 
@@ -4132,7 +4207,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.CollectionABC[K]">CollectionABC[K]</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.CollectionABC[T]">CollectionABC[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.CollectionABC[K]">K</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.CollectionABC[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4168,9 +4243,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[K]">CollectionABC[K]</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.CollectionABC[T]">CollectionABC[T]</span></span><span class="p">]</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[K]">K</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.CollectionABC[T]">T</span></span><span class="p">]]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4202,7 +4275,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[T]">CollectionABC[T]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[T]">T</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4234,7 +4307,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[K]">CollectionABC[K]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.CollectionABC[K]">K</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4375,7 +4448,7 @@
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ref</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.CollectionABC[K]">CollectionABC[K]</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.CollectionABC[K]">K</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">previous</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="nb">next</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -4452,7 +4525,7 @@
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">CollectionRef</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">CollectionRef[K]</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">K</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">previous</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="nb">next</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -4472,6 +4545,8 @@
 
 
         <p>Represents a reference to a collection in a model.</p>
+
+
 
 
 
@@ -4507,7 +4582,7 @@
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="pdag._core.reference.CollectionRef[K]">CollectionRef[K]</span> | None</code>
+                      <code><span title="pdag._core.reference.CollectionRef[K]">K</span> | None</code>
                   </span>
               </p>
             </td>
@@ -4540,7 +4615,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">CollectionRef[K]</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="dataclasses.field">field</span></span><span class="p">(</span><span class="n"><span title="dataclasses.field(default)">default</span></span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">K</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n"><span title="dataclasses.field">field</span></span><span class="p">(</span><span class="n"><span title="dataclasses.field(default)">default</span></span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -4619,6 +4694,8 @@
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
+
+
 
 
 
@@ -5465,6 +5542,8 @@
 
 
 
+
+
 <table>
       <thead>
         <tr>
@@ -5580,11 +5659,8 @@
    (pdag._core.reference.ReferenceABC)" href="#pdag.ReferenceABC">ReferenceABC</a></span><span class="p">],</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">function_body</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">output_is_scalar</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span><span class="p">,</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">_function</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P]">FunctionRelationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[T]">FunctionRelationship[T]</span></span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">]</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">_function</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[T]">T</span></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -5595,6 +5671,8 @@
   
       dataclass
    (pdag._core.relationship.RelationshipABC)" href="#pdag.RelationshipABC">RelationshipABC</a></code></p>
+
+
 
 
 
@@ -5982,9 +6060,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__call__</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P].args">args</span></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P].kwargs">kwargs</span></span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[T]">FunctionRelationship[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P]">P</span></span><span class="o">.</span><span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P].args">args</span></span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P]">P</span></span><span class="o">.</span><span class="n"><span title="pdag._core.relationship.FunctionRelationship[**P].kwargs">kwargs</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.relationship.FunctionRelationship[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6111,7 +6187,7 @@
   </span>
 
 </h3>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Mapping</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">Mapping[K]</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">Mapping[T]</span></span><span class="p">])</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Mapping</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">K</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">T</span></span><span class="p">])</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6121,10 +6197,12 @@
 
   
       dataclass
-   (pdag._core.collection.CollectionABC)" href="#pdag.CollectionABC">CollectionABC</a>[<span title="pdag._core.collection.Mapping[K]">Mapping[K]</span>, <span title="pdag._core.collection.Mapping[T]">Mapping[T]</span>]</code></p>
+   (pdag._core.collection.CollectionABC)" href="#pdag.CollectionABC">CollectionABC</a>[<span title="pdag._core.collection.Mapping[K]">K</span>, <span title="pdag._core.collection.Mapping[T]">T</span>]</code></p>
 
 
         <p>A collection of parameters or relationships that can be indexed by a string or tuple of strings.</p>
+
+
 
 
 
@@ -6249,7 +6327,7 @@
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._core.collection.Mapping[K]">Mapping[K]</span>, <span title="pdag._core.collection.Mapping[T]">Mapping[T]</span>]</code>
+                      <code><span title="dict">dict</span>[<span title="pdag._core.collection.Mapping[K]">K</span>, <span title="pdag._core.collection.Mapping[T]">T</span>]</code>
                   </span>
               </p>
             </td>
@@ -6335,7 +6413,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">Mapping[K]</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">Mapping[T]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">K</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">T</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6357,7 +6435,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.Mapping[K]">Mapping[K]</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">Mapping[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.collection.Mapping[K]">K</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6387,7 +6465,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[T]">Mapping[T]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">values</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[T]">T</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6417,7 +6495,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">Mapping[K]</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">Mapping[T]</span></span><span class="p">]]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">items</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="tuple">tuple</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">K</span></span><span class="p">,</span> <span class="n"><span title="pdag._core.collection.Mapping[T]">T</span></span><span class="p">]]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6447,7 +6525,7 @@
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">Mapping[K]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">keys</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="pdag._core.collection.Mapping[K]">K</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -6571,7 +6649,7 @@
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">MappingRef</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">CollectionRef[K]</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">key</span><span class="p">:</span> <span class="n"><span title="pdag._core.reference.CollectionRef[K]">K</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">previous</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="nb">next</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -6591,6 +6669,8 @@
 
 
         <p>Represents a reference to a mapping in a model.</p>
+
+
 
 
 
@@ -6651,6 +6731,8 @@
 
 
         <p>Abstract base class for all parameters.</p>
+
+
 
 
 
@@ -7064,7 +7146,7 @@
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.ParameterABC[T]">ParameterABC[T]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.ParameterABC[T]">T</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7251,6 +7333,8 @@ is to sample the parameter value space efficiently.</p>
 
 
 
+
+
   <div class="doc doc-children">
 
 
@@ -7285,7 +7369,7 @@ is to sample the parameter value space efficiently.</p>
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">PydanticParameter</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">_name</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="types.EllipsisType">EllipsisType</span></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">model</span><span class="p">:</span> <span class="n"><span title="builtins.type">type</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">PydanticParameter[M]</span></span><span class="p">],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">model</span><span class="p">:</span> <span class="n"><span title="builtins.type">type</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">M</span></span><span class="p">],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">is_time_series</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="dict">dict</span></span><span class="p">(),</span>
@@ -7299,10 +7383,12 @@ is to sample the parameter value space efficiently.</p>
 
   
       dataclass
-   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="pdag._core.parameter.PydanticParameter[M]">PydanticParameter[M]</span>]</code></p>
+   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="pdag._core.parameter.PydanticParameter[M]">M</span>]</code></p>
 
 
         <p>Parameter whose value is a Pydantic model.</p>
+
+
 
 
 
@@ -7384,7 +7470,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="builtins.type">type</span>[<span title="pdag._core.parameter.PydanticParameter[M]">PydanticParameter[M]</span>]</code>
+                      <code><span title="builtins.type">type</span>[<span title="pdag._core.parameter.PydanticParameter[M]">M</span>]</code>
                   </span>
               </p>
             </td>
@@ -7443,7 +7529,7 @@ is to sample the parameter value space efficiently.</p>
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">model</span><span class="p">:</span> <span class="n"><span title="builtins.type">type</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">PydanticParameter[M]</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">model</span><span class="p">:</span> <span class="n"><span title="builtins.type">type</span></span><span class="p">[</span><span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">M</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7499,7 +7585,7 @@ is to sample the parameter value space efficiently.</p>
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">PydanticParameter[M]</span></span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">from_unit_interval</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="pdag._core.parameter.PydanticParameter[M]">M</span></span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -7577,6 +7663,8 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a>[<span title="float">float</span>]</code></p>
+
+
 
 
 
@@ -7947,6 +8035,8 @@ is to sample the parameter value space efficiently.</p>
 
 
         <p>Represents a reference to a parameter or collection in a model.</p>
+
+
 
 
 
@@ -8461,6 +8551,8 @@ is to sample the parameter value space efficiently.</p>
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="abc.ABC">ABC</span></code>, <code><span title="pdag._utils.InitArgsRecorder">InitArgsRecorder</span></code></p>
+
+
 
 
 
@@ -9021,6 +9113,8 @@ is to sample the parameter value space efficiently.</p>
 
 
 
+
+
 <table>
       <thead>
         <tr>
@@ -9486,17 +9580,17 @@ is to sample the parameter value space efficiently.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ExecutionModel</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">parameter_ids</span><span class="p">:</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">],</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">parameter_ids</span><span class="p">:</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">],</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">relationship_infos</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span></span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span></span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="p">],</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">input_parameter_id_to_relationship_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">]</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">]</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="p">],</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">relationship_id_to_output_parameter_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">],</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">port_mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">],</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">port_mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">],</span>
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="n">n_time_steps</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">_core_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            CoreModel
@@ -9509,6 +9603,8 @@ is to sample the parameter value space efficiently.</p>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
+
+
 
 
 
@@ -9580,7 +9676,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="set">set</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>]</code>
+                      <code><span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
                   </span>
               </p>
             </td>
@@ -9599,7 +9695,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.RelationshipId">RelationshipId</span>, <span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span>]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span>]</code>
                   </span>
               </p>
             </td>
@@ -9618,7 +9714,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>, <span title="set">set</span>[<span title="pdag._exec.model.RelationshipId">RelationshipId</span>]]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>]]</code>
                   </span>
               </p>
             </td>
@@ -9637,7 +9733,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.RelationshipId">RelationshipId</span>, <span title="set">set</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>]]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]]</code>
                   </span>
               </p>
             </td>
@@ -9656,7 +9752,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>, <span title="pdag._exec.model.ParameterId">ParameterId</span>]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
                   </span>
               </p>
             </td>
@@ -9696,7 +9792,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.RelationshipId">RelationshipId</span>, <span title="set">set</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>]]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]]</code>
                   </span>
               </p>
             </td>
@@ -9716,7 +9812,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>, <span title="set">set</span>[<span title="pdag._exec.model.RelationshipId">RelationshipId</span>]]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <span title="set">set</span>[<a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a>]]</code>
                   </span>
               </p>
             </td>
@@ -9736,7 +9832,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="dict">dict</span>[<span title="pdag._exec.model.ParameterId">ParameterId</span>, <span title="pdag._exec.model.ParameterId">ParameterId</span>]</code>
+                      <code><span title="dict">dict</span>[<a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>, <a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a>]</code>
                   </span>
               </p>
             </td>
@@ -9755,7 +9851,7 @@ is to sample the parameter value space efficiently.</p>
               <p>
                   <span class="doc-attribute-annotation">
                     <b>TYPE:</b>
-                      <code><span title="list">list</span>[<span title="pdag._exec.model.NodeId">NodeId</span>]</code>
+                      <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="            NodeId (pdag._exec.model.NodeId)" href="#pdag.NodeId">NodeId</a>]</code>
                   </span>
               </p>
             </td>
@@ -9787,7 +9883,7 @@ is to sample the parameter value space efficiently.</p>
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">parameter_ids</span><span class="p">:</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">parameter_ids</span><span class="p">:</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -9815,7 +9911,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">relationship_infos</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span></span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.FunctionRelationshipInfo">FunctionRelationshipInfo</span></span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
 </span></code></pre></div>
 
@@ -9844,7 +9940,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">input_parameter_id_to_relationship_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
 </span></code></pre></div>
 
@@ -9873,7 +9969,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">relationship_id_to_output_parameter_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span>
 </span></code></pre></div>
 
@@ -9901,7 +9997,7 @@ is to sample the parameter value space efficiently.</p>
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">port_mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">port_mapping</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -9958,7 +10054,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">relationship_id_to_input_parameter_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="dataclasses.field">field</span></span><span class="p">(</span><span class="n"><span title="dataclasses.field(init)">init</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(repr)">repr</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(compare)">compare</span></span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span></code></pre></div>
 
@@ -9988,7 +10084,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h4>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">output_parameter_id_to_relationship_ids</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.RelationshipId">RelationshipId</span></span><span class="p">]</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span><span class="p">]</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="dataclasses.field">field</span></span><span class="p">(</span><span class="n"><span title="dataclasses.field(init)">init</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(repr)">repr</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(compare)">compare</span></span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span></code></pre></div>
 
@@ -10017,7 +10113,7 @@ is to sample the parameter value space efficiently.</p>
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">port_mapping_inverse</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">port_mapping_inverse</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><span title="dataclasses.field">field</span></span><span class="p">(</span><span class="n"><span title="dataclasses.field(init)">init</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(repr)">repr</span></span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n"><span title="dataclasses.field(compare)">compare</span></span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -10127,7 +10223,7 @@ is to sample the parameter value space efficiently.</p>
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">input_parameter_ids</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">input_parameter_ids</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="set">set</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -10167,7 +10263,7 @@ is to sample the parameter value space efficiently.</p>
 
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">input_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">input_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
 
 
   
@@ -10213,7 +10309,7 @@ is to sample the parameter value space efficiently.</p>
   </span>
 
 </h4>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">topologically_sorted_node_ids</span><span class="p">:</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.NodeId">NodeId</span></span><span class="p">]</span>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">topologically_sorted_node_ids</span><span class="p">:</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            NodeId (pdag._exec.model.NodeId)" href="#pdag.NodeId">NodeId</a></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -10238,12 +10334,88 @@ is to sample the parameter value space efficiently.</p>
 
 
 
+<div class="doc doc-object doc-type_alias">
+
+
+
+<h3 id="pdag.NodeId" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-type_alias"></code>            <span class="doc doc-object-name doc-type_alias-name">NodeId</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nc">NodeId</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            RelationshipId (pdag._exec.model.RelationshipId)" href="#pdag.RelationshipId">RelationshipId</a></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+    </div>
+
+</div>
 
 
 
 
 
 
+<div class="doc doc-object doc-type_alias">
+
+
+
+<h3 id="pdag.ParameterId" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-type_alias"></code>            <span class="doc doc-object-name doc-type_alias-name">ParameterId</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nc">ParameterId</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="            StaticParameterId
+
+
+  
+      dataclass
+   (pdag._exec.model.StaticParameterId)" href="#pdag.StaticParameterId">StaticParameterId</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeSeriesParameterId
+
+
+  
+      dataclass
+   (pdag._exec.model.TimeSeriesParameterId)" href="#pdag.TimeSeriesParameterId">TimeSeriesParameterId</a></span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-type_alias">
+
+
+
+<h3 id="pdag.RelationshipId" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-type_alias"></code>            <span class="doc doc-object-name doc-type_alias-name">RelationshipId</span>
+
+
+</h3>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nc">RelationshipId</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            StaticRelationshipId
+
+
+  
+      dataclass
+   (pdag._exec.model.StaticRelationshipId)" href="#pdag.StaticRelationshipId">StaticRelationshipId</a></span> <span class="o">|</span> <span class="n"><a class="autorefs autorefs-internal" title="            TimeSeriesRelationshipId
+
+
+  
+      dataclass
+   (pdag._exec.model.TimeSeriesRelationshipId)" href="#pdag.TimeSeriesRelationshipId">TimeSeriesRelationshipId</a></span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">)</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+    </div>
+
+</div>
 
 
 
@@ -10269,6 +10441,8 @@ is to sample the parameter value space efficiently.</p>
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="pdag._exec.model.ParameterIdMixin">ParameterIdMixin</span></code></p>
+
+
 
 
 
@@ -10439,6 +10613,8 @@ is to sample the parameter value space efficiently.</p>
 
 
 
+
+
 <table>
       <thead>
         <tr>
@@ -10585,6 +10761,8 @@ is to sample the parameter value space efficiently.</p>
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="pdag._exec.model.ParameterIdMixin">ParameterIdMixin</span></code></p>
+
+
 
 
 
@@ -10790,6 +10968,8 @@ is to sample the parameter value space efficiently.</p>
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="pdag._exec.model.NodeIdMixin">NodeIdMixin</span></code></p>
+
+
 
 
 
@@ -11217,8 +11397,8 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._exec.model.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">inputs</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">],</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.model.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">inputs</span><span class="p">:</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">],</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -11433,7 +11613,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">distance_constrained_sampling</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">parameters</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">parameters</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
 
 
   
@@ -11444,7 +11624,7 @@ is to sample the parameter value space efficiently.</p>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">budget</span><span class="p">:</span> <span class="n"><span title="float">float</span></span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">uniform_in_distance</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -11646,12 +11826,12 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._exec.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">return_type</span><span class="p">:</span> <span class="n"><span title="typing.Literal">Literal</span></span><span class="p">[</span><span class="s2">&quot;list&quot;</span><span class="p">],</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">n_cases</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
 </span></code></pre></div><div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run_experiments</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">exec_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            ExecutionModel
 
@@ -11659,12 +11839,12 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._exec.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">return_type</span><span class="p">:</span> <span class="n"><span title="typing.Literal">Literal</span></span><span class="p">[</span><span class="s2">&quot;list&quot;</span><span class="p">],</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">n_cases</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
 </span></code></pre></div><div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run_experiments</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">exec_model</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            ExecutionModel
 
@@ -11672,7 +11852,7 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._exec.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">return_type</span><span class="p">:</span> <span class="n"><span title="typing.Literal">Literal</span></span><span class="p">[</span><span class="s2">&quot;polars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;polars&quot;</span><span class="p">,</span>
@@ -11686,14 +11866,14 @@ is to sample the parameter value space efficiently.</p>
   
       dataclass
    (pdag._exec.ExecutionModel)" href="#pdag.ExecutionModel">ExecutionModel</a></span><span class="p">,</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cases</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="n"><span title="collections.abc.Iterable">Iterable</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">return_type</span><span class="p">:</span> <span class="n"><span title="typing.Literal">Literal</span></span><span class="p">[</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="s2">&quot;polars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;polars&quot;</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">n_cases</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="o">|</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="o">|</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">|</span> <span class="n"><span title="polars.DataFrame">DataFrame</span></span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
 </span></code></pre></div>
@@ -11776,7 +11956,7 @@ is to sample the parameter value space efficiently.</p>
 
 </h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">sample_parameter_values</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">input_parameters</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">input_parameters</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
 
 
   
@@ -11785,7 +11965,7 @@ is to sample the parameter value space efficiently.</p>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">n_samples</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="pdag._exec.ParameterId">ParameterId</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
@@ -11882,6 +12062,8 @@ is to sample the parameter value space efficiently.</p>
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><span title="pdag._utils.multidef.MultiDef">MultiDef</span></code></p>
+
+
 
 
 
@@ -12498,7 +12680,7 @@ is to sample the parameter value space efficiently.</p>
 </h3>
           <div class="doc-overloads">
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">relationship</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">func</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">],</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">func</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">],</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">identifier</span><span class="p">:</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">at_each_time_step</span><span class="p">:</span> <span class="n"><span title="typing.Literal">Literal</span></span><span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -12507,65 +12689,53 @@ is to sample the parameter value space efficiently.</p>
 
   
       dataclass
-   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">]</span>
+   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span>
 </span></code></pre></div><div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">relationship</span><span class="p">(</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">func</span><span class="p">:</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">identifier</span><span class="p">:</span> <span class="n"><span title="collections.abc.Hashable">Hashable</span></span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">at_each_time_step</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">]],</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]],</span> <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
 
 
   
       dataclass
-   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="p">],</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">]</span>
+   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">]</span>
 </span></code></pre></div>          </div>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">relationship</span><span class="p">(</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">func</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">]</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="o">*</span><span class="p">,</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">identifier</span><span class="p">:</span> <span class="n"><span title="collections.abc.Hashable">Hashable</span></span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">at_each_time_step</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">func</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="o">*</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">identifier</span><span class="p">:</span> <span class="n"><span title="collections.abc.Hashable">Hashable</span></span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">at_each_time_step</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
 
 
   
       dataclass
-   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">]</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">]],</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
+   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]],</span> <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
 
 
   
       dataclass
-   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>            <span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="p">],</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="p">]</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span><span class="p">]],</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n"><span title="pdag._utils.MultiDefProtocol">MultiDefProtocol</span></span><span class="p">[</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>            <span class="n"><span title="collections.abc.Hashable">Hashable</span></span><span class="p">,</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>            <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
+   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="p">]</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="o">|</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="p">[</span><span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]],</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n"><span title="pdag._utils.MultiDefProtocol">MultiDefProtocol</span></span><span class="p">[</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>            <span class="n"><span title="collections.abc.Hashable">Hashable</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            FunctionRelationship
 
 
   
       dataclass
-   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span>
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>                <span class="n"><span title="pdag._notation.decorators.relationship[**P]">relationship[**P]</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">relationship[T]</span></span>
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>            <span class="p">],</span>
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>        <span class="p">],</span>
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="p">]</span>
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="p">)</span>
+   (pdag._core.FunctionRelationship)" href="#pdag.FunctionRelationship">FunctionRelationship</a></span><span class="p">[</span><span class="n"><span title="pdag._notation.decorators.relationship[**P]">P</span></span><span class="p">,</span> <span class="n"><span title="pdag._notation.decorators.relationship[T]">T</span></span><span class="p">]</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        <span class="p">],</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="p">]</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">)</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents ">
