@@ -3,132 +3,105 @@ name = "pdag"
 version = "0.0.15"
 description = "A Python package that helps you create and execute a directed acyclic graph (DAG) of parameters and their relationships."
 readme = "README.md"
-authors = [
-    { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
-]
+requires-python = ">=3.12"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.12"
-dependencies = [
-    "asttokens>=3.0.0",
-    "jinja2>=3.1.6",
-    "mpire>=2.10.2",
-    "numpy>=1.24",
-    "polars>=1.24.0",
-    "pyarrow>=19.0.1",
-    "pydantic>=2.11.7",
-    "pydot>=3.0.4",
-    "rich>=13.9.4",
-    "tqdm>=4.67.1",
-    "typer>=0.15.2",
-    "typing-extensions>=4.12.2",
-    "watchfiles>=1.0.4",
+authors = [
+  { name = "Shunichiro Nomura", email = "nomura@space.t.u-tokyo.ac.jp" },
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Science/Research",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3 :: Only",
-    "Topic :: Scientific/Engineering",
-    "License :: OSI Approved :: MIT License",
-    "Typing :: Typed",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+dependencies = [
+  "asttokens>=3.0.0",
+  "jinja2>=3.1.6",
+  "mpire>=2.10.2",
+  "numpy>=1.24",
+  "polars>=1.24.0",
+  "pyarrow>=19.0.1",
+  "pydantic>=2.11.7",
+  "pydot>=3.0.4",
+  "rich>=13.9.4",
+  "tqdm>=4.67.1",
+  "typer>=0.15.2",
+  "typing-extensions>=4.12.2",
+  "watchfiles>=1.0.4",
 ]
 
 [project.urls]
 Documentation = "https://shunichironomura.github.io/pdag/"
-Repository = "https://github.com/shunichironomura/pdag"
 Issues = "https://github.com/shunichironomura/pdag/issues"
-
-
-[dependency-groups]
-dev = [
-    "pre-commit>=4.1.0",
-    { include-group = "ruff" },
-    { include-group = "linting" },
-    { include-group = "typing" },
-    { include-group = "testing" },
-    { include-group = "license" },
-    { include-group = "docs" },
-]
-ruff = ["ruff>=0.9.9"]
-typing = [
-    "mypy>=1.15.0",
-    { include-group = "testing" },
-    "pandas-stubs>=2.2.3.241126",
-    "types-tqdm>=4.67.0.20250301",
-    "pyright>=1.1.396",
-    "pyarrow-stubs>=19.1",
-]
-testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
-linting = ["deptry>=0.23.0", "import-linter>=2.2"]
-license = ["pip-licenses"]
-docs = [
-    # mkdocs-section-index doesn't work with mkdocs-material>=9.6.10
-    # See https://github.com/oprypin/mkdocs-section-index/issues/26
-    "mkdocs-material>=9.6.11",
-    "mkdocs-section-index>=0.3.10",
-    "mkdocs-gen-files>=0.5.0",
-    "mkdocs-literate-nav>=0.6.2",
-    "mkdocstrings[python]>=0.29.1",
-    "griffe-typingdoc>=0.2.8",
-    "mike>=2.1.3",
-    { include-group = "ruff" },
-]
+Repository = "https://github.com/shunichironomura/pdag"
 
 [project.scripts]
 pdag = "pdag._cli:app"
 
-[tool.uv.sources]
-# Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
-pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
+[dependency-groups]
+dev = [
+  "pre-commit>=4.1.0",
+  { include-group = "docs" },
+  { include-group = "license" },
+  { include-group = "linting" },
+  { include-group = "ruff" },
+  { include-group = "testing" },
+  { include-group = "typing" },
+]
+docs = [
+  "griffe-typingdoc>=0.2.8",
+  "mike>=2.1.3",
+  "mkdocs-gen-files>=0.5.0",
+  "mkdocs-literate-nav>=0.6.2",
+  # mkdocs-section-index doesn't work with mkdocs-material>=9.6.10
+  # See https://github.com/oprypin/mkdocs-section-index/issues/26
+  "mkdocs-material>=9.6.11",
+  "mkdocs-section-index>=0.3.10",
+  "mkdocstrings[python]>=0.29.1",
+  { include-group = "ruff" },
+]
+license = ["pip-licenses"]
+linting = ["deptry>=0.23.0", "import-linter>=2.2"]
+ruff = ["ruff>=0.9.9"]
+testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
+typing = [
+  "mypy>=1.15.0",
+  "pandas-stubs>=2.2.3.241126",
+  "pyarrow-stubs>=19.1",
+  "pyright>=1.1.396",
+  "types-tqdm>=4.67.0.20250301",
+  { include-group = "testing" },
+]
 
 [build-system]
 requires = ["uv_build>=0.8.0,<0.9"]
 build-backend = "uv_build"
-[tool.pip-licenses]
-allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT;BSD-3-Clause'
-
-[tool.pytest.ini_options]
-addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
-testpaths = ["tests"]
 
 [tool.coverage.report]
 exclude_also = [
-    'def __repr__',
-    'if self.debug:',
-    'if settings.DEBUG',
-    'raise AssertionError',
-    'raise NotImplementedError',
-    'if 0:',
-    'if __name__ == .__main__.:',
-    'if TYPE_CHECKING:',
-    'class .*\bProtocol\):',
-    '@(abc\.)?abstractmethod',
-]
-
-[tool.mypy]
-strict = true
-exclude = '^scripts/'
-
-[[tool.mypy.overrides]]
-module = ["pydot.*"]
-ignore_missing_imports = true
-
-[tool.pyright]
-exclude = [
-    "**/__pycache__",
-    "**/.*",
-    "scripts/*",
-    "src/pdag/_notation/construct.py",
+  "def __repr__",
+  "if self.debug:",
+  "if settings.DEBUG",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  'class .*\bProtocol\):',
+  '@(abc\.)?abstractmethod',
 ]
 
 [tool.deptry]
 extend_exclude = ["scripts"]
 
 [tool.deptry.per_rule_ignores]
-"DEP003" = ["pdag"] # Allow absolute imports in pdag package
+"DEP003" = ["pdag"]  # Allow absolute imports in pdag package
 
 [tool.importlinter]
 root_package = "pdag"
@@ -137,67 +110,92 @@ root_package = "pdag"
 name = "layered models"
 type = "layers"
 layers = [
-    "pdag.examples",
-    "pdag._exec | pdag._notation",
-    "pdag._core",
-    "pdag._utils",
+  "pdag.examples",
+  "pdag._exec | pdag._notation",
+  "pdag._core",
+  "pdag._utils",
 ]
+
+[tool.mypy]
+strict = true
+exclude = "^scripts/"
+
+[[tool.mypy.overrides]]
+module = ["pydot.*"]
+ignore_missing_imports = true
+
+[tool.pip-licenses]
+allow-only = "MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT;BSD-3-Clause"
+
+[tool.pyright]
+exclude = [
+  "**/__pycache__",
+  "**/.*",
+  "scripts/*",
+  "src/pdag/_notation/construct.py",
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
+testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-
 ignore = [
-    #     "PLR2004", # magic numbers
-    "S101", # use of assert
-    "G",    # logging format
-    #     "ANN101",  # missing type annotation for self in method
-    #     "ANN102",  # missing type annotation for cls in classmethod
-    #     "D100",    # missing docstring in public module
-    #     "D101",    # missing docstring in public class
-    #     "D102",    # missing docstring in public method
-    #     "D103",    # missing docstring in public function
-    #     "D104",    # missing docstring in public package
-    #     "D105",    # missing docstring in magic method
-    #     "D107",    # missing docstring in __init__
-    "D203", # 1 blank line required before class docstring
-    "D213", # multi-line docstring summary should start at the second line
-    #     "PGH003",  # Use specific rule codes when ignoring type issues
-    #     "RET505",  # Unnecessary `else` after `return` statement
-    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
-    #     "D401",    # First line should be in imperative mood
-    "TD002", # Missing author in TODO
-    "TD003", # add link on issue into TODO
-    #     "PLR0913", # Too many arguments to function call
-    #     "D407",    # Missing dashed underline after section
-    #     "ERA001",  # Commented out code
-    "FIX002", # Fixme comment
-    #     "S311",    # suspicious-non-cryptographic-random-usage
-    #     "EM101",   # raw-string-in-exception
-    #     "TRY003",  # Avoid specifying long messages outside the exception class
+  # "PLR2004", # magic numbers
+  "S101",  # use of assert
+  "G",  # logging format
+  # "ANN101",  # missing type annotation for self in method
+  #     "ANN102",  # missing type annotation for cls in classmethod
+  #     "D100",    # missing docstring in public module
+  #     "D101",    # missing docstring in public class
+  #     "D102",    # missing docstring in public method
+  #     "D103",    # missing docstring in public function
+  #     "D104",    # missing docstring in public package
+  #     "D105",    # missing docstring in magic method
+  #     "D107",    # missing docstring in __init__
+  "D203",  # 1 blank line required before class docstring
+  "D213",  # multi-line docstring summary should start at the second line
+  # "PGH003",  # Use specific rule codes when ignoring type issues
+  #     "RET505",  # Unnecessary `else` after `return` statement
+  "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
+  # "D401",    # First line should be in imperative mood
+  "TD002",  # Missing author in TODO
+  "TD003",  # add link on issue into TODO
+  # "PLR0913", # Too many arguments to function call
+  #     "D407",    # Missing dashed underline after section
+  #     "ERA001",  # Commented out code
+  "FIX002",  # Fixme comment
+  # "S311",    # suspicious-non-cryptographic-random-usage
+  #     "EM101",   # raw-string-in-exception
+  #     "TRY003",  # Avoid specifying long messages outside the exception class
 ]
-
 unfixable = ["F401"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**.py" = [
-    "D",      # Docstring
-    "INP001",
-    "ANN201",
-    "S101",
+  "D",  # Docstring
+  "INP001",
+  "ANN201",
+  "S101",
 ]
 "sandbox/**.py" = [
-    "D",      # Docstring
-    "INP001",
-    "S101",
+  "D",  # Docstring
+  "INP001",
+  "S101",
 ]
 "scripts/**.py" = [
-    "D",      # Docstring
-    "INP001",
-    "S101",
-    "UP036",
-    "EXE003",
-    "T201",
+  "D",  # Docstring
+  "INP001",
+  "S101",
+  "UP036",
+  "EXE003",
+  "T201",
 ]
+
+[tool.uv.sources]
+# Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
+pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
