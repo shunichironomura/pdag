@@ -41,9 +41,6 @@ Documentation = "https://shunichironomura.github.io/pdag/"
 Repository = "https://github.com/shunichironomura/pdag"
 Issues = "https://github.com/shunichironomura/pdag/issues"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
@@ -87,6 +84,9 @@ pdag = "pdag._cli:app"
 # Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
 pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
 
+[build-system]
+requires = ["uv_build>=0.8.0,<0.9"]
+build-backend = "uv_build"
 [tool.pip-licenses]
 allow-only = 'MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT;BSD-3-Clause'
 
