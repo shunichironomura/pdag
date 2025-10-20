@@ -66,7 +66,7 @@ docs = [
   "mkdocstrings[python]>=0.29.1",
   { include-group = "ruff" },
 ]
-license = ["pip-licenses"]
+license = ["pip-licenses>=5.5.0"]
 linting = ["deptry>=0.23.0", "import-linter>=2.2"]
 ruff = ["ruff>=0.9.9"]
 testing = ["coverage>=7.6.12", "pytest>=8.3.5"]
@@ -196,6 +196,6 @@ unfixable = ["F401"]
   "T201",
 ]
 
-[tool.uv.sources]
-# Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
-pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
+# [tool.uv.sources]
+# # Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
+# pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
