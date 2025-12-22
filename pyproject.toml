@@ -125,7 +125,19 @@ module = ["pydot.*"]
 ignore_missing_imports = true
 
 [tool.pip-licenses]
-allow-only = "MIT License;BSD License;Apache 2.0;Python Software Foundation License;PSF-2.0;ISC License (ISCL);Apache Software License;The Unlicense (Unlicense);MIT;BSD-3-Clause"
+allow-only = """\
+  MIT License;\
+  BSD License;\
+  Apache 2.0;\
+  Python Software Foundation License;\
+  PSF-2.0;\
+  ISC License (ISCL);\
+  Apache Software License;\
+  The Unlicense (Unlicense);\
+  MIT;\
+  BSD-3-Clause;\
+  BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0;\
+"""
 
 [tool.pyright]
 exclude = [
