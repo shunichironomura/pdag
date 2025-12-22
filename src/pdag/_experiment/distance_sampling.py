@@ -98,7 +98,7 @@ def normalize(
     ord: None | float | Literal["fro", "nuc"] = None,  # noqa: A002
     axis: None | int = None,
 ) -> npt.NDArray[np.floating[Any]]:
-    norm: npt.NDArray[np.floating[Any]] = LA.norm(x, ord=ord, axis=axis, keepdims=True)  # type: ignore[assignment]
+    norm: npt.NDArray[np.floating[Any]] = LA.norm(x, ord=ord, axis=axis, keepdims=True)
     return np.where(norm == 0.0, x, x.astype(np.float64) / norm)
 
 
