@@ -129,6 +129,7 @@ allow-only = """\
   MIT License;\
   BSD License;\
   Apache 2.0;\
+  Apache-2.0;\
   Python Software Foundation License;\
   PSF-2.0;\
   ISC License (ISCL);\
