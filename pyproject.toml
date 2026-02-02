@@ -149,8 +149,17 @@ exclude = [
   "src/pdag/_notation/construct.py",
 ]
 
-[tool.pytest.ini_options]
-addopts = "-ra --verbose --verbose --capture=no --strict-markers --color=yes --log-cli-level=INFO"
+[tool.pytest]
+addopts = [
+  "--capture=no",
+  "--color=yes",
+  "--log-cli-level=INFO",
+  "--strict-markers",
+  "--verbose",
+  "--verbose",
+  "-ra",  # show extra test summary info for all tests except passed tests
+]
+minversion = "9.0"
 testpaths = ["tests"]
 
 [tool.ruff]
@@ -209,7 +218,3 @@ unfixable = ["F401"]
   "EXE003",
   "T201",
 ]
-
-# [tool.uv.sources]
-# # Use the Ansys fork of pip-licenses. See https://github.com/raimon49/pip-licenses/issues/227 for details.
-# pip-licenses = { git = "https://github.com/ansys/pip-licenses.git", rev = "5e094b575b18e9a020bb9dcba4c5cea45c2e8d03" }
