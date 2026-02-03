@@ -229,6 +229,12 @@ class ExecutionModel:
             for parameter_id in self.input_parameter_ids()
         }
 
+    def parameters(self) -> dict[ParameterId, ParameterABC[Any]]:
+        return {
+            parameter_id: parameter_id_to_parameter(parameter_id, root_model=self._core_model)
+            for parameter_id in self.parameter_ids
+        }
+
     @property
     def topologically_sorted_node_ids(self) -> list[NodeId]:
         return self._topologically_sorted_node_ids
