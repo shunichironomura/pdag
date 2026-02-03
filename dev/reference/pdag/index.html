@@ -2302,6 +2302,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#pdag.ExecutionModel.parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pdag.ExecutionModel.topologically_sorted_node_ids" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10138,6 +10149,14 @@ is to sample the parameter value space efficiently.</p>
                 </div>
               </td>
             </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            parameters (pdag.ExecutionModel.parameters)" href="#pdag.ExecutionModel.parameters">parameters</a></code></td>
+              <td class="doc-function-details">
+                <div class="doc-md-description">
+                  
+                </div>
+              </td>
+            </tr>
       </tbody>
     </table>
 
@@ -10775,6 +10794,47 @@ is to sample the parameter value space efficiently.</p>
 </span><span id="__span-0-228"><a id="__codelineno-0-228" name="__codelineno-0-228"></a>        <span class="n">parameter_id</span><span class="p">:</span> <span class="n">parameter_id_to_parameter</span><span class="p">(</span><span class="n">parameter_id</span><span class="p">,</span> <span class="n">root_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_model</span><span class="p">)</span>
 </span><span id="__span-0-229"><a id="__codelineno-0-229" name="__codelineno-0-229"></a>        <span class="k">for</span> <span class="n">parameter_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_parameter_ids</span><span class="p">()</span>
 </span><span id="__span-0-230"><a id="__codelineno-0-230" name="__codelineno-0-230"></a>    <span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="pdag.ExecutionModel.parameters" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">parameters</span>
+
+
+</h4>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="            ParameterId (pdag._exec.model.ParameterId)" href="#pdag.ParameterId">ParameterId</a></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ParameterABC
+
+
+  
+      dataclass
+   (pdag._core.parameter.ParameterABC)" href="#pdag.ParameterABC">ParameterABC</a></span><span class="p">[</span><span class="n"><span title="typing.Any">Any</span></span><span class="p">]]</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents ">
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/pdag/_exec/model.py</code></summary>
+              <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-232">232</a></span>
+<span class="normal"><a href="#__codelineno-0-233">233</a></span>
+<span class="normal"><a href="#__codelineno-0-234">234</a></span>
+<span class="normal"><a href="#__codelineno-0-235">235</a></span>
+<span class="normal"><a href="#__codelineno-0-236">236</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-232"><a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="k">def</span><span class="w"> </span><span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ParameterId</span><span class="p">,</span> <span class="n">ParameterABC</span><span class="p">[</span><span class="n">Any</span><span class="p">]]:</span>
+</span><span id="__span-0-233"><a id="__codelineno-0-233" name="__codelineno-0-233"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-0-234"><a id="__codelineno-0-234" name="__codelineno-0-234"></a>        <span class="n">parameter_id</span><span class="p">:</span> <span class="n">parameter_id_to_parameter</span><span class="p">(</span><span class="n">parameter_id</span><span class="p">,</span> <span class="n">root_model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_core_model</span><span class="p">)</span>
+</span><span id="__span-0-235"><a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="k">for</span> <span class="n">parameter_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_ids</span>
+</span><span id="__span-0-236"><a id="__codelineno-0-236" name="__codelineno-0-236"></a>    <span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
             </details>
     </div>
