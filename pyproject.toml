@@ -218,3 +218,6 @@ unfixable = ["F401"]
   "EXE003",
   "T201",
 ]
+
+[tool.uv]
+exclude-newer = "7 days"
