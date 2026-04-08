@@ -77,7 +77,7 @@ class TechDevCompletionModel(pdag.Model):
 
 tech_dev_completion_core_model = pdag.CoreModel(
     name="TechDevCompletionModel",
-    parameters={f"dev_start_time[{tech}]": pdag.RealParameter(f"dev_start_time[{tech}]") for tech in _TECHNOLOGIES}  # type: ignore[arg-type]
+    parameters={f"dev_start_time[{tech}]": pdag.RealParameter(f"dev_start_time[{tech}]") for tech in _TECHNOLOGIES}
     | {f"dev_time[{tech}]": pdag.RealParameter(f"dev_time[{tech}]") for tech in _TECHNOLOGIES}
     | {f"dev_completion_time[{tech}]": pdag.RealParameter(f"dev_completion_time[{tech}]") for tech in _TECHNOLOGIES},
     collections={
