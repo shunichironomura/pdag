@@ -221,3 +221,6 @@ unfixable = ["F401"]
 
 [tool.uv]
 exclude-newer = "7 days"
+
+[tool.uv.exclude-newer-package]
+urllib3 = false  # To accept security patch in v2.7.0
