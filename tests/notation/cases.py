@@ -1,5 +1,5 @@
 from textwrap import dedent
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 import pdag
 
@@ -75,11 +75,17 @@ class TechDevCompletionModel(pdag.Model):
             return dev_start_time + dev_time
 
 
+tech_dev_completion_parameters: dict[str, pdag.ParameterABC[Any]] = {}
+for tech in _TECHNOLOGIES:
+    tech_dev_completion_parameters[f"dev_start_time[{tech}]"] = pdag.RealParameter(f"dev_start_time[{tech}]")
+    tech_dev_completion_parameters[f"dev_time[{tech}]"] = pdag.RealParameter(f"dev_time[{tech}]")
+    tech_dev_completion_parameters[f"dev_completion_time[{tech}]"] = pdag.RealParameter(
+        f"dev_completion_time[{tech}]",
+    )
+
 tech_dev_completion_core_model = pdag.CoreModel(
     name="TechDevCompletionModel",
-    parameters={f"dev_start_time[{tech}]": pdag.RealParameter(f"dev_start_time[{tech}]") for tech in _TECHNOLOGIES}
-    | {f"dev_time[{tech}]": pdag.RealParameter(f"dev_time[{tech}]") for tech in _TECHNOLOGIES}
-    | {f"dev_completion_time[{tech}]": pdag.RealParameter(f"dev_completion_time[{tech}]") for tech in _TECHNOLOGIES},
+    parameters=tech_dev_completion_parameters,
     collections={
         "dev_start_time": pdag.Mapping(  # type: ignore[dict-item]
             "dev_start_time",
