@@ -36,7 +36,6 @@ __all__ = [
     "results_to_df",
     "run_experiments",
     "sample_parameter_values",
-    "sample_parameter_values",
 ]
 
 from ._core import (
