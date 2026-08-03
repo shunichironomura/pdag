@@ -95,8 +95,8 @@ def calc_distance[T](
 
 def normalize(
     x: npt.NDArray[np.number[Any]],
-    ord: None | float | Literal["fro", "nuc"] = None,  # noqa: A002
-    axis: None | int = None,
+    ord: float | Literal["fro", "nuc"] | None = None,  # noqa: A002
+    axis: int | None = None,
 ) -> npt.NDArray[np.floating[Any]]:
     norm: npt.NDArray[np.floating[Any]] = LA.norm(x, ord=ord, axis=axis, keepdims=True)
     return np.where(norm == 0.0, x, x.astype(np.float64) / norm)
