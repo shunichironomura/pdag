@@ -1,0 +1,6 @@
+[global]
+disable = ["MD013"]
+
+[MD007]
+indent = 4
+style = "fixed"
