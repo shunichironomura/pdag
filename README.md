@@ -43,6 +43,7 @@ Here is a simple example of how to use `pdag` to create a model that squares a n
 from typing import Annotated
 import pdag
 
+
 class SquareModel(pdag.Model):
     """Square model that squares a number."""
 
@@ -57,14 +58,13 @@ class SquareModel(pdag.Model):
     @pdag.relationship
     @staticmethod
     def square(
-      # The annotation `x.ref()` indicates that the value of `x` will be provided
-      # as the value of the `x_arg` parameter when the model is executed.
-      # Note that we use `x_arg` as the name of the argument for documentation purposes,
-      # but in practice, you can just use `x` as the name of the argument.
-      x_arg: Annotated[float, x.ref()],
-
-      # The annotation `y.ref()` indicates that the return value of the method
-      # will be assigned to the `y` parameter when the model is executed.
+        # The annotation `x.ref()` indicates that the value of `x` will be provided
+        # as the value of the `x_arg` parameter when the model is executed.
+        # Note that we use `x_arg` as the name of the argument for documentation purposes,
+        # but in practice, you can just use `x` as the name of the argument.
+        x_arg: Annotated[float, x.ref()],
+        # The annotation `y.ref()` indicates that the return value of the method
+        # will be assigned to the `y` parameter when the model is executed.
     ) -> Annotated[float, y.ref()]:
         return x_arg**2
 ```
@@ -120,6 +120,7 @@ from typing import Annotated
 import numpy as np
 import pdag
 
+
 class ModelWithVariousTypes(pdag.Model):
     """Model that uses different parameter types and collections."""
 
@@ -165,6 +166,7 @@ from typing import Annotated
 import numpy as np
 import pdag
 
+
 class EachSquaredModel(pdag.Model):
     """EachSquaredModel model that uses a mapping of parameters."""
 
@@ -179,7 +181,6 @@ class EachSquaredModel(pdag.Model):
             # The annotation `m.ref(k)` indicates that the value of `m[k]` will be provided
             # when the model is executed.
             m_arg: Annotated[float, m.ref(k)],
-
             # The annotation `m_squared.ref(k)` indicates that the return value of the method
             # will be assigned to `m_squared[k]` when the model is executed.
         ) -> Annotated[float, m_squared.ref(k)]:
@@ -209,11 +210,7 @@ class DiamondMdpModel(pdag.Model):
     # The location parameter is the state of the MDP.
     # You need to provide the `is_time_series=True` argument
     # to indicate that this parameter is a time-series parameter.
-    location = pdag.CategoricalParameter(
-        "location",
-        categories=("start", "left", "right", "end"),
-        is_time_series=True
-    )
+    location = pdag.CategoricalParameter("location", categories=("start", "left", "right", "end"), is_time_series=True)
 
     # The action parameter is the action taken by the agent,
     # and it is also a time-series parameter.
@@ -239,10 +236,8 @@ class DiamondMdpModel(pdag.Model):
         *,
         # The value of `policy` is provided as the value of the `policy` parameter
         policy: Annotated[Literal["left", "right"], policy.ref()],
-
         # The value of `location` at the current time step is provided as the value of the `location` parameter
         location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
-
         # The return value of the method is assigned to the `action` parameter
         # at the current time step.
     ) -> Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()]:
@@ -271,7 +266,6 @@ class DiamondMdpModel(pdag.Model):
         *,
         location: Annotated[Literal["start", "left", "right", "end"], location.ref()],
         action: Annotated[Literal["go_left", "go_right", "move_forward", "none"], action.ref()],
-
         # By providing `next=True`, you can indicate that the return value of the method
         # will be assigned to the `location` parameter at the next time step.
     ) -> Annotated[Literal["start", "left", "right", "end"], location.ref(next=True)]:
@@ -305,8 +299,8 @@ class DiamondMdpModel(pdag.Model):
     @pdag.relationship
     @staticmethod
     def initial_reward(
-      # By providing `initial=True`, you can indicate that the return value of the method
-      # will be assigned to the `reward` parameter at the initial time step.
+        # By providing `initial=True`, you can indicate that the return value of the method
+        # will be assigned to the `reward` parameter at the initial time step.
     ) -> Annotated[float, reward.ref(initial=True)]:
         return 0.0
 
@@ -353,6 +347,7 @@ In the following example, we define a `SquareModel` that squares a number and a 
 from typing import Annotated
 import pdag
 
+
 class SquareModel(pdag.Model):
     """Square model that squares a number."""
 
@@ -362,9 +357,10 @@ class SquareModel(pdag.Model):
     @pdag.relationship
     @staticmethod
     def square(
-      x_arg: Annotated[float, x.ref()],
+        x_arg: Annotated[float, x.ref()],
     ) -> Annotated[float, y.ref()]:
         return x_arg**2
+
 
 class PolynomialModel(pdag.Model):
     """Polynomial model that calculates y = a[0] + a[1] * x + a[2] * x^2."""
