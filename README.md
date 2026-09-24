@@ -9,8 +9,8 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/pdag)
 
-> [!WARNING]
-> This package is under development. Many features are already implemented, but expect some breaking changes in the future.
+> [!IMPORTANT]
+> `pdag` has been archived and is no longer maintained. For engineering calculations and requirements verification, see [veriq](https://github.com/ut-issl/veriq). For reactive, type- and unit-safe calculations, see [Graphcal](https://github.com/graphcal-lang/graphcal).
 
 ---
 
